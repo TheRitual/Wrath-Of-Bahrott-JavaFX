@@ -1,5 +1,6 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
+import org.springframework.stereotype.Controller;
 import eu.theritual.wrathofbahrott.dataoperator.GameModule;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -7,9 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
+@Controller
 public class SplashScreenController {
     @FXML
     private MediaView splashVideo;
@@ -20,16 +23,10 @@ public class SplashScreenController {
         this.viewOperator= viewOperator;
     }
 
-    @FXML
-    protected void initialize() {
-        playVideo();
-    }
-
-    private void playVideo() {
+    void playVideo() {
         try {
-            System.out.println("Playing...");
-            String movieURL = new File(getClass().getResource("video/intro.mp4").getFile()).toURI().toURL().toString();
-            Media intro = new Media(movieURL);
+            URL movieURL = ViewOperator.class.getResource("video/intro.mp4").toURI().toURL();
+            Media intro = new Media(movieURL.toString());
             MediaPlayer player = new MediaPlayer(intro);
             splashVideo.setMediaPlayer(player);
             DoubleProperty width = splashVideo.fitWidthProperty();
@@ -41,6 +38,8 @@ public class SplashScreenController {
             player.play();
         } catch (MalformedURLException e) {
             ViewOperator.error("MalformedURLException", "Can't load intro video", e.toString());
+        } catch (URISyntaxException e) {
+            ViewOperator.error("URISyntaxException", "Can't load intro video (URI PROBLEM)", e.toString());
         }
     }
 }

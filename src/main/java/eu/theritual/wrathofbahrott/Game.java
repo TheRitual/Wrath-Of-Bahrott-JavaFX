@@ -12,7 +12,7 @@ public class Game extends Application{
 
     @Override
     public void start(Stage primaryStage) {
-        GameControl game = new GameControl(primaryStage);
+        GameControl game = new GameControl(primaryStage, springContext);
         game.start();
     }
 

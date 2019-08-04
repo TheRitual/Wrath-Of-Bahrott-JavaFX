@@ -12,15 +12,19 @@ import javafx.scene.control.Label;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Paths;
+
 public class ViewOperator {
-    private Scene mainScene;
     private final Stage mainStage;
     private double screenWidth, screenHeight;
     private DataOperator dataOperator;
 
     public ViewOperator(Stage mainStage, DataOperator dataOperator) {
         this.mainStage = mainStage;
-        this.mainScene = new Scene(new Group());
+        Scene mainScene = new Scene(new Group());
         this.mainStage.setScene(mainScene);
         this.dataOperator = dataOperator;
         this.mainStage.setMinWidth(800);
@@ -47,11 +51,15 @@ public class ViewOperator {
         FXMLLoader loader = new FXMLLoader();
         Group root = new Group();
         try {
-            loader = new FXMLLoader(getClass().getResource("layouts/" + fileName));
+            loader = new FXMLLoader();
+            URL url = ViewOperator.class.getResource("layouts/"+fileName);
+
+            loader.setLocation(url);
+            loader.setControllerFactory(dataOperator.getSpringContext()::getBean);
             root.getChildren().add(loader.load());
         } catch (Exception e) {
-            error("EXCEPTION HAPPEND!", "Can't load fxml file ", e.toString());
-            root.getChildren().add(errorLabel("msg"));
+            error("EXCEPTION HAPPEND!", "Can't load fxml file ", e.toString() + "\n" + e.getCause());
+            root.getChildren().add(errorLabel(e.toString()));
         }
         return new ViewData(loader, root);
     }
@@ -65,6 +73,7 @@ public class ViewOperator {
         mainStage.getScene().setRoot(view.getRoot());
         SplashScreenController controller = view.getLoader().getController();
         controller.setViewOperator(this);
+        controller.playVideo();
     }
 
     private void runMainMenu(){

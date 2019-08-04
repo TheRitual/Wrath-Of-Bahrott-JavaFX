@@ -6,7 +6,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.media.MediaView?>
 
-<GridPane alignment="CENTER" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.theritual.wrathofbahrott.viewoperator.SplashScreenController">
+<GridPane alignment="CENTER" style="-fx-background-color: black;"
+          xmlns="http://javafx.com/javafx/8.0.121"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="eu.theritual.wrathofbahrott.viewoperator.SplashScreenController">
    <cursor>
       <Cursor fx:constant="DISAPPEAR" />
    </cursor>
