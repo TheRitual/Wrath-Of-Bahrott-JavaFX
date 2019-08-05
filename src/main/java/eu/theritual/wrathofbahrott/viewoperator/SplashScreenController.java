@@ -1,5 +1,6 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
+import javafx.event.Event;
 import org.springframework.stereotype.Controller;
 import eu.theritual.wrathofbahrott.dataoperator.GameModule;
 import javafx.beans.binding.Bindings;
@@ -14,13 +15,15 @@ import java.net.URL;
 
 @Controller
 public class SplashScreenController {
+    private ViewOperator viewOperator;
+
     @FXML
     private MediaView splashVideo;
 
-    private ViewOperator viewOperator;
-
-    void setViewOperator(ViewOperator viewOperator) {
-        this.viewOperator= viewOperator;
+    @FXML
+    public void skip(Event e) {
+        splashVideo.getMediaPlayer().stop();
+        System.out.println("Intro Skipped: " + e.toString());
     }
 
     void playVideo() {
@@ -35,11 +38,16 @@ public class SplashScreenController {
             height.bind(Bindings.selectDouble(splashVideo.sceneProperty(), "height"));
             splashVideo.setPreserveRatio(true);
             player.setOnEndOfMedia(() -> viewOperator.run(GameModule.MAIN_MENU));
+            player.setOnStopped(() -> viewOperator.run(GameModule.MAIN_MENU));
             player.play();
         } catch (MalformedURLException e) {
             ViewOperator.error("MalformedURLException", "Can't load intro video", e.toString());
         } catch (URISyntaxException e) {
             ViewOperator.error("URISyntaxException", "Can't load intro video (URI PROBLEM)", e.toString());
         }
+    }
+
+    void setViewOperator(ViewOperator viewOperator) {
+        this.viewOperator= viewOperator;
     }
 }

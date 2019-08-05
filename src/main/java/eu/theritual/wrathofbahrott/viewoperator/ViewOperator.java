@@ -12,10 +12,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.net.URI;
 import java.net.URL;
-import java.nio.file.Paths;
 
 public class ViewOperator {
     private final Stage mainStage;
@@ -32,8 +29,8 @@ public class ViewOperator {
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
         this.mainStage.setX(primaryScreenBounds.getMinX());
         this.mainStage.setY(primaryScreenBounds.getMinY());
-        this.screenWidth= primaryScreenBounds.getWidth();
-        this.screenHeight= primaryScreenBounds.getHeight();
+        this.screenWidth = primaryScreenBounds.getWidth();
+        this.screenHeight = primaryScreenBounds.getHeight();
     }
 
     public void setUpBeforeRun(boolean isMaximalized, boolean isFullScreen) {
@@ -52,7 +49,7 @@ public class ViewOperator {
         Group root = new Group();
         try {
             loader = new FXMLLoader();
-            URL url = ViewOperator.class.getResource("layouts/"+fileName);
+            URL url = ViewOperator.class.getResource("layouts/" + fileName);
 
             loader.setLocation(url);
             loader.setControllerFactory(dataOperator.getSpringContext()::getBean);
@@ -68,7 +65,8 @@ public class ViewOperator {
         return new Label(msg);
     }
 
-    private void runSplashScreen(){
+    private void runSplashScreen() {
+        dataOperator.setModule(GameModule.SPLASH_SCREEN);
         ViewData view = loadView("SplashScreen.fxml");
         mainStage.getScene().setRoot(view.getRoot());
         SplashScreenController controller = view.getLoader().getController();
@@ -76,18 +74,25 @@ public class ViewOperator {
         controller.playVideo();
     }
 
-    private void runMainMenu(){
+    private void runMainMenu() {
+        dataOperator.setModule(GameModule.MAIN_MENU);
         ViewData view = loadView("MainMenu.fxml");
         mainStage.getScene().setRoot(view.getRoot());
         MainMenuController controller = view.getLoader().getController();
         controller.setViewOperator(this);
+        controller.setDataOperator(dataOperator);
+        controller.drawMenu();
     }
 
     public void run(GameModule module) {
         mainStage.setFullScreen(true);
         switch (module) {
-            case SPLASH_SCREEN: runSplashScreen(); break;
-            case MAIN_MENU: runMainMenu(); break;
+            case SPLASH_SCREEN:
+                runSplashScreen();
+                break;
+            case MAIN_MENU:
+                runMainMenu();
+                break;
         }
     }
 
@@ -97,7 +102,7 @@ public class ViewOperator {
         alert.setTitle(title);
         alert.setHeaderText(info);
         alert.setContentText(msg);
-        if(!alert.isShowing()){
+        if (!alert.isShowing()) {
             alert.show();
         }
     }

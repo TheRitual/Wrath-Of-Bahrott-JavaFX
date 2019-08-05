@@ -28,5 +28,6 @@ public class Game extends Application{
     @Override
     public void stop() {
         springContext.stop();
+        System.out.println("Bye! Bye!");
     }
 }

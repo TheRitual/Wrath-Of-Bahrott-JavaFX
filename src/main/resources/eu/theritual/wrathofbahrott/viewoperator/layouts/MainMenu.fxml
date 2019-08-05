@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 
-<?import javafx.scene.control.Button?>
-<GridPane alignment="CENTER" hgap="10" prefHeight="155.0" prefWidth="194.0" vgap="10"
-          xmlns="http://javafx.com/javafx/8.0.121"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="eu.theritual.wrathofbahrott.viewoperator.MainMenuController">
-    <padding><Insets bottom="50" left="50" right="50" top="50" /></padding>
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
-      <Button> MENU </Button>
+<GridPane alignment="TOP_CENTER" fx:id="menuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.theritual.wrathofbahrott.viewoperator.MainMenuController">
+   <cursor>
+      <Cursor fx:constant="CROSSHAIR" />
+   </cursor>
 </GridPane>
