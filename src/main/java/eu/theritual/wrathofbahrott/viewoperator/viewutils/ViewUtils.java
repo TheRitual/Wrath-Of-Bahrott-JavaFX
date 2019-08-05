@@ -21,6 +21,8 @@ public class ViewUtils {
         images.put("wobLogo", "gfx/WrathOfBohrottLogo.png");
         images.put("exitOn", "gfx/exitOn.png");
         images.put("exitOut", "gfx/exitOut.png");
+        images.put("startOn", "gfx/startOn.png");
+        images.put("startOut", "gfx/startOut.png");
         return images;
     }
 
@@ -44,7 +46,7 @@ public class ViewUtils {
         return new Image(imgFile);
     }
 
-    private static Image getImage(String name, double width, double height) {
+    public static Image getImage(String name, double width, double height) {
         String imgFile = getImagesMap().get(name).toString();
         try {
             imgFile = ViewOperator.class.getResource(imgFile).toURI().toURL().toString();
