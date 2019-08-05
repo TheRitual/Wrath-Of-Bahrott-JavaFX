@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.layout.GridPane?>
 
-<GridPane alignment="TOP_CENTER" fx:id="menuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.theritual.wrathofbahrott.viewoperator.MainMenuController">
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane fx:id="menuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.theritual.wrathofbahrott.viewoperator.MainMenuController">
    <cursor>
       <Cursor fx:constant="CROSSHAIR" />
    </cursor>
-</GridPane>
+</BorderPane>

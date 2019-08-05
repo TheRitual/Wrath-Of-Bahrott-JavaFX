@@ -96,7 +96,7 @@ public class ViewOperator {
         }
     }
 
-    static void error(String title, String info, String msg) {
+    public static void error(String title, String info, String msg) {
         System.out.println(title + " -> " + info + "\n\t" + msg);
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -107,11 +107,11 @@ public class ViewOperator {
         }
     }
 
-    public double getScreenWidth() {
+    double getScreenWidth() {
         return screenWidth;
     }
 
-    public double getScreenHeight() {
+    double getScreenHeight() {
         return screenHeight;
     }
 }

@@ -1,19 +1,22 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
+import eu.theritual.wrathofbahrott.viewoperator.viewutils.ViewUtils;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class MainMenuController {
     @FXML
-    GridPane menuPane;
+    BorderPane menuPane;
 
     private ViewOperator viewOperator;
     private DataOperator dataOperator;
@@ -31,9 +34,16 @@ public class MainMenuController {
     }
 
     void drawMenu() {
+        menuPane.setPrefSize(viewOperator.getScreenWidth(),viewOperator.getScreenHeight());
+        menuPane.setBackground(ViewUtils.fullWindowBG("menuBackground", viewOperator.getScreenWidth(), viewOperator.getScreenHeight()));
+        ImageView wobLogo = ViewUtils.getImageView("wobLogo", viewOperator.getScreenWidth()* 0.50, viewOperator.getScreenHeight() * 0.50);
+        menuPane.setTop(wobLogo);
+        BorderPane.setAlignment(wobLogo, Pos.TOP_CENTER);
         Button exitButton = new Button("Exit");
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::exitAction);
-        menuPane.add(new ImageView(),0,0);
-        menuPane.add(exitButton, 0, 1);
+        VBox menuList = new VBox();
+        menuList.getChildren().add(exitButton);
+        menuPane.setCenter(menuList);
+        BorderPane.setAlignment(menuList, Pos.CENTER);
     }
 }
