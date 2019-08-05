@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
 
@@ -35,23 +34,24 @@ public class MainMenuController {
 
     private void buttonHoverImage(Event e) {
         ImageView img = (ImageView) e.getSource();
-        img.setImage(ViewUtils.getImage(img.getId()+"On", 263, 100));
+        img.setImage(ViewUtils.getImage(img.getId() + "On", 263, 100));
     }
 
     private void buttonUnHoverImage(Event e) {
         ImageView img = (ImageView) e.getSource();
-        img.setImage(ViewUtils.getImage(img.getId()+"Out", 263, 100));
+        img.setImage(ViewUtils.getImage(img.getId() + "Out", 263, 100));
     }
 
     void setViewOperator(ViewOperator viewOperator) {
         this.viewOperator = viewOperator;
     }
+
     void setDataOperator(DataOperator dataOperator) {
         this.dataOperator = dataOperator;
     }
 
     private ImageView createMenuButton(String gfxName) {
-        ImageView btn = ViewUtils.getImageView(gfxName + "Out", 263,100);
+        ImageView btn = ViewUtils.getImageView(gfxName + "Out", 263, 100);
         btn.setId(gfxName);
         btn.setOnMouseEntered(this::buttonHoverImage);
         btn.setOnMouseExited(this::buttonUnHoverImage);
@@ -65,9 +65,9 @@ public class MainMenuController {
         } catch (MalformedURLException e) {
             ViewOperator.error("MalformedURLException", "Can't find sound file", e.toString());
         }
-        menuPane.setPrefSize(viewOperator.getScreenWidth(),viewOperator.getScreenHeight());
+        menuPane.setPrefSize(viewOperator.getScreenWidth(), viewOperator.getScreenHeight());
         menuPane.setBackground(ViewUtils.fullWindowBG("menuBackground", viewOperator.getScreenWidth(), viewOperator.getScreenHeight()));
-        ImageView wobLogo = ViewUtils.getImageView("wobLogo", viewOperator.getScreenWidth()* 0.50, viewOperator.getScreenHeight() * 0.50);
+        ImageView wobLogo = ViewUtils.getImageView("wobLogo", viewOperator.getScreenWidth() * 0.50, viewOperator.getScreenHeight() * 0.50);
         menuPane.setTop(wobLogo);
         BorderPane.setAlignment(wobLogo, Pos.TOP_CENTER);
         VBox menuList = new VBox();
