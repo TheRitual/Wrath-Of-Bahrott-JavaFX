@@ -18,10 +18,12 @@ public class ViewOperator {
     private final Stage mainStage;
     private double screenWidth, screenHeight;
     private DataOperator dataOperator;
+    private Group root;
 
     public ViewOperator(Stage mainStage, DataOperator dataOperator) {
         this.mainStage = mainStage;
-        Scene mainScene = new Scene(new Group());
+        root = new Group();
+        Scene mainScene = new Scene(root);
         this.mainStage.setScene(mainScene);
         this.dataOperator = dataOperator;
         this.mainStage.setMinWidth(800);
@@ -46,7 +48,7 @@ public class ViewOperator {
 
     private ViewData loadView(String fileName) {
         FXMLLoader loader = new FXMLLoader();
-        Group root = new Group();
+        root = new Group();
         try {
             loader = new FXMLLoader();
             URL url = ViewOperator.class.getResource("layouts/" + fileName);
@@ -81,7 +83,7 @@ public class ViewOperator {
         MainMenuController controller = view.getLoader().getController();
         controller.setViewOperator(this);
         controller.setDataOperator(dataOperator);
-        controller.drawMenu();
+        controller.startMenu();
     }
 
     public void run(GameModule module) {
@@ -113,5 +115,9 @@ public class ViewOperator {
 
     double getScreenHeight() {
         return screenHeight;
+    }
+
+    public Group getRoot() {
+        return root;
     }
 }

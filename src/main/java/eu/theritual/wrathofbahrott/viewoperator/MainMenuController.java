@@ -1,6 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
+import eu.theritual.wrathofbahrott.soundoperator.soundutils.SoundUtils;
 import eu.theritual.wrathofbahrott.viewoperator.viewutils.ViewUtils;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -10,12 +11,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
+
+import java.net.MalformedURLException;
 
 @Controller
 public class MainMenuController {
     @FXML
     BorderPane menuPane;
+
+    @FXML
+    MediaView musicPlayer;
 
     private ViewOperator viewOperator;
     private DataOperator dataOperator;
@@ -50,7 +58,13 @@ public class MainMenuController {
         return btn;
     }
 
-    void drawMenu() {
+    void startMenu() {
+        try {
+            musicPlayer.setMediaPlayer(SoundUtils.getMediaPlayer(SoundUtils.getSoundUrl("menuMusic")));
+            musicPlayer.getMediaPlayer().play();
+        } catch (MalformedURLException e) {
+            ViewOperator.error("MalformedURLException", "Can't find sound file", e.toString());
+        }
         menuPane.setPrefSize(viewOperator.getScreenWidth(),viewOperator.getScreenHeight());
         menuPane.setBackground(ViewUtils.fullWindowBG("menuBackground", viewOperator.getScreenWidth(), viewOperator.getScreenHeight()));
         ImageView wobLogo = ViewUtils.getImageView("wobLogo", viewOperator.getScreenWidth()* 0.50, viewOperator.getScreenHeight() * 0.50);
@@ -61,7 +75,7 @@ public class MainMenuController {
         ImageView exitButton = createMenuButton("exit");
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::exitAction);
         ImageView startButton = createMenuButton("start");
-        exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> System.out.println("Startuję"));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> System.out.println("Startuję"));
         menuList.getChildren().add(startButton);
         menuList.getChildren().add(exitButton);
         menuPane.setCenter(menuList);
