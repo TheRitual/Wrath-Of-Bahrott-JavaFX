@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -40,9 +39,13 @@ public class MediaOperator {
     private URL getSoundUrl(String name) {
         name = this.sounds.get(name);
         try {
-            return new File(MediaOperator.class.getResource(name).getFile()).toURI().toURL();
+            return MediaOperator.class.getResource(name).toURI().toURL();
         }  catch (MalformedURLException e) {
             ViewOperator.error("MalformedURLException", "Can't load sound file (URL PROBLEM)", e.toString());
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            ViewOperator.error("URISyntaxException", "Can't load sound file (URI PROBLEM)", e.toString());
             return null;
         }
     }
@@ -64,9 +67,13 @@ public class MediaOperator {
     private URL getVideoUrl(String name) {
         name = this.videos.get(name);
         try {
-            return new File(MediaOperator.class.getResource(name).getFile()).toURI().toURL();
+            return MediaOperator.class.getResource(name).toURI().toURL();
         }  catch (MalformedURLException e) {
-            ViewOperator.error("MalformedURLException", "Can't load sound file (URL PROBLEM)", e.toString());
+            ViewOperator.error("MalformedURLException", "Can't load video file (URL PROBLEM)", e.toString());
+            return null;
+        }catch (URISyntaxException e) {
+            ViewOperator.error("URISyntaxException", "Can't load video file (URI PROBLEM)", e.toString());
+            e.printStackTrace();
             return null;
         }
     }

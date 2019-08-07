@@ -1,7 +1,5 @@
 package eu.theritual.wrathofbahrott;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.GameModule;
 import eu.theritual.wrathofbahrott.media.MediaOperator;
