@@ -80,7 +80,6 @@ public class ViewOperator {
         ViewData view = loadView("MainMenu.fxml");
         mainStage.getScene().setRoot(view.getRoot());
         MainMenuController controller = view.getLoader().getController();
-        controller.setViewOperator(this);
         controller.setDataOperator(dataOperator);
         controller.startMenu();
     }

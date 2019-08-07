@@ -1,8 +1,8 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
-import eu.theritual.wrathofbahrott.utils.SoundUtils;
 import eu.theritual.wrathofbahrott.viewoperator.viewutils.ViewUtils;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -14,8 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
 
-import java.net.MalformedURLException;
-
 @Controller
 public class MainMenuController {
     @FXML
@@ -23,8 +21,6 @@ public class MainMenuController {
 
     @FXML
     MediaView musicPlayer;
-
-    private ViewOperator viewOperator;
     private DataOperator dataOperator;
 
     @FXML
@@ -42,10 +38,6 @@ public class MainMenuController {
         img.setImage(ViewUtils.getImage(img.getId() + "Out", 263, 100));
     }
 
-    void setViewOperator(ViewOperator viewOperator) {
-        this.viewOperator = viewOperator;
-    }
-
     void setDataOperator(DataOperator dataOperator) {
         this.dataOperator = dataOperator;
     }
@@ -59,15 +51,9 @@ public class MainMenuController {
     }
 
     void startMenu() {
-        try {
-            musicPlayer.setMediaPlayer(SoundUtils.getMediaPlayer(SoundUtils.getSoundUrl("menuMusic")));
-            musicPlayer.getMediaPlayer().play();
-        } catch (MalformedURLException e) {
-            ViewOperator.error("MalformedURLException", "Can't find sound file", e.toString());
-        }
-        menuPane.setPrefSize(viewOperator.getScreenWidth(), viewOperator.getScreenHeight());
-        menuPane.setBackground(ViewUtils.fullWindowBG("menuBackground", viewOperator.getScreenWidth(), viewOperator.getScreenHeight()));
-        ImageView wobLogo = ViewUtils.getImageView("wobLogo", viewOperator.getScreenWidth() * 0.50, viewOperator.getScreenHeight() * 0.50);
+        menuPane.setPrefSize(dataOperator.getViewOperator().getScreenWidth(), dataOperator.getViewOperator().getScreenHeight());
+        menuPane.setBackground(ViewUtils.fullWindowBG("menuBackground", dataOperator.getViewOperator().getScreenWidth(), dataOperator.getViewOperator().getScreenHeight()));
+        ImageView wobLogo = ViewUtils.getImageView("wobLogo", dataOperator.getViewOperator().getScreenWidth() * 0.50, dataOperator.getViewOperator().getScreenHeight() * 0.50);
         menuPane.setTop(wobLogo);
         BorderPane.setAlignment(wobLogo, Pos.TOP_CENTER);
         VBox menuList = new VBox();
@@ -80,5 +66,7 @@ public class MainMenuController {
         menuList.getChildren().add(exitButton);
         menuPane.setCenter(menuList);
         BorderPane.setAlignment(menuList, Pos.TOP_CENTER);
+        musicPlayer.setMediaPlayer(dataOperator.getMediaOperator().getMediaPlayerWithMusic("menuMusic", Timeline.INDEFINITE));
+        musicPlayer.getMediaPlayer().play();
     }
 }
