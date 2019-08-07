@@ -71,7 +71,7 @@ public class ViewOperator {
         ViewData view = loadView("SplashScreen.fxml");
         mainStage.getScene().setRoot(view.getRoot());
         SplashScreenController controller = view.getLoader().getController();
-        controller.setViewOperator(this);
+        controller.setDataOperator(dataOperator);
         controller.playVideo();
     }
 

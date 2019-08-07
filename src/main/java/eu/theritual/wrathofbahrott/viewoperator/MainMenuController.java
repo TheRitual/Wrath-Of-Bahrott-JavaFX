@@ -1,8 +1,6 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
-import eu.theritual.wrathofbahrott.viewoperator.viewutils.ViewUtils;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -30,12 +28,12 @@ public class MainMenuController {
 
     private void buttonHoverImage(Event e) {
         ImageView img = (ImageView) e.getSource();
-        img.setImage(ViewUtils.getImage(img.getId() + "On", 263, 100));
+        img.setImage(dataOperator.getMediaOperator().getImage(img.getId() + "On", 263, 100));
     }
 
     private void buttonUnHoverImage(Event e) {
         ImageView img = (ImageView) e.getSource();
-        img.setImage(ViewUtils.getImage(img.getId() + "Out", 263, 100));
+        img.setImage(dataOperator.getMediaOperator().getImage(img.getId() + "Out", 263, 100));
     }
 
     void setDataOperator(DataOperator dataOperator) {
@@ -43,7 +41,7 @@ public class MainMenuController {
     }
 
     private ImageView createMenuButton(String gfxName) {
-        ImageView btn = ViewUtils.getImageView(gfxName + "Out", 263, 100);
+        ImageView btn = dataOperator.getMediaOperator().getImageView(gfxName + "Out", 263, 100);
         btn.setId(gfxName);
         btn.setOnMouseEntered(this::buttonHoverImage);
         btn.setOnMouseExited(this::buttonUnHoverImage);
@@ -52,8 +50,8 @@ public class MainMenuController {
 
     void startMenu() {
         menuPane.setPrefSize(dataOperator.getViewOperator().getScreenWidth(), dataOperator.getViewOperator().getScreenHeight());
-        menuPane.setBackground(ViewUtils.fullWindowBG("menuBackground", dataOperator.getViewOperator().getScreenWidth(), dataOperator.getViewOperator().getScreenHeight()));
-        ImageView wobLogo = ViewUtils.getImageView("wobLogo", dataOperator.getViewOperator().getScreenWidth() * 0.50, dataOperator.getViewOperator().getScreenHeight() * 0.50);
+        menuPane.setBackground(dataOperator.getMediaOperator().fullWindowBG("menuBackground", dataOperator.getViewOperator().getScreenWidth(), dataOperator.getViewOperator().getScreenHeight()));
+        ImageView wobLogo = dataOperator.getMediaOperator().getImageView("wobLogo", dataOperator.getViewOperator().getScreenWidth() * 0.50, dataOperator.getViewOperator().getScreenHeight() * 0.50);
         menuPane.setTop(wobLogo);
         BorderPane.setAlignment(wobLogo, Pos.TOP_CENTER);
         VBox menuList = new VBox();
@@ -66,7 +64,8 @@ public class MainMenuController {
         menuList.getChildren().add(exitButton);
         menuPane.setCenter(menuList);
         BorderPane.setAlignment(menuList, Pos.TOP_CENTER);
-        musicPlayer.setMediaPlayer(dataOperator.getMediaOperator().getMediaPlayerWithMusic("menuMusic", Timeline.INDEFINITE));
+        dataOperator.getMediaOperator().setMusic("menuMusic");
+        musicPlayer.setMediaPlayer(dataOperator.getMediaOperator().getMusicMediaPlayer());
         musicPlayer.getMediaPlayer().play();
     }
 }
