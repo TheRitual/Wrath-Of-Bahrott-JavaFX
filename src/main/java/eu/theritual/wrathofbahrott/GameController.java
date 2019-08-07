@@ -7,10 +7,10 @@ import eu.theritual.wrathofbahrott.viewoperator.ViewOperator;
 import javafx.stage.Stage;
 import org.springframework.context.ConfigurableApplicationContext;
 
-class GameControl {
+class GameController {
     private DataOperator dataOperator;
 
-    GameControl(Stage mainStage, ConfigurableApplicationContext context) {
+    GameController(Stage mainStage, ConfigurableApplicationContext context) {
         dataOperator = new DataOperator();
         dataOperator.setViewOperator(new ViewOperator(mainStage , dataOperator));
         dataOperator.setMediaOperator(new MediaOperator());

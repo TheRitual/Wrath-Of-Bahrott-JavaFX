@@ -1,10 +1,10 @@
 package eu.theritual.wrathofbahrott;
 
+import javafx.application.Application;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import javafx.application.Application;
 
 @SpringBootApplication
 public class Game extends Application{
@@ -12,7 +12,7 @@ public class Game extends Application{
 
     @Override
     public void start(Stage primaryStage) {
-        GameControl game = new GameControl(primaryStage, springContext);
+        GameController game = new GameController(primaryStage, springContext);
         game.start();
     }
 
