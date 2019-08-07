@@ -1,4 +1,4 @@
-package eu.theritual.wrathofbahrott.saveutils;
+package eu.theritual.wrathofbahrott.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,7 +7,7 @@ import eu.theritual.wrathofbahrott.dataoperator.GameOptions;
 import java.io.File;
 import java.io.IOException;
 
-public class OptionsSaveLoad {
+public class SaveLoadUtils {
     public static void saveOptions(GameOptions options, String fileName){
         try {
             new ObjectMapper().writeValue(new File(fileName + ".json"), options);

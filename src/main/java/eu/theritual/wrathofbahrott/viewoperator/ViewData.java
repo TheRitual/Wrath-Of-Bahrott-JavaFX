@@ -1,23 +1,22 @@
-package eu.theritual.wrathofbahrott.dataoperator;
+package eu.theritual.wrathofbahrott.viewoperator;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 
-public class ViewData {
+class ViewData {
     private final FXMLLoader loader;
     private final Group root;
 
-    public ViewData(FXMLLoader loader, Group root) {
+    ViewData(FXMLLoader loader, Group root) {
         this.loader = loader;
         this.root = root;
     }
 
-    public FXMLLoader getLoader() {
+    FXMLLoader getLoader() {
         return loader;
     }
 
-    public Group getRoot() {
+    Group getRoot() {
         return root;
     }
 }

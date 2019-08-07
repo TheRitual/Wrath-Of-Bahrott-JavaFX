@@ -1,7 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
-import eu.theritual.wrathofbahrott.soundoperator.soundutils.SoundUtils;
+import eu.theritual.wrathofbahrott.utils.SoundUtils;
 import eu.theritual.wrathofbahrott.viewoperator.viewutils.ViewUtils;
 import javafx.application.Platform;
 import javafx.event.Event;

@@ -1,4 +1,4 @@
-package eu.theritual.wrathofbahrott.soundoperator.soundutils;
+package eu.theritual.wrathofbahrott.utils;
 
 import eu.theritual.wrathofbahrott.soundoperator.SoundOperator;
 import eu.theritual.wrathofbahrott.viewoperator.ViewOperator;
