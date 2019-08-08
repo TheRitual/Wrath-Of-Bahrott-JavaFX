@@ -1,0 +1,11 @@
+.optLabelBtn.label .text {
+    -fx-fill: rgb(59, 158, 133);
+    -fx-stroke: black;
+    -fx-stroke-width: 2px;
+}
+
+.optLabel.label .text {
+    -fx-fill: rgb(4, 127, 158);
+    -fx-stroke: black;
+    -fx-stroke-width: 4px;
+}

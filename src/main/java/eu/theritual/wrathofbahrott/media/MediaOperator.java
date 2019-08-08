@@ -20,6 +20,7 @@ public class MediaOperator {
     private Map<String, String> videos;
     private Map<String, String> images;
     private Map<String, String> fonts;
+    private Map<String, String> css;
     private MediaPlayer musicMediaPlayer;
     private MediaPlayer videoMediaPlayer;
 
@@ -29,8 +30,13 @@ public class MediaOperator {
         videos = new HashMap<>();
         images = new HashMap<>();
         fonts = new HashMap<>();
+        css = new HashMap<>();
         //FONTS
         fonts.put("fipps", "fonts/Fipps-Regular.otf");
+        fonts.put("04b", "fonts/04B30.TTF");
+        fonts.put("vermin", "fonts/VerminVibes1989.ttf");
+        //CSS
+        css.put("menu", "css/menu.css");
         //SOUNDS
         sounds.put("menuMusic", "sounds/menu.mp3");
         //VIDEOS
@@ -147,10 +153,22 @@ public class MediaOperator {
         try {
             fontName = MediaOperator.class.getResource(fontName).toURI().toURL().toString();
         } catch (URISyntaxException e) {
-            ViewOperator.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
+            ViewOperator.error("URISyntaxException", "Can't load font (URI PROBLEM)", e.toString());
         } catch (MalformedURLException e) {
-            ViewOperator.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
+            ViewOperator.error("MalformedURLException", "Can't load dont (URL PROBLEM)", e.toString());
         }
         return Font.loadFont(fontName, size);
+    }
+
+    public String getCss(String cssFileName) {
+        cssFileName = css.get(cssFileName);
+        try {
+            cssFileName = MediaOperator.class.getResource(cssFileName).toURI().toURL().toString();
+        } catch (URISyntaxException e) {
+            ViewOperator.error("URISyntaxException", "Can't load CSS file (URI PROBLEM)", e.toString());
+        } catch (MalformedURLException e) {
+            ViewOperator.error("MalformedURLException", "Can't load CSS file (URL PROBLEM)", e.toString());
+        }
+        return cssFileName;
     }
 }

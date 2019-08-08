@@ -67,13 +67,23 @@ public class MainMenuController {
     }
 
     private Label createLabelButton(String labelTxt, double size) {
-        Font fnt = dataOperator.getMediaOperator().getFont("fipps", size);
+        Font fnt = dataOperator.getMediaOperator().getFont("vermin", size);
         Label btn = new Label(labelTxt);
         btn.setFont(fnt);
         btn.setId(labelTxt);
+        btn.getStyleClass().add("optLabelBtn");
         btn.setTextFill(Color.rgb(59, 158, 133));
         btn.setOnMouseEntered(this::labelButtonHoverAction);
         btn.setOnMouseExited(this::labelButtonUnHoverAction);
+        return btn;
+    }
+
+    private Label createLabel(String labelTxt, double size) {
+        Font fnt = dataOperator.getMediaOperator().getFont("vermin", size);
+        Label btn = new Label(labelTxt);
+        btn.setFont(fnt);
+        btn.getStyleClass().add("optLabel");
+        btn.setTextFill(Color.rgb(4, 127, 158));
         return btn;
     }
 
@@ -84,6 +94,7 @@ public class MainMenuController {
         menuPane.setTop(wobLogo);
         BorderPane.setAlignment(wobLogo, Pos.TOP_CENTER);
         setSubView(SubView.MAIN_MENU);
+        dataOperator.getViewOperator().getRoot().getScene().getStylesheets().add(dataOperator.getMediaOperator().getCss("menu"));
         dataOperator.getMediaOperator().setMusic("menuMusic");
         musicPlayer.setMediaPlayer(dataOperator.getMediaOperator().getMusicMediaPlayer());
         musicPlayer.getMediaPlayer().play();
@@ -126,8 +137,13 @@ public class MainMenuController {
         VBox optionsMenu = new VBox();
         optionsMenu.setBackground(dataOperator.getMediaOperator().getBackgroundImg("optionsBackground", menuPane.getCenter().getLayoutBounds().getWidth(), menuPane.getCenter().getLayoutBounds().getHeight()));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
-        Label backButton = createLabelButton("BACK", 40);
+        Label topTitle = createLabel("Set Things", 70);
+        Label fsButton = createLabelButton("Fullscreen", 50);
+        fsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
+        Label backButton = createLabelButton("Back", 50);
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
+        optionsMenu.getChildren().add(topTitle);
+        optionsMenu.getChildren().add(fsButton);
         optionsMenu.getChildren().add(backButton);
         optionsMenu.setOpacity(0.8);
         return optionsMenu;
