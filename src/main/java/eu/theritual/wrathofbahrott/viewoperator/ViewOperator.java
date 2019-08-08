@@ -19,12 +19,15 @@ public class ViewOperator {
     private DataOperator dataOperator;
     private Group root;
 
-    public ViewOperator(Stage mainStage, DataOperator dataOperator) {
+    public void setDataOperator(DataOperator dataOperator) {
+        this.dataOperator = dataOperator;
+    }
+
+    public ViewOperator(Stage mainStage) {
         this.mainStage = mainStage;
         root = new Group();
         Scene mainScene = new Scene(root);
         this.mainStage.setScene(mainScene);
-        this.dataOperator = dataOperator;
         this.mainStage.setMinWidth(800);
         this.mainStage.setMinHeight(600);
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
@@ -115,7 +118,11 @@ public class ViewOperator {
         return screenHeight;
     }
 
-    public Group getRoot() {
+    Group getRoot() {
         return root;
+    }
+
+    Stage getStage() {
+        return mainStage;
     }
 }
