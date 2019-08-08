@@ -150,7 +150,7 @@ public class MainMenuController {
         optionsMenu.setBackground(dataOperator.getMediaOperator().getBackgroundImg("optionsBackground", menuPane.getCenter().getLayoutBounds().getWidth(), menuPane.getCenter().getLayoutBounds().getHeight()));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = createLabel("Set Things", "optLabel", 60);
-        Label fsButton = createLabelButton("Fullscreen", 40);
+        Label fsButton = createLabelButton("Fullscreen: " + dataOperator.getGameOptions().isFullScreen(), 40);
         fsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::switchFullscreen);
         optionsMenu.getChildren().add(topTitle);
         optionsMenu.getChildren().add(fsButton);
@@ -183,5 +183,7 @@ public class MainMenuController {
         boolean switchFs = !dataOperator.getGameOptions().isFullScreen();
         dataOperator.getGameOptions().setFullScreen(switchFs);
         dataOperator.getViewOperator().getStage().setFullScreen(switchFs);
+        Label btn = (Label) e.getSource();
+        btn.setText("Fullscreen: " + dataOperator.getGameOptions().isFullScreen());
     }
 }
