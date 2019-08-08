@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -18,13 +19,18 @@ public class MediaOperator {
     private Map<String, String> sounds;
     private Map<String, String> videos;
     private Map<String, String> images;
+    private Map<String, String> fonts;
     private MediaPlayer musicMediaPlayer;
     private MediaPlayer videoMediaPlayer;
+
 
     public MediaOperator() {
         sounds = new HashMap<>();
         videos = new HashMap<>();
         images = new HashMap<>();
+        fonts = new HashMap<>();
+        //FONTS
+        fonts.put("fipps", "fonts/Fipps-Regular.otf");
         //SOUNDS
         sounds.put("menuMusic", "sounds/menu.mp3");
         //VIDEOS
@@ -40,6 +46,7 @@ public class MediaOperator {
         images.put("creditsOut", "gfx/creditsOut.png");
         images.put("optionsOn", "gfx/settingsOn.png");
         images.put("optionsOut", "gfx/settingsOut.png");
+        images.put("optionsBackground", "gfx/optBg.jpg");
     }
 
     private URL getSoundUrl(String name) {
@@ -123,7 +130,7 @@ public class MediaOperator {
         return new Image(imgFile, width, height, true, false);
     }
 
-    public Background fullWindowBG(String imgName , double screenWidth, double screenHeight) {
+    public Background getBackgroundImg(String imgName, double screenWidth, double screenHeight) {
         return new Background(new BackgroundImage(getImage(imgName, screenWidth,screenHeight), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)));
     }
 
@@ -133,5 +140,17 @@ public class MediaOperator {
 
     public ImageView getImageView(String name, double width, double height) {
         return new ImageView(getImage(name, width, height));
+    }
+
+    public Font getFont(String fontName, double size) {
+        fontName = fonts.get(fontName);
+        try {
+            fontName = MediaOperator.class.getResource(fontName).toURI().toURL().toString();
+        } catch (URISyntaxException e) {
+            ViewOperator.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
+        } catch (MalformedURLException e) {
+            ViewOperator.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
+        }
+        return Font.loadFont(fontName, size);
     }
 }
