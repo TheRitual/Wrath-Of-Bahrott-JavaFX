@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -29,11 +30,13 @@ public class MainMenuController {
     private void buttonHoverImage(Event e) {
         ImageView img = (ImageView) e.getSource();
         img.setImage(dataOperator.getMediaOperator().getImage(img.getId() + "On", 263, 100));
+        dataOperator.getViewOperator().getRoot().getScene().setCursor(Cursor.HAND);
     }
 
     private void buttonUnHoverImage(Event e) {
         ImageView img = (ImageView) e.getSource();
         img.setImage(dataOperator.getMediaOperator().getImage(img.getId() + "Out", 263, 100));
+        dataOperator.getViewOperator().getRoot().getScene().setCursor(Cursor.DEFAULT);
     }
 
     void setDataOperator(DataOperator dataOperator) {

@@ -1,6 +1,7 @@
 package eu.theritual.wrathofbahrott.media;
 
 import eu.theritual.wrathofbahrott.viewoperator.ViewOperator;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -63,6 +64,7 @@ public class MediaOperator {
         }
         Media sound = new Media(sndUrl.toString());
         this.musicMediaPlayer = new MediaPlayer(sound);
+        this.musicMediaPlayer.setCycleCount(Timeline.INDEFINITE);
     }
 
     public MediaPlayer getMusicMediaPlayer() {
