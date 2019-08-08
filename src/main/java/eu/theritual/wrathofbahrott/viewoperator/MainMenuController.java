@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -89,6 +90,18 @@ public class MainMenuController {
         return btn;
     }
 
+    private Slider createSlider(double min, double max, double value) {
+        Slider volumeSlider = new Slider();
+        volumeSlider.setMax(max);
+        volumeSlider.setMin(min);
+        volumeSlider.setValue(value);
+        volumeSlider.setShowTickMarks(true);
+        volumeSlider.setMajorTickUnit(50);
+        volumeSlider.setMinorTickCount(5);
+        volumeSlider.setBlockIncrement(10);
+        return volumeSlider;
+    }
+
     private Label getBackButton() {
         Label backButton = createLabelButton("Back", 40);
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
@@ -123,7 +136,10 @@ public class MainMenuController {
             default:
                 subV = getMainMenu();
         }
+        double prefWidth = dataOperator.getViewOperator().getScreenWidth() * 0.5;
+        subV.setMaxWidth(prefWidth);
         menuPane.setCenter(subV);
+        System.out.println("WIDTH:" + prefWidth);
         BorderPane.setAlignment(subV, Pos.TOP_CENTER);
     }
 
@@ -147,13 +163,19 @@ public class MainMenuController {
 
     private VBox getOptions() {
         VBox optionsMenu = new VBox();
-        optionsMenu.setBackground(dataOperator.getMediaOperator().getBackgroundImg("optionsBackground", menuPane.getCenter().getLayoutBounds().getWidth(), menuPane.getCenter().getLayoutBounds().getHeight()));
+        optionsMenu.setBackground(dataOperator.getMediaOperator().getBackgroundImg("optionsBackground", dataOperator.getViewOperator().getScreenWidth() * 0.5, menuPane.getCenter().getLayoutBounds().getHeight()));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = createLabel("Set Things", "optLabel", 60);
         Label fsButton = createLabelButton("Fullscreen: " + dataOperator.getGameOptions().isFullScreen(), 40);
         fsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::switchFullscreen);
+        Slider volumeSlider = createSlider(0, 100, dataOperator.getGameOptions().getMusicVolume());
+        volumeSlider.setMaxWidth(dataOperator.getViewOperator().getScreenWidth() * 0.4);
+        Label volumeLabel = createLabel("Volume: " + (int) dataOperator.getGameOptions().getMusicVolume() + "%", "optLabelMini", 40);
+        volumeSlider.valueProperty().addListener(((observable, oldValue, newValue) -> changeMusicVolume(volumeSlider.getValue(), volumeLabel)));
         optionsMenu.getChildren().add(topTitle);
         optionsMenu.getChildren().add(fsButton);
+        optionsMenu.getChildren().add(volumeLabel);
+        optionsMenu.getChildren().add(volumeSlider);
         optionsMenu.getChildren().add(getBackButton());
         optionsMenu.setOpacity(0.7);
         return optionsMenu;
@@ -166,7 +188,7 @@ public class MainMenuController {
         Label topTitle = createLabel("Credits", "optLabel", 60);
         double creditsSize = 40;
         ArrayList<Label> creditsLines = new ArrayList<>();
-        creditsLines.add(createLabel("Game Creator : Marcin \"Shinobi\" Kawczynski", "optLabelMini", creditsSize));
+        creditsLines.add(createLabel("Game Creator: Marcin \"Shinobi\" Kawczynski", "optLabelMini", creditsSize));
         creditsLines.add(createLabel("Music: Marcin \"Shinobi\" Kawczynski", "optLabelMini", creditsSize));
         creditsLines.add(createLabel("Intro: Marcin \"Shinobi\" Kawczynski and Victoria Sarbiewska", "optLabelMini", creditsSize));
         creditsLines.add(createLabel("GFX: Marcin \"Shinobi\" Kawczynski", "optLabelMini", creditsSize));
@@ -185,5 +207,13 @@ public class MainMenuController {
         dataOperator.getViewOperator().getStage().setFullScreen(switchFs);
         Label btn = (Label) e.getSource();
         btn.setText("Fullscreen: " + dataOperator.getGameOptions().isFullScreen());
+    }
+
+    private void changeMusicVolume(double volume, Label updateLabel) {
+        int vol = (int) volume;
+        dataOperator.getGameOptions().setMusicVolume(volume);
+        musicPlayer.getMediaPlayer().setVolume(volume / 100);
+        updateLabel.setText("Volume: " + vol + "%");
+        System.out.println("Volume changed " + volume);
     }
 }

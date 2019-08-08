@@ -3,14 +3,14 @@ package eu.theritual.wrathofbahrott.dataoperator;
 public class GameOptions {
     private Keys keys;
     private boolean fullScreen;
-    private int musicVolume;
-    private int soundVolume;
+    private double musicVolume;
+    private double soundVolume;
 
-    public GameOptions() {
+    GameOptions() {
         this(new Keys(), true, 100, 100);
     }
 
-    public GameOptions(Keys keys, boolean fullScreen, int musicVolume, int soundVolume) {
+    private GameOptions(Keys keys, boolean fullScreen, double musicVolume, double soundVolume) {
         this.keys = keys;
         this.fullScreen = fullScreen;
         this.musicVolume = musicVolume;
@@ -33,19 +33,19 @@ public class GameOptions {
         this.fullScreen = fullScreen;
     }
 
-    public int getMusicVolume() {
+    public double getMusicVolume() {
         return musicVolume;
     }
 
-    public void setMusicVolume(int musicVolume) {
-        this.musicVolume = musicVolume;
+    public void setMusicVolume(double musicVolume) {
+        this.musicVolume = musicVolume > 100 ? 100 : musicVolume < 0 ? 0 : musicVolume;
     }
 
-    public int getSoundVolume() {
+    public double getSoundVolume() {
         return soundVolume;
     }
 
-    public void setSoundVolume(int soundVolume) {
+    public void setSoundVolume(double soundVolume) {
         this.soundVolume = soundVolume;
     }
 }
