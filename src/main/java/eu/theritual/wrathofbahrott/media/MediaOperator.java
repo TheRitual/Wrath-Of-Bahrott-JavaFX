@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -34,6 +35,10 @@ public class MediaOperator {
         images.put("exitOut", "gfx/exitOut.png");
         images.put("startOn", "gfx/startOn.png");
         images.put("startOut", "gfx/startOut.png");
+        images.put("creditsOn", "gfx/creditsOn.png");
+        images.put("creditsOut", "gfx/creditsOut.png");
+        images.put("optionsOn", "gfx/optionsOn.png");
+        images.put("optionsOut", "gfx/optionsOut.png");
     }
 
     private URL getSoundUrl(String name) {
@@ -106,8 +111,10 @@ public class MediaOperator {
 
     public Image getImage(String name, double width, double height) {
         String imgFile = images.get(name);
+        System.out.println(" ->>>>>>>>" + imgFile);
         try {
             imgFile = MediaOperator.class.getResource(imgFile).toURI().toURL().toString();
+            System.out.println(" ->>>>>>>>" + imgFile);
         } catch (URISyntaxException e) {
             ViewOperator.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
         } catch (MalformedURLException e) {

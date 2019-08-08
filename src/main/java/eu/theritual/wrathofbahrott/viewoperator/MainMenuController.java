@@ -59,8 +59,14 @@ public class MainMenuController {
         ImageView exitButton = createMenuButton("exit");
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::exitAction);
         ImageView startButton = createMenuButton("start");
-        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> System.out.println("Startuję"));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> System.out.println("STARTING GAME!"));
+        ImageView optionsButton = createMenuButton("options");
+        optionsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> System.out.println("OPENING OPTIONS"));
+        ImageView creditsButton = createMenuButton("credits");
+        creditsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> System.out.println("SHOWING CREDITS"));
         menuList.getChildren().add(startButton);
+        menuList.getChildren().add(optionsButton);
+        menuList.getChildren().add(creditsButton);
         menuList.getChildren().add(exitButton);
         menuPane.setCenter(menuList);
         BorderPane.setAlignment(menuList, Pos.TOP_CENTER);
