@@ -111,10 +111,8 @@ public class MediaOperator {
 
     public Image getImage(String name, double width, double height) {
         String imgFile = images.get(name);
-        System.out.println(" ->>>>>>>>" + imgFile);
         try {
             imgFile = MediaOperator.class.getResource(imgFile).toURI().toURL().toString();
-            System.out.println(" ->>>>>>>>" + imgFile);
         } catch (URISyntaxException e) {
             ViewOperator.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
         } catch (MalformedURLException e) {
