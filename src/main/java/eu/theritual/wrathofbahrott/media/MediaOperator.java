@@ -37,8 +37,8 @@ public class MediaOperator {
         images.put("startOut", "gfx/startOut.png");
         images.put("creditsOn", "gfx/creditsOn.png");
         images.put("creditsOut", "gfx/creditsOut.png");
-        images.put("optionsOn", "gfx/optionsOn.png");
-        images.put("optionsOut", "gfx/optionsOut.png");
+        images.put("optionsOn", "gfx/settingsOn.png");
+        images.put("optionsOut", "gfx/settingsOut.png");
     }
 
     private URL getSoundUrl(String name) {
