@@ -53,6 +53,7 @@ public class MediaOperator {
         images.put("optionsOn", "gfx/settingsOn.png");
         images.put("optionsOut", "gfx/settingsOut.png");
         images.put("optionsBackground", "gfx/optBg.jpg");
+        images.put("eyeIcon", "gfx/eyeSlider.jpg");
     }
 
     private URL getSoundUrl(String name) {

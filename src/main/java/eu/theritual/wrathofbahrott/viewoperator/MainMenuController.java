@@ -91,15 +91,15 @@ public class MainMenuController {
     }
 
     private Slider createSlider(double min, double max, double value) {
-        Slider volumeSlider = new Slider();
-        volumeSlider.setMax(max);
-        volumeSlider.setMin(min);
-        volumeSlider.setValue(value);
-        volumeSlider.setShowTickMarks(true);
-        volumeSlider.setMajorTickUnit(50);
-        volumeSlider.setMinorTickCount(5);
-        volumeSlider.setBlockIncrement(10);
-        return volumeSlider;
+        Slider slider = new Slider();
+        slider.setMax(max);
+        slider.setMin(min);
+        slider.setValue(value);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setMinorTickCount(5);
+        slider.setBlockIncrement(10);
+        return slider;
     }
 
     private Label getBackButton() {
@@ -214,6 +214,5 @@ public class MainMenuController {
         dataOperator.getGameOptions().setMusicVolume(volume);
         musicPlayer.getMediaPlayer().setVolume(volume / 100);
         updateLabel.setText("Volume: " + vol + "%");
-        System.out.println("Volume changed " + volume);
     }
 }
