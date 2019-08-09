@@ -2,6 +2,7 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.SubView;
+import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -119,6 +120,7 @@ public class MainMenuController {
         dataOperator.getViewOperator().getRoot().getScene().getStylesheets().add(dataOperator.getMediaOperator().getCss("menu"));
         dataOperator.getMediaOperator().setMusic("menuMusic");
         musicPlayer.setMediaPlayer(dataOperator.getMediaOperator().getMusicMediaPlayer());
+        musicPlayer.getMediaPlayer().setVolume(dataOperator.getGameOptions().getMusicVolume() / 100);
         musicPlayer.getMediaPlayer().play();
     }
 
@@ -172,13 +174,19 @@ public class MainMenuController {
         volumeSlider.setMaxWidth(dataOperator.getViewOperator().getScreenWidth() * 0.4);
         Label volumeLabel = createLabel("Volume: " + (int) dataOperator.getGameOptions().getMusicVolume() + "%", "optLabelMini", 40);
         volumeSlider.valueProperty().addListener(((observable, oldValue, newValue) -> changeMusicVolume(volumeSlider.getValue(), volumeLabel)));
+        Label backButton = getBackButton();
+        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::saveOptions);
         optionsMenu.getChildren().add(topTitle);
         optionsMenu.getChildren().add(fsButton);
         optionsMenu.getChildren().add(volumeLabel);
         optionsMenu.getChildren().add(volumeSlider);
-        optionsMenu.getChildren().add(getBackButton());
+        optionsMenu.getChildren().add(backButton);
         optionsMenu.setOpacity(0.7);
         return optionsMenu;
+    }
+
+    private void saveOptions(Event e) {
+        SaveLoadUtils.saveOptions(dataOperator.getGameOptions(), "config");
     }
 
     private VBox getCredits() {

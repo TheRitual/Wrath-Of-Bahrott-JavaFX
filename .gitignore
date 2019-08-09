@@ -28,3 +28,6 @@ hs_err_pid*
 
 # Photoshop templates out!
 *.psd
+
+# GameFiles
+config.json

@@ -37,13 +37,13 @@ public class ViewOperator {
         this.screenHeight = primaryScreenBounds.getHeight();
     }
 
-    public void setUpBeforeRun(boolean isMaximalized, boolean isFullScreen) {
+    public void setUpBeforeRun() {
         mainStage.setTitle("Wrath Of Bahrott");
         mainStage.setWidth(screenWidth);
         mainStage.setHeight(screenHeight);
-        mainStage.setMaximized(isMaximalized);
+        mainStage.setMaximized(dataOperator.getGameOptions().isMaximized());
         mainStage.setResizable(false);
-        mainStage.setFullScreen(isFullScreen);
+        mainStage.setFullScreen(dataOperator.getGameOptions().isFullScreen());
         mainStage.setAlwaysOnTop(true);
         mainStage.show();
     }
@@ -88,7 +88,6 @@ public class ViewOperator {
     }
 
     public void run(GameModule module) {
-        mainStage.setFullScreen(true);
         switch (module) {
             case SPLASH_SCREEN:
                 runSplashScreen();

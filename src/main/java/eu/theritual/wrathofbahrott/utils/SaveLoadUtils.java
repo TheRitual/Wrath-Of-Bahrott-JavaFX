@@ -1,6 +1,5 @@
 package eu.theritual.wrathofbahrott.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.theritual.wrathofbahrott.dataoperator.GameOptions;
 
@@ -18,7 +17,12 @@ public class SaveLoadUtils {
 
     public static GameOptions loadOptions(String fileName) {
         try {
-            return new ObjectMapper().readValue(new File(fileName + ".json"), GameOptions.class);
+            File loadFile = new File(fileName + ".json");
+            if (loadFile.exists()) {
+                return new ObjectMapper().readValue(loadFile, GameOptions.class);
+            } else {
+                return new GameOptions();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return null;

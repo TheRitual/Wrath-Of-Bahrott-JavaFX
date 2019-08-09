@@ -3,10 +3,11 @@ package eu.theritual.wrathofbahrott.dataoperator;
 public class GameOptions {
     private Keys keys;
     private boolean fullScreen;
+    private boolean maximized;
     private double musicVolume;
     private double soundVolume;
 
-    GameOptions() {
+    public GameOptions() {
         this(new Keys(), true, 100, 100);
     }
 
@@ -31,6 +32,14 @@ public class GameOptions {
 
     public void setFullScreen(boolean fullScreen) {
         this.fullScreen = fullScreen;
+    }
+
+    public boolean isMaximized() {
+        return maximized;
+    }
+
+    public void setMaximized(boolean setMaximized) {
+        this.maximized = setMaximized;
     }
 
     public double getMusicVolume() {
