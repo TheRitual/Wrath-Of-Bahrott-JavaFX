@@ -110,6 +110,7 @@ public class MainMenuController {
     }
 
     void startMenu() {
+        musicPlayer.setMediaPlayer(null);
         menuPane.setPrefSize(dataOperator.getViewOperator().getScreenWidth(), dataOperator.getViewOperator().getScreenHeight());
         menuPane.setBackground(dataOperator.getMediaOperator().getBackgroundImg("menuBackground", dataOperator.getViewOperator().getScreenWidth(), dataOperator.getViewOperator().getScreenHeight()));
         ImageView wobLogo = dataOperator.getMediaOperator().getImageView("wobLogo", dataOperator.getViewOperator().getScreenWidth() * 0.50, dataOperator.getViewOperator().getScreenHeight() * 0.50);
@@ -120,6 +121,7 @@ public class MainMenuController {
         dataOperator.getViewOperator().getRoot().getScene().getStylesheets().add(dataOperator.getMediaOperator().getCss("menu"));
         dataOperator.getMediaOperator().setMusic("menuMusic");
         musicPlayer.setMediaPlayer(dataOperator.getMediaOperator().getMusicMediaPlayer());
+        musicPlayer.getMediaPlayer().stop();
         musicPlayer.getMediaPlayer().setVolume(dataOperator.getGameOptions().getMusicVolume() / 100);
         musicPlayer.getMediaPlayer().play();
     }
