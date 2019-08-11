@@ -18,12 +18,8 @@ public class DataOperator {
         this.mediaOperator = new MediaOperator();
     }
 
-    public MediaOperator getMediaOperator() {
+    public MediaOperator getMediaOp() {
         return mediaOperator;
-    }
-
-    public void setMediaOperator(MediaOperator mediaOperator) {
-        this.mediaOperator = mediaOperator;
     }
 
     public GameModule getModule() {
@@ -34,23 +30,15 @@ public class DataOperator {
         return springContext;
     }
 
-    public ViewOperator getViewOperator() {
+    public ViewOperator getView() {
         return viewOperator;
-    }
-
-    public void setSpringContext(ConfigurableApplicationContext context) {
-        this.springContext = context;
     }
 
     public void setModule(GameModule module) {
         this.module = module;
     }
 
-    public void setViewOperator(ViewOperator operator) {
-        this.viewOperator = operator;
-    }
-
-    public GameOptions getGameOptions() {
+    public GameOptions getGOptions() {
         return gameOptions;
     }
 

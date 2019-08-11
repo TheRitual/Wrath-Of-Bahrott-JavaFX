@@ -6,6 +6,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
@@ -17,26 +19,29 @@ public class SplashScreenController {
 
     @FXML
     private MediaView splashVideo;
+    @FXML
+    private HBox mediaBox;
 
     @FXML
     public void skip(Event e) {
         splashVideo.getMediaPlayer().stop();
-        System.out.println("Intro Skipped: " + e.toString());
+        System.out.println("Intro Skipped: " + e.getEventType().toString());
         splashVideo.setMediaPlayer(null);
-        dataOperator.getViewOperator().run(GameModule.MAIN_MENU);
+        dataOperator.getView().run(GameModule.MAIN_MENU);
     }
 
     void playVideo() {
-            dataOperator.getMediaOperator().setVideo("intro");
-            MediaPlayer player = dataOperator.getMediaOperator().getVideoMediaPlayer();
-            splashVideo.setMediaPlayer(player);
-            DoubleProperty width = splashVideo.fitWidthProperty();
-            DoubleProperty height = splashVideo.fitHeightProperty();
-            width.bind(Bindings.selectDouble(splashVideo.sceneProperty(), "width"));
-            height.bind(Bindings.selectDouble(splashVideo.sceneProperty(), "height"));
-            splashVideo.setPreserveRatio(true);
-            player.setOnEndOfMedia(() -> dataOperator.getViewOperator().run(GameModule.MAIN_MENU));
-            player.play();
+        dataOperator.getMediaOp().setVideo("intro");
+        mediaBox.setAlignment(Pos.CENTER);
+        MediaPlayer player = dataOperator.getMediaOp().getVideoMediaPlayer();
+        splashVideo.setMediaPlayer(player);
+        DoubleProperty width = splashVideo.fitWidthProperty();
+        DoubleProperty height = splashVideo.fitHeightProperty();
+        width.bind(Bindings.selectDouble(splashVideo.sceneProperty(), "width"));
+        height.bind(Bindings.selectDouble(splashVideo.sceneProperty(), "height"));
+        splashVideo.setPreserveRatio(true);
+        player.setOnEndOfMedia(() -> dataOperator.getView().run(GameModule.MAIN_MENU));
+        player.play();
     }
 
     void setDataOperator(DataOperator dataOperator) {

@@ -21,7 +21,9 @@ public class SaveLoadUtils {
             if (loadFile.exists()) {
                 return new ObjectMapper().readValue(loadFile, GameOptions.class);
             } else {
-                return new GameOptions();
+                GameOptions gOpt = new GameOptions();
+                saveOptions(gOpt, fileName);
+                return gOpt;
             }
         } catch (IOException e) {
             e.printStackTrace();

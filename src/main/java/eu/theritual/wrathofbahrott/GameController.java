@@ -11,13 +11,13 @@ class GameController {
 
     GameController(Stage mainStage, ConfigurableApplicationContext context) {
         dataOperator = new DataOperator(context, new ViewOperator(mainStage));
-        dataOperator.getViewOperator().setDataOperator(dataOperator);
+        dataOperator.getView().setDataOperator(dataOperator);
         dataOperator.setGameOptions(SaveLoadUtils.loadOptions("config"));
         start();
     }
 
     void start() {
-        dataOperator.getViewOperator().setUpBeforeRun();
-        dataOperator.getViewOperator().run(dataOperator.getModule());
+        dataOperator.getView().initiate();
+        dataOperator.getView().run(dataOperator.getModule());
     }
 }

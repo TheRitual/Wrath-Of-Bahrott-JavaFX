@@ -5,17 +5,18 @@ public class GameOptions {
     private boolean fullScreen;
     private boolean maximized;
     private double musicVolume;
-    private double soundVolume;
+    private double screenWidth;
+    private double screenHeight;
+
 
     public GameOptions() {
-        this(new Keys(), true, 100, 100);
+        this(new Keys(), true, 100);
     }
 
-    private GameOptions(Keys keys, boolean fullScreen, double musicVolume, double soundVolume) {
+    private GameOptions(Keys keys, boolean fullScreen, double musicVolume) {
         this.keys = keys;
         this.fullScreen = fullScreen;
         this.musicVolume = musicVolume;
-        this.soundVolume = soundVolume;
     }
 
     public Keys getKeys() {
@@ -50,11 +51,19 @@ public class GameOptions {
         this.musicVolume = musicVolume > 100 ? 100 : musicVolume < 0 ? 0 : musicVolume;
     }
 
-    public double getSoundVolume() {
-        return soundVolume;
+    public double getScreenWidth() {
+        return screenWidth;
     }
 
-    public void setSoundVolume(double soundVolume) {
-        this.soundVolume = soundVolume;
+    public void setScreenWidth(double screenWidth) {
+        this.screenWidth = screenWidth;
+    }
+
+    public double getScreenHeight() {
+        return screenHeight;
+    }
+
+    public void setScreenHeight(double screenHeight) {
+        this.screenHeight = screenHeight;
     }
 }
