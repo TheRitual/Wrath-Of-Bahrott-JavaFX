@@ -141,10 +141,6 @@ public class MediaOperator {
         return new Background(new BackgroundImage(getImage(imgName, screenWidth,screenHeight), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)));
     }
 
-    public ImageView getImageView(String name) {
-        return new ImageView(getImage(name));
-    }
-
     public ImageView getImageView(String name, double width, double height) {
         return new ImageView(getImage(name, width, height));
     }

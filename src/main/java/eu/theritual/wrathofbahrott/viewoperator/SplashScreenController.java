@@ -6,8 +6,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
@@ -19,8 +17,6 @@ public class SplashScreenController {
 
     @FXML
     private MediaView splashVideo;
-    @FXML
-    private HBox mediaBox;
 
     @FXML
     public void skip(Event e) {
@@ -32,7 +28,6 @@ public class SplashScreenController {
 
     void playVideo() {
         dataOperator.getMediaOp().setVideo("intro");
-        mediaBox.setAlignment(Pos.CENTER);
         MediaPlayer player = dataOperator.getMediaOp().getVideoMediaPlayer();
         splashVideo.setMediaPlayer(player);
         DoubleProperty width = splashVideo.fitWidthProperty();

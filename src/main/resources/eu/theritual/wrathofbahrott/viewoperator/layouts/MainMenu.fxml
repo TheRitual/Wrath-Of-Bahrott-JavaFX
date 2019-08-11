@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.media.MediaView?>
-<BorderPane fx:id="menuPane" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="eu.theritual.wrathofbahrott.viewoperator.MainMenuController">
-    <bottom>
+<GridPane fx:id="menuPane" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="eu.theritual.wrathofbahrott.viewoperator.MainMenuController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="17" prefWidth="1.0"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="66"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="17" prefWidth="1.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="1.0" percentHeight="33" prefHeight="1.0" vgrow="ALWAYS"/>
+        <RowConstraints minHeight="1.0" percentHeight="66" vgrow="ALWAYS"/>
+        <RowConstraints minHeight="1.0" percentHeight="1" prefHeight="1.0" vgrow="ALWAYS"/>
+    </rowConstraints>
         <MediaView fx:id="musicPlayer" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT"
                    BorderPane.alignment="CENTER"/>
-    </bottom>
-</BorderPane>
+</GridPane>

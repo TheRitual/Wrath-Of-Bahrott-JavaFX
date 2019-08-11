@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.media.MediaView?>
-<HBox alignment="CENTER" fx:id="mediaBox" style="-fx-background-color: black;"
-      xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="eu.theritual.wrathofbahrott.viewoperator.SplashScreenController">
+<GridPane alignment="CENTER" style="-fx-background-color: black;"
+          xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="eu.theritual.wrathofbahrott.viewoperator.SplashScreenController">
     <cursor>
         <Cursor fx:constant="DISAPPEAR"/>
     </cursor>
-    <MediaView fx:id="splashVideo" fitHeight="100.0" fitWidth="100.0" onError="#skip" onKeyReleased="#skip"
-               onMouseClicked="#skip">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="1" prefWidth="1.0"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="98"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="1" prefWidth="1.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="1.0" percentHeight="1" prefHeight="1.0" vgrow="ALWAYS"/>
+        <RowConstraints minHeight="1.0" percentHeight="98" vgrow="ALWAYS"/>
+        <RowConstraints minHeight="1.0" percentHeight="1" prefHeight="1.0" vgrow="ALWAYS"/>
+    </rowConstraints>
+    <MediaView fx:id="splashVideo" onError="#skip" onKeyReleased="#skip"
+               onMouseClicked="#skip" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <cursor>
             <Cursor fx:constant="DISAPPEAR" />
         </cursor>
     </MediaView>
-</HBox>
+</GridPane>

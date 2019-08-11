@@ -6,27 +6,29 @@ import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
-
 @Controller
 public class MainMenuController {
     @FXML
-    BorderPane menuPane;
+    GridPane menuPane;
     @FXML
     MediaView musicPlayer;
+
+    private VBox currentMenu;
     private DataOperator dataOperator;
 
     @FXML
@@ -42,8 +44,12 @@ public class MainMenuController {
         return dataOperator.getView().getScreenHeight() * 0.13;
     }
 
-    private int calculateFontSize(double size) {
-        return (int) (dataOperator.getView().getScreenHeight() * 0.01 * size);
+    private int getFontSize(double size) {
+        size *= 0.2;
+        double height = dataOperator.getView().getScreenHeight();
+        int result = (int) ((height % 10) * size);
+        System.out.println("FONT-SIZE: " + result);
+        return result;
     }
 
     private void buttonHoverAction(Event e) {
@@ -83,7 +89,7 @@ public class MainMenuController {
     }
 
     private Label createLabelButton(String labelTxt, double size) {
-        Font fnt = dataOperator.getMediaOp().getFont("vermin", calculateFontSize(size));
+        Font fnt = dataOperator.getMediaOp().getFont("vermin", getFontSize(size));
         Label btn = new Label(labelTxt);
         btn.setFont(fnt);
         btn.setId(labelTxt);
@@ -95,7 +101,7 @@ public class MainMenuController {
     }
 
     private Label createLabel(String labelTxt, String styleClass, double size) {
-        Font fnt = dataOperator.getMediaOp().getFont("vermin", calculateFontSize(size));
+        Font fnt = dataOperator.getMediaOp().getFont("vermin", getFontSize(size));
         Label btn = new Label(labelTxt);
         btn.setFont(fnt);
         btn.getStyleClass().add(styleClass);
@@ -116,20 +122,21 @@ public class MainMenuController {
     }
 
     private Label getBackButton() {
-        Label backButton = createLabelButton("Back", calculateFontSize(40));
+        Label backButton = createLabelButton("Back", getFontSize(1));
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
         return backButton;
     }
 
     private void drawMenu() {
+        menuPane.setAlignment(Pos.TOP_CENTER);
         menuPane.setPrefSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
         menuPane.setBackground(dataOperator.getMediaOp().getBackgroundImg("menuBackground", dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
-        ImageView wobLogo = dataOperator.getMediaOp().getImageView("wobLogo", dataOperator.getView().getScreenWidth() * 0.50, dataOperator.getView().getScreenHeight() * 0.50);
-        menuPane.setTop(wobLogo);
-        menuPane.getBottom().prefHeight(1);
-        BorderPane.setAlignment(wobLogo, Pos.TOP_CENTER);
-        setSubView(SubView.MAIN_MENU);
+        ImageView wobLogo = dataOperator.getMediaOp().getImageView("wobLogo", dataOperator.getView().getScreenWidth() * 0.4, dataOperator.getView().getScreenHeight() * 0.4);
+        GridPane.setValignment(wobLogo, VPos.TOP);
+        GridPane.setHalignment(wobLogo, HPos.CENTER);
         dataOperator.getView().getRoot().getScene().getStylesheets().add(dataOperator.getMediaOp().getCss("menu"));
+        menuPane.add(wobLogo, 1, 0);
+        setSubView(SubView.MAIN_MENU);
     }
 
     void startMenu() {
@@ -143,23 +150,22 @@ public class MainMenuController {
     }
 
     private void setSubView(SubView subView) {
-        VBox subV;
+        menuPane.getChildren().remove(currentMenu);
         System.out.println("Changing Menu SubView to " + subView);
         switch (subView) {
             case OPTIONS:
-                subV = getOptions();
+                currentMenu = getOptions();
                 break;
             case CREDITS:
-                subV = getCredits();
+                currentMenu = getCredits();
                 break;
             case MAIN_MENU:
             default:
-                subV = getMainMenu();
+                currentMenu = getMainMenu();
         }
-        double prefWidth = dataOperator.getView().getScreenWidth() * 0.5;
-        subV.setMaxWidth(prefWidth);
-        menuPane.setCenter(subV);
-        BorderPane.setAlignment(subV, Pos.TOP_CENTER);
+        currentMenu.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.66);
+        currentMenu.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.66);
+        menuPane.add(currentMenu, 1, 1);
     }
 
     private VBox getMainMenu() {
@@ -182,9 +188,11 @@ public class MainMenuController {
 
     private VBox getOptions() {
         VBox optionsMenu = new VBox();
-        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.5, menuPane.getCenter().getLayoutBounds().getHeight()));
+        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.50));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
-        Label topTitle = createLabel("Set Things", "optLabel", calculateFontSize(60));
+        Label topTitle = createLabel("Set Things", "optLabel", getFontSize(30));
+        optionsMenu.getChildren().add(topTitle);
+        /*
         Label fsButton = createLabelButton("Fullscreen: " + dataOperator.getGOptions().isFullScreen(), calculateFontSize(40));
         fsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::switchFullscreen);
         Slider volumeSlider = createSlider(0, 100, dataOperator.getGOptions().getMusicVolume());
@@ -193,11 +201,10 @@ public class MainMenuController {
         volumeSlider.valueProperty().addListener(((observable, oldValue, newValue) -> changeMusicVolume(volumeSlider.getValue(), volumeLabel)));
         Label backButton = getBackButton();
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::saveOptions);
-        optionsMenu.getChildren().add(topTitle);
         optionsMenu.getChildren().add(fsButton);
         optionsMenu.getChildren().add(volumeLabel);
         optionsMenu.getChildren().add(volumeSlider);
-        optionsMenu.getChildren().add(backButton);
+        optionsMenu.getChildren().add(backButton);*/
         optionsMenu.setOpacity(0.7);
         return optionsMenu;
     }
@@ -207,23 +214,7 @@ public class MainMenuController {
     }
 
     private VBox getCredits() {
-        VBox creditsMenu = new VBox();
-        creditsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", menuPane.getCenter().getLayoutBounds().getWidth(), menuPane.getCenter().getLayoutBounds().getHeight()));
-        creditsMenu.setAlignment(Pos.TOP_CENTER);
-        Label topTitle = createLabel("Credits", "optLabel", calculateFontSize(60));
-        double creditsSize = calculateFontSize(40);
-        ArrayList<Label> creditsLines = new ArrayList<>();
-        creditsLines.add(createLabel("Game Creator: Marcin \"Shinobi\" Kawczynski", "optLabelMini", creditsSize));
-        creditsLines.add(createLabel("Music: Marcin \"Shinobi\" Kawczynski", "optLabelMini", creditsSize));
-        creditsLines.add(createLabel("Intro: Marcin \"Shinobi\" Kawczynski and Victoria Sarbiewska", "optLabelMini", creditsSize));
-        creditsLines.add(createLabel("GFX: Marcin \"Shinobi\" Kawczynski", "optLabelMini", creditsSize));
-        creditsLines.add(createLabel("Made as project for Kodilla Bootcamp", "optLabelMini", creditsSize));
-        creditsMenu.getChildren().add(topTitle);
-        creditsLines.forEach(creditLine -> creditsMenu.getChildren().add(creditLine));
-        creditsMenu.getChildren().add(getBackButton());
-        creditsMenu.setOpacity(0.7);
-        creditsMenu.prefHeight(dataOperator.getView().getScreenHeight() * 0.66);
-        return creditsMenu;
+        return new VBox();
     }
 
     private void switchFullscreen(Event e) {
