@@ -2,6 +2,7 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.GameModule;
+import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -19,6 +20,7 @@ public class ViewOperator {
     private double screenRatio;
     private DataOperator dataOperator;
     private Group root;
+    private Controller controller;
 
     public ViewOperator(Stage mainStage) {
         this.mainStage = mainStage;
@@ -30,6 +32,13 @@ public class ViewOperator {
     public void initiate() {
         mainStage.setTitle("Wrath Of Bahrott");
         reloadViewOptions();
+        mainStage.widthProperty().addListener((a, b, c) -> reDraw(controller));
+    }
+
+    private void reDraw(Controller controller) {
+        checkResolution();
+        controller.draw();
+        SaveLoadUtils.saveOptions(dataOperator.getGOptions(), "config");
     }
 
     public void setDataOperator(DataOperator dataOperator) {
@@ -53,12 +62,13 @@ public class ViewOperator {
         mainStage.setY(screenBounds.getMinY());
         screenBounds = Screen.getPrimary().getBounds();
         screenRatio = screenBounds.getWidth() / screenBounds.getHeight();
-        mainStage.minHeightProperty().bind(mainStage.widthProperty().divide(screenRatio));
-        mainStage.maxHeightProperty().bind(mainStage.widthProperty().divide(screenRatio));
     }
 
     private void reloadViewOptions() {
+        mainStage.setWidth(dataOperator.getGOptions().getScreenWidth());
         checkResolution();
+        mainStage.minHeightProperty().bind(mainStage.widthProperty().divide(screenRatio));
+        mainStage.maxHeightProperty().bind(mainStage.widthProperty().divide(screenRatio));
         mainStage.setMaximized(dataOperator.getGOptions().isMaximized());
         mainStage.setResizable(!dataOperator.getGOptions().isMaximized());
         mainStage.setFullScreen(dataOperator.getGOptions().isFullScreen());
@@ -82,35 +92,19 @@ public class ViewOperator {
         return new ViewData(loader, root);
     }
 
-    private void runSplashScreen() {
-        dataOperator.setModule(GameModule.SPLASH_SCREEN);
-        ViewData view = loadView("SplashScreen.fxml");
-        mainStage.getScene().setRoot(view.getRoot());
-        SplashScreenController controller = view.getLoader().getController();
-        controller.setDataOperator(dataOperator);
-        checkResolution();
-        controller.playVideo();
-    }
-
-    private void runMainMenu() {
-        dataOperator.setModule(GameModule.MAIN_MENU);
-        ViewData view = loadView("MainMenu.fxml");
-        mainStage.getScene().setRoot(view.getRoot());
-        MainMenuController controller = view.getLoader().getController();
-        controller.setDataOperator(dataOperator);
-        checkResolution();
-        controller.startMenu();
-    }
-
     public void run(GameModule module) {
-        switch (module) {
-            case SPLASH_SCREEN:
-                runSplashScreen();
-                break;
-            case MAIN_MENU:
-                runMainMenu();
-                break;
-        }
+        controller = getController(module);
+        controller.draw();
+        controller.start();
+    }
+
+    private Controller getController(GameModule gameModule) {
+        ViewData view = loadView(gameModule + ".fxml");
+        mainStage.getScene().setRoot(view.getRoot());
+        Controller controller = view.getLoader().getController();
+        controller.setDataOperator(dataOperator);
+        checkResolution();
+        return controller;
     }
 
     public static void error(String title, String info, String msg) {

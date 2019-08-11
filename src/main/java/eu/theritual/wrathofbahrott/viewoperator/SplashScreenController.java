@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 
 
 @Controller
-public class SplashScreenController {
+public class SplashScreenController implements eu.theritual.wrathofbahrott.viewoperator.Controller {
     private DataOperator dataOperator;
 
     @FXML
@@ -26,7 +26,10 @@ public class SplashScreenController {
         dataOperator.getView().run(GameModule.MAIN_MENU);
     }
 
-    void playVideo() {
+    public void draw() {
+    }
+
+    public void start() {
         dataOperator.getMediaOp().setVideo("intro");
         MediaPlayer player = dataOperator.getMediaOp().getVideoMediaPlayer();
         splashVideo.setMediaPlayer(player);
@@ -39,7 +42,7 @@ public class SplashScreenController {
         player.play();
     }
 
-    void setDataOperator(DataOperator dataOperator) {
+    public void setDataOperator(DataOperator dataOperator) {
         this.dataOperator = dataOperator;
     }
 }

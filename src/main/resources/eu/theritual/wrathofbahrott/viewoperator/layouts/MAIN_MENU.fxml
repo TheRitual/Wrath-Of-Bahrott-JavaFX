@@ -10,8 +10,8 @@
         <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="17" prefWidth="1.0"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints minHeight="1.0" percentHeight="33" prefHeight="1.0" vgrow="ALWAYS"/>
-        <RowConstraints minHeight="1.0" percentHeight="66" vgrow="ALWAYS"/>
+        <RowConstraints minHeight="1.0" percentHeight="20" prefHeight="1.0" vgrow="ALWAYS" fx:id="row1"/>
+        <RowConstraints minHeight="1.0" percentHeight="79" vgrow="ALWAYS" fx:id="row2"/>
         <RowConstraints minHeight="1.0" percentHeight="1" prefHeight="1.0" vgrow="ALWAYS"/>
     </rowConstraints>
         <MediaView fx:id="musicPlayer" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT"

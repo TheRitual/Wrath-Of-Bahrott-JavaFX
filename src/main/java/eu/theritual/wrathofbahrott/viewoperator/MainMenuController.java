@@ -15,6 +15,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
@@ -22,14 +23,18 @@ import javafx.scene.text.Font;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class MainMenuController {
+public class MainMenuController implements eu.theritual.wrathofbahrott.viewoperator.Controller {
     @FXML
     GridPane menuPane;
     @FXML
     MediaView musicPlayer;
+    @FXML
+    RowConstraints row1, row2;
 
     private VBox currentMenu;
+    private ImageView wobLogo;
     private DataOperator dataOperator;
+    private SubView subView = SubView.MAIN_MENU;
 
     @FXML
     private void exitAction(Event e) {
@@ -47,9 +52,7 @@ public class MainMenuController {
     private int getFontSize(double size) {
         size *= 0.2;
         double height = dataOperator.getView().getScreenHeight();
-        int result = (int) ((height % 10) * size);
-        System.out.println("FONT-SIZE: " + result);
-        return result;
+        return (int) ((height / 100) * size);
     }
 
     private void buttonHoverAction(Event e) {
@@ -76,7 +79,7 @@ public class MainMenuController {
         dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT);
     }
 
-    void setDataOperator(DataOperator dataOperator) {
+    public void setDataOperator(DataOperator dataOperator) {
         this.dataOperator = dataOperator;
     }
 
@@ -122,26 +125,27 @@ public class MainMenuController {
     }
 
     private Label getBackButton() {
-        Label backButton = createLabelButton("Back", getFontSize(1));
+        Label backButton = createLabelButton("Back", getFontSize(25));
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
         return backButton;
     }
 
-    private void drawMenu() {
+    public void draw() {
         menuPane.setAlignment(Pos.TOP_CENTER);
         menuPane.setPrefSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
         menuPane.setBackground(dataOperator.getMediaOp().getBackgroundImg("menuBackground", dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
-        ImageView wobLogo = dataOperator.getMediaOp().getImageView("wobLogo", dataOperator.getView().getScreenWidth() * 0.4, dataOperator.getView().getScreenHeight() * 0.4);
+        menuPane.getChildren().remove(wobLogo);
+        wobLogo = dataOperator.getMediaOp().getImageView("wobLogo", dataOperator.getView().getScreenWidth() * 0.4, dataOperator.getView().getScreenHeight() * 0.3);
+        row1.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.1);
         GridPane.setValignment(wobLogo, VPos.TOP);
         GridPane.setHalignment(wobLogo, HPos.CENTER);
         dataOperator.getView().getRoot().getScene().getStylesheets().add(dataOperator.getMediaOp().getCss("menu"));
         menuPane.add(wobLogo, 1, 0);
-        setSubView(SubView.MAIN_MENU);
+        setSubView(subView);
     }
 
-    void startMenu() {
+    public void start() {
         musicPlayer.setMediaPlayer(null);
-        drawMenu();
         dataOperator.getMediaOp().setMusic("menuMusic");
         musicPlayer.setMediaPlayer(dataOperator.getMediaOp().getMusicMediaPlayer());
         musicPlayer.getMediaPlayer().stop();
@@ -151,6 +155,7 @@ public class MainMenuController {
 
     private void setSubView(SubView subView) {
         menuPane.getChildren().remove(currentMenu);
+        this.subView = subView;
         System.out.println("Changing Menu SubView to " + subView);
         switch (subView) {
             case OPTIONS:
@@ -164,7 +169,7 @@ public class MainMenuController {
                 currentMenu = getMainMenu();
         }
         currentMenu.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.66);
-        currentMenu.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.66);
+        currentMenu.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.5);
         menuPane.add(currentMenu, 1, 1);
     }
 
@@ -188,23 +193,22 @@ public class MainMenuController {
 
     private VBox getOptions() {
         VBox optionsMenu = new VBox();
-        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.50));
+        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
-        Label topTitle = createLabel("Set Things", "optLabel", getFontSize(30));
-        optionsMenu.getChildren().add(topTitle);
-        /*
-        Label fsButton = createLabelButton("Fullscreen: " + dataOperator.getGOptions().isFullScreen(), calculateFontSize(40));
+        Label topTitle = createLabel("Set Things", "optLabel", getFontSize(35));
+        Label backButton = getBackButton();
+        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::saveOptions);
+        Label fsButton = createLabelButton("Fullscreen: " + dataOperator.getGOptions().isFullScreen(), getFontSize(20));
         fsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::switchFullscreen);
         Slider volumeSlider = createSlider(0, 100, dataOperator.getGOptions().getMusicVolume());
         volumeSlider.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.5);
-        Label volumeLabel = createLabel("Volume: " + (int) dataOperator.getGOptions().getMusicVolume() + "%", "optLabelMini", calculateFontSize(40));
+        Label volumeLabel = createLabel("Volume: " + (int) dataOperator.getGOptions().getMusicVolume() + "%", "optLabelMini", getFontSize(20));
         volumeSlider.valueProperty().addListener(((observable, oldValue, newValue) -> changeMusicVolume(volumeSlider.getValue(), volumeLabel)));
-        Label backButton = getBackButton();
-        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::saveOptions);
+        optionsMenu.getChildren().add(topTitle);
         optionsMenu.getChildren().add(fsButton);
         optionsMenu.getChildren().add(volumeLabel);
         optionsMenu.getChildren().add(volumeSlider);
-        optionsMenu.getChildren().add(backButton);*/
+        optionsMenu.getChildren().add(backButton);
         optionsMenu.setOpacity(0.7);
         return optionsMenu;
     }

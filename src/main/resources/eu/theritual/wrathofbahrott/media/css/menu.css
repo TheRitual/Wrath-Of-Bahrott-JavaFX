@@ -1,17 +1,17 @@
 .optLabelBtn.label .text {
     -fx-fill: rgb(59, 158, 133);
     -fx-stroke: black;
-    -fx-stroke-width: 2px;
+    -fx-stroke-width: 1px;
 }
 
 .optLabel.label .text {
     -fx-fill: rgb(4, 127, 158);
     -fx-stroke: black;
-    -fx-stroke-width: 3px;
+    -fx-stroke-width: 2px;
 }
 
 .optLabelMini.label .text {
     -fx-fill: rgb(4, 127, 158);
     -fx-stroke: rgb(50, 50, 50);
-    -fx-stroke-width: 2px;
+    -fx-stroke-width: 1px;
 }
