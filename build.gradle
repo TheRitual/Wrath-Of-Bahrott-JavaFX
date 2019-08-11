@@ -13,7 +13,7 @@ apply plugin: 'io.spring.dependency-management'
 
 
 group 'eu.theritual.wrathofbahrott'
-version '0.4-ALPHA'
+version '0.5-ALPHA'
 
 sourceCompatibility = 1.8
 

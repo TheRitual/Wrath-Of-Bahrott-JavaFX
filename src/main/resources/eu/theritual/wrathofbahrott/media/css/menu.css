@@ -10,8 +10,24 @@
     -fx-stroke-width: 2px;
 }
 
+.creditsLabel.label .text {
+    -fx-fill: rgb(0, 130, 170);
+    -fx-stroke: black;
+    -fx-stroke-width: 1px;
+}
+
 .optLabelMini.label .text {
     -fx-fill: rgb(4, 127, 158);
     -fx-stroke: rgb(50, 50, 50);
     -fx-stroke-width: 1px;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    -fx-alignment: top-center;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-alignment: top-center;
 }

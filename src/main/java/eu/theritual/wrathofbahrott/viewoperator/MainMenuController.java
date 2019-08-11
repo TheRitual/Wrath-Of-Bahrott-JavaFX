@@ -11,16 +11,20 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
 
 @Controller
 public class MainMenuController implements eu.theritual.wrathofbahrott.viewoperator.Controller {
@@ -52,7 +56,7 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     private int getFontSize(double size) {
         size *= 0.2;
         double height = dataOperator.getView().getScreenHeight();
-        return (int) ((height / 100) * size);
+        return (int) ((height / 72) * size);
     }
 
     private void buttonHoverAction(Event e) {
@@ -104,7 +108,11 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     }
 
     private Label createLabel(String labelTxt, String styleClass, double size) {
-        Font fnt = dataOperator.getMediaOp().getFont("vermin", getFontSize(size));
+        return createLabel(labelTxt, styleClass, size, "vermin");
+    }
+
+    private Label createLabel(String labelTxt, String styleClass, double size, String fontName) {
+        Font fnt = dataOperator.getMediaOp().getFont(fontName, getFontSize(size));
         Label btn = new Label(labelTxt);
         btn.setFont(fnt);
         btn.getStyleClass().add(styleClass);
@@ -125,7 +133,7 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     }
 
     private Label getBackButton() {
-        Label backButton = createLabelButton("Back", getFontSize(25));
+        Label backButton = createLabelButton("Back", getFontSize(15));
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
         return backButton;
     }
@@ -155,8 +163,10 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
 
     private void setSubView(SubView subView) {
         menuPane.getChildren().remove(currentMenu);
-        this.subView = subView;
-        System.out.println("Changing Menu SubView to " + subView);
+        if (this.subView != subView) {
+            this.subView = subView;
+            System.out.println("Changing Menu SubView to " + subView);
+        }
         switch (subView) {
             case OPTIONS:
                 currentMenu = getOptions();
@@ -169,7 +179,7 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
                 currentMenu = getMainMenu();
         }
         currentMenu.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.66);
-        currentMenu.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.5);
+        currentMenu.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.6);
         menuPane.add(currentMenu, 1, 1);
     }
 
@@ -193,24 +203,23 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
 
     private VBox getOptions() {
         VBox optionsMenu = new VBox();
+        VBox innerMenu = new VBox();
         optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
-        Label topTitle = createLabel("Set Things", "optLabel", getFontSize(35));
+        Label topTitle = createLabel("Set Things", "optLabel", getFontSize(15));
         Label backButton = getBackButton();
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::saveOptions);
-        Label fsButton = createLabelButton("Fullscreen: " + dataOperator.getGOptions().isFullScreen(), getFontSize(20));
+        Label fsButton = createLabelButton("Fullscreen: " + dataOperator.getGOptions().isFullScreen(), getFontSize(12));
         fsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::switchFullscreen);
         Slider volumeSlider = createSlider(0, 100, dataOperator.getGOptions().getMusicVolume());
-        volumeSlider.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.5);
-        Label volumeLabel = createLabel("Volume: " + (int) dataOperator.getGOptions().getMusicVolume() + "%", "optLabelMini", getFontSize(20));
+        volumeSlider.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.6);
+        Label volumeLabel = createLabel("Volume: " + (int) dataOperator.getGOptions().getMusicVolume() + "%", "optLabelMini", getFontSize(12));
         volumeSlider.valueProperty().addListener(((observable, oldValue, newValue) -> changeMusicVolume(volumeSlider.getValue(), volumeLabel)));
-        optionsMenu.getChildren().add(topTitle);
-        optionsMenu.getChildren().add(fsButton);
-        optionsMenu.getChildren().add(volumeLabel);
-        optionsMenu.getChildren().add(volumeSlider);
-        optionsMenu.getChildren().add(backButton);
-        optionsMenu.setOpacity(0.7);
-        return optionsMenu;
+        innerMenu.setAlignment(Pos.TOP_CENTER);
+        innerMenu.getChildren().add(fsButton);
+        innerMenu.getChildren().add(volumeLabel);
+        innerMenu.getChildren().add(volumeSlider);
+        return getvBox(optionsMenu, innerMenu, topTitle, backButton);
     }
 
     private void saveOptions(Event e) {
@@ -218,7 +227,40 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     }
 
     private VBox getCredits() {
-        return new VBox();
+        VBox credits = new VBox();
+        VBox innerMenu = new VBox();
+        credits.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
+        credits.setAlignment(Pos.TOP_CENTER);
+        Label topTitle = createLabel("Credits", "optLabel", getFontSize(15));
+        Label backButton = getBackButton();
+        innerMenu.setAlignment(Pos.TOP_CENTER);
+        ArrayList<Label> creditsList = new ArrayList<>();
+        creditsList.add(createLabel("Game Creator: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(createLabel("Intro: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(createLabel("Intro Voice: Victoria Sarbiewska", "creditsLabel", 11, "fipps"));
+        creditsList.add(createLabel("Music: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(createLabel("Design: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(createLabel("Graphics: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(createLabel("Game Idea: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(createLabel("Ths game is Kodilla Course Project", "creditsLabel", 11, "fipps"));
+        innerMenu.getChildren().addAll(creditsList);
+        return getvBox(credits, innerMenu, topTitle, backButton);
+    }
+
+    private VBox getvBox(VBox credits, VBox innerMenu, Label topTitle, Label backButton) {
+        StackPane stackPane = new StackPane();
+        stackPane.setAlignment(Pos.TOP_CENTER);
+        stackPane.getChildren().add(innerMenu);
+        ScrollPane scroll = new ScrollPane();
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scroll.setContent(stackPane);
+        scroll.setStyle("-fx-background-color: transparent;");
+        credits.getChildren().add(topTitle);
+        credits.getChildren().add(scroll);
+        credits.getChildren().add(backButton);
+        stackPane.setPrefWidth(currentMenu.getWidth());
+        credits.setOpacity(0.7);
+        return credits;
     }
 
     private void switchFullscreen(Event e) {

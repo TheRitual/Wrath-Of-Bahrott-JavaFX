@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -36,6 +35,9 @@ public class ViewOperator {
     }
 
     private void reDraw(Controller controller) {
+        if (mainStage.getWidth() < 1000) {
+            mainStage.setWidth(1000);
+        }
         checkResolution();
         controller.draw();
         SaveLoadUtils.saveOptions(dataOperator.getGOptions(), "config");
@@ -87,7 +89,7 @@ public class ViewOperator {
             loader.setControllerFactory(dataOperator.getSpringContext()::getBean);
             root.getChildren().add(loader.load());
         } catch (Exception e) {
-            error("EXCEPTION HAPPEND!", "Can't load fxml file ", e.toString() + "\n" + e.getCause());
+            Actions.error("EXCEPTION HAPPEND!", "Can't load fxml file ", e.toString() + "\n" + e.getCause());
         }
         return new ViewData(loader, root);
     }
@@ -105,17 +107,6 @@ public class ViewOperator {
         controller.setDataOperator(dataOperator);
         checkResolution();
         return controller;
-    }
-
-    public static void error(String title, String info, String msg) {
-        System.out.println(title + " -> " + info + "\n\t" + msg);
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(info);
-        alert.setContentText(msg);
-        if (!alert.isShowing()) {
-            alert.show();
-        }
     }
 
     double getScreenWidth() {
