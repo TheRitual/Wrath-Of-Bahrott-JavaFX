@@ -1,6 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
+import eu.theritual.wrathofbahrott.dataoperator.GameModule;
 import eu.theritual.wrathofbahrott.dataoperator.SubView;
 import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.application.Platform;
@@ -189,7 +190,7 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         ImageView exitButton = createMenuButton("exit");
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::exitAction);
         ImageView startButton = createMenuButton("start");
-        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> System.out.println("STARTING GAME!"));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> startGame());
         ImageView optionsButton = createMenuButton("options");
         optionsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.OPTIONS));
         ImageView creditsButton = createMenuButton("credits");
@@ -219,7 +220,7 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         innerMenu.getChildren().add(fsButton);
         innerMenu.getChildren().add(volumeLabel);
         innerMenu.getChildren().add(volumeSlider);
-        return getvBox(optionsMenu, innerMenu, topTitle, backButton);
+        return getMenuBox(optionsMenu, innerMenu, topTitle, backButton);
     }
 
     private void saveOptions(Event e) {
@@ -244,12 +245,16 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         creditsList.add(createLabel("Game Idea: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
         creditsList.add(createLabel("Ths game is Kodilla Course Project", "creditsLabel", 11, "fipps"));
         innerMenu.getChildren().addAll(creditsList);
-        return getvBox(credits, innerMenu, topTitle, backButton);
+        innerMenu.setMinWidth(dataOperator.getView().getScreenWidth() * 0.6);
+        return getMenuBox(credits, innerMenu, topTitle, backButton);
     }
 
-    private VBox getvBox(VBox credits, VBox innerMenu, Label topTitle, Label backButton) {
+    private VBox getMenuBox(VBox credits, VBox innerMenu, Label topTitle, Label backButton) {
         StackPane stackPane = new StackPane();
+        stackPane.setPrefWidth(currentMenu.getWidth());
+        stackPane.setMinWidth(dataOperator.getView().getScreenWidth() * 0.65);
         stackPane.setAlignment(Pos.TOP_CENTER);
+        innerMenu.setFillWidth(true);
         stackPane.getChildren().add(innerMenu);
         ScrollPane scroll = new ScrollPane();
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -258,8 +263,8 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         credits.getChildren().add(topTitle);
         credits.getChildren().add(scroll);
         credits.getChildren().add(backButton);
-        stackPane.setPrefWidth(currentMenu.getWidth());
         credits.setOpacity(0.7);
+        credits.setPrefWidth(dataOperator.getView().getScreenWidth() * 0.6);
         return credits;
     }
 
@@ -276,5 +281,11 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         dataOperator.getGOptions().setMusicVolume(volume);
         musicPlayer.getMediaPlayer().setVolume(volume / 100);
         updateLabel.setText("Volume: " + vol + "%");
+    }
+
+    private void startGame() {
+        System.out.println("Game is starting!");
+        musicPlayer.getMediaPlayer().dispose();
+        dataOperator.getView().run(GameModule.GAME);
     }
 }

@@ -43,6 +43,7 @@ public class MediaOperator {
         videos.put("intro","videos/intro.mp4");
         //IMAGES
         images.put("menuBackground", "gfx/menuBackground.png");
+        images.put("gameBackground", "gfx/cityBackground.png");
         images.put("wobLogo", "gfx/WrathOfBohrottLogo2.png");
         images.put("exitOn", "gfx/exitOn.png");
         images.put("exitOut", "gfx/exitOut.png");

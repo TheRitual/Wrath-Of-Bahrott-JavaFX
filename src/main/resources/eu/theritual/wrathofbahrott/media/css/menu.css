@@ -31,3 +31,14 @@
     -fx-background-color: transparent;
     -fx-alignment: top-center;
 }
+
+.slider {
+    -fx-control-inner-background: rgba(149, 36, 231, 0.27);
+
+}
+
+.slider .thumb {
+    -fx-background-image: url("../gfx/eyeSlider.png");
+    -fx-padding: 16;
+    -fx-background-color: transparent;
+}

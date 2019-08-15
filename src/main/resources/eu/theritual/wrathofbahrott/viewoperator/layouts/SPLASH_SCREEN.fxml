@@ -19,8 +19,8 @@
         <RowConstraints minHeight="1.0" percentHeight="98" vgrow="ALWAYS"/>
         <RowConstraints minHeight="1.0" percentHeight="1" prefHeight="1.0" vgrow="ALWAYS"/>
     </rowConstraints>
-    <MediaView fx:id="splashVideo" onError="#skip" onKeyReleased="#skip"
-               onMouseClicked="#skip" GridPane.columnIndex="1" GridPane.rowIndex="1">
+    <MediaView fx:id="splashVideo"
+               GridPane.columnIndex="1" GridPane.rowIndex="1">
         <cursor>
             <Cursor fx:constant="DISAPPEAR" />
         </cursor>
