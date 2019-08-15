@@ -12,6 +12,6 @@
     <rowConstraints>
         <RowConstraints minHeight="1.0" percentHeight="100" vgrow="ALWAYS"/>
     </rowConstraints>
-    <MediaView fx:id="musicPlayer" fitHeight="1.0" fitWidth="1.0" nodeOrientation="INHERIT" GridPane.columnIndex="0"/>
-    <Canvas height="200.0" width="200.0" GridPane.columnIndex="1" fx:id="gameCanvas"/>
+    <MediaView fx:id="musicPlayer" nodeOrientation="INHERIT" GridPane.columnIndex="0"/>
+    <Canvas GridPane.columnIndex="1" fx:id="gameCanvas"/>
 </GridPane>
