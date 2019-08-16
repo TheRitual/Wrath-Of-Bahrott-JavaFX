@@ -111,8 +111,7 @@ public final class MapSquare implements Drawable {
             }
         }
     }
-
-
+    
     private int getFill() {
         int randomTile = gen.nextInt(fillArray.size());
         return fillArray.get(randomTile);

@@ -15,25 +15,32 @@ public final class GameBoardMap {
         makeEmpty();
     }
 
-    public void draw() {
-        /*boolean[][] redraw = new boolean[size][size];
-        for (int l = 5; l >= 0; l--) {
-            for (int y = 0; y < size; y++) {
-                for (int x = 0; x < size; x++) {
+    public byte[][] getFirstVisibleTileMap() {
+        byte[][] firstVisibleTileMap = new byte[size][size];
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                for (int l = 4; l >= 0; l--) {
                     int tileId = gameMap[x][y][l];
-                    if(tileId != 0) {
-                        gc.drawImage(TileOperator.translateTileId(tileId), x * 16, y * 16);
+                    if (!TileOperator.getTile(tileId).isTransparent()) {
+                        firstVisibleTileMap[x][y] = (byte) l;
+                        break;
                     }
                 }
             }
-        }*/
+        }
+        return firstVisibleTileMap;
+    }
 
-        for (int l = 0; l < 5; l++) {
-            for (int y = 0; y < size; y++) {
-                for (int x = 0; x < size; x++) {
+    public void draw() {
+        byte[][] visibleTileMap = getFirstVisibleTileMap();
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                for (int l = visibleTileMap[x][y]; l < 5; l++) {
                     int tileId = gameMap[x][y][l];
                     if (tileId != 0) {
-                        gc.drawImage(TileOperator.translateTileId(tileId), x * 16, y * 16);
+                        Tile tile = TileOperator.getTile(tileId);
+                        //System.out.println("x(" + x + ")" +  "y(" + y + ")" +  "l(" + l + ")" + "[" + tile.getName() + "]" + tile.getSize() + "<" + x * 16 + "," +  y * 16 +">");
+                        gc.drawImage(TileOperator.translateTileId(tileId, x, y), x * 16, y * 16);
                     }
                 }
             }

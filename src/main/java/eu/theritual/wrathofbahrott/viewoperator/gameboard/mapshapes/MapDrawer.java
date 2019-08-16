@@ -1,21 +1,28 @@
 package eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes;
 
+import eu.theritual.wrathofbahrott.media.TileOperator;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
+import eu.theritual.wrathofbahrott.viewoperator.gameboard.Tile;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShapeDrawer {
+public class MapDrawer {
     private GameBoardMap gbm;
-    private Map<MapShape, Drawable> shapeMap;
+    private Map<MapElement, Drawable> shapeMap;
+    private Map<MapElement, Tile> singularTileMap;
 
-    public ShapeDrawer(GameBoardMap gameBoardMap) {
+    public MapDrawer(GameBoardMap gameBoardMap) {
         gbm = gameBoardMap;
         shapeMap = new HashMap<>();
+        singularTileMap = new HashMap<>();
         setUpTiles();
     }
 
     private void setUpTiles() {
+        singularTileMap.put(MapElement.STONE_FLOOR, TileOperator.getTile(54));
+
+
         MapSquare grass1square = new MapSquare(1, 2, 3, 4, 5, 6, 7, 8, 9);
         grass1square.addFill(10);
         grass1square.addFill(11);
@@ -37,19 +44,21 @@ public class ShapeDrawer {
         MapSquare sand3 = new MapSquare(52);
         sand3.addFill(53);
         sand3.addFill(54);
+        MapSquare stoneFloor = new MapSquare(54);
 
-        shapeMap.put(MapShape.GRASS1_SQUARE, grass1square);
-        shapeMap.put(MapShape.GRASS1_HOLE, grass1hole);
-        shapeMap.put(MapShape.GRASS2_SQUARE, grass2square);
-        shapeMap.put(MapShape.GRASS2_HOLE, grass2hole);
-        shapeMap.put(MapShape.GRASS3_SQUARE, grass3square);
-        shapeMap.put(MapShape.GRASS3_HOLE, grass3hole);
-        shapeMap.put(MapShape.SAND1, sand1);
-        shapeMap.put(MapShape.SAND2, sand2);
-        shapeMap.put(MapShape.SAND3, sand3);
+        shapeMap.put(MapElement.GRASS1_SQUARE, grass1square);
+        shapeMap.put(MapElement.GRASS1_HOLE, grass1hole);
+        shapeMap.put(MapElement.GRASS2_SQUARE, grass2square);
+        shapeMap.put(MapElement.GRASS2_HOLE, grass2hole);
+        shapeMap.put(MapElement.GRASS3_SQUARE, grass3square);
+        shapeMap.put(MapElement.GRASS3_HOLE, grass3hole);
+        shapeMap.put(MapElement.SAND1, sand1);
+        shapeMap.put(MapElement.SAND2, sand2);
+        shapeMap.put(MapElement.SAND3, sand3);
+        shapeMap.put(MapElement.STONE_FLOOR, stoneFloor);
     }
 
-    public void draw(MapShape shape, int startX, int startY, int endX, int endY, int layer) {
+    public void drawShape(MapElement shape, int startX, int startY, int endX, int endY, int layer) {
         Drawable figure = shapeMap.get(shape);
         switch (shape) {
             case GRASS1_SQUARE:
@@ -58,6 +67,7 @@ public class ShapeDrawer {
             case GRASS2_HOLE:
             case GRASS3_SQUARE:
             case GRASS3_HOLE:
+            case STONE_FLOOR:
                 figure.draw(gbm, startX, startY, endX, endY, layer);
                 break;
             case SAND1:
@@ -66,5 +76,9 @@ public class ShapeDrawer {
                 figure.drawAllRandomFill(gbm, startX, startY, endX, endY, layer);
                 break;
         }
+    }
+
+    public void drawTile(MapElement tile, int x, int y, int layer) {
+        gbm.setGameField(x, y, layer, singularTileMap.get(tile).getId());
     }
 }

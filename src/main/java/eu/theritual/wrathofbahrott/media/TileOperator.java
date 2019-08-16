@@ -3,6 +3,7 @@ package eu.theritual.wrathofbahrott.media;
 import eu.theritual.wrathofbahrott.viewoperator.Actions;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.Tile;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 public final class TileOperator {
 
-    private static Image get16xTile(String name) {
+    private static Image getTileImage(String name, double width, double height) {
         String tile;
         try {
             tile = TileOperator.class.getResource("gfx/tiles/" + name + ".png").toURI().toURL().toString();
@@ -23,10 +24,14 @@ public final class TileOperator {
             tile = "";
             Actions.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
         }
-        return new Image(tile, 16, 16, true, false);
+        return new Image(tile, width, height, true, false);
     }
 
-    public static Image translateTileId(int id) {
+    private static Image getTileImage(String name) {
+        return getTileImage(name, 16, 16);
+    }
+
+    public static WritableImage translateTileId(int id, int x, int y) {
         Tile tile = getTileList().stream().filter(t -> t.getId() == id).findFirst().orElse(null);
         if (tile == null) {
             try {
@@ -35,11 +40,25 @@ public final class TileOperator {
                 System.out.println("ERROR " + e.toString());
             }
         }
-        return get16xTile(Objects.requireNonNull(tile).getName());
+        Tile til = getTile(id);
+        Image img = getTileImage(Objects.requireNonNull(tile).getName(), til.getSize(), til.getSize());
+        int startx = x * 16 % til.getSize();
+        int starty = y * 16 % til.getSize();
+        WritableImage croppedImage = new WritableImage(img.getPixelReader(), startx, starty, 16, 16);
+        return croppedImage;
+    }
+
+    public static WritableImage translateTileId(int id) {
+        return translateTileId(id, 0, 0);
+    }
+
+    public static Tile getTile(int id) {
+        return getTileList().stream().filter(t -> t.getId() == id).findFirst().orElse(null);
     }
 
     public static List<Tile> getTileList() {
         List<Tile> tileList = new ArrayList<>();
+        tileList.add(new Tile(0, "empty", true));
         tileList.add(new Tile(1, "grass1tlc", true));
         tileList.add(new Tile(2, "grass1t", true));
         tileList.add(new Tile(3, "grass1trc", true));
@@ -93,6 +112,7 @@ public final class TileOperator {
         tileList.add(new Tile(51, "sand2c", false));
         tileList.add(new Tile(52, "sand3a", false));
         tileList.add(new Tile(53, "sand3b", false));
+        tileList.add(new Tile(54, "stonefloor", false, 32));
         return tileList;
     }
 }

@@ -2,8 +2,8 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
-import eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes.MapShape;
-import eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes.ShapeDrawer;
+import eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes.MapDrawer;
+import eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes.MapElement;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -38,13 +38,14 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
     }
 
     public void draw() {
-        gamePane.setPrefSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
+        gamePane.setMinSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
         gamePane.setPadding(new Insets(10, 10, 10, 10));
         gamePane.setAlignment(Pos.TOP_CENTER);
         gamePane.setBackground(dataOperator.getMediaOp().getBackgroundImg("gameBackground", dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
         canvasSize = dataOperator.getView().getScreenWidth() * 0.52;
         gameCanvas.setWidth(canvasSize);
         gameCanvas.setHeight(canvasSize);
+        System.out.println(gameCanvas.getWidth());
         GridPane.setValignment(gameCanvas, VPos.TOP);
         GridPane.setHalignment(gameCanvas, HPos.RIGHT);
         gc = gameCanvas.getGraphicsContext2D();
@@ -56,12 +57,9 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
     }
 
     private void drawBoard() {
-        ShapeDrawer drawer = new ShapeDrawer(gbm);
-        drawer.draw(MapShape.GRASS3_SQUARE, 0, 0, gbm.getSize() - 1, gbm.getSize() - 1, 0);
-        drawer.draw(MapShape.GRASS2_SQUARE, 5, 5, gbm.getSize() - 5, gbm.getSize() - 5, 2);
-        drawer.draw(MapShape.GRASS2_HOLE, 10, 10, gbm.getSize() - 10, gbm.getSize() - 10, 2);
-        drawer.draw(MapShape.SAND2, 7, 7, gbm.getSize() - 7, gbm.getSize() - 7, 1);
-        drawer.draw(MapShape.GRASS1_SQUARE, gbm.getSize() / 2, 0, gbm.getSize() - 1, gbm.getSize() - 1, 3);
+        MapDrawer drawer = new MapDrawer(gbm);
+        drawer.drawShape(MapElement.STONE_FLOOR, 0, 0, gbm.getSize() - 1, gbm.getSize() - 1, 0);
+        drawer.drawShape(MapElement.GRASS3_SQUARE, 2, 2, gbm.getSize() - 3, gbm.getSize() - 3, 0);
 
 
         gbm.draw();
