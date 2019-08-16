@@ -15,7 +15,7 @@ public final class GameBoardMap {
         makeEmpty();
     }
 
-    public byte[][] getFirstVisibleTileMap() {
+    private byte[][] getFirstVisibleTileMap() {
         byte[][] firstVisibleTileMap = new byte[size][size];
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
@@ -38,8 +38,6 @@ public final class GameBoardMap {
                 for (int l = visibleTileMap[x][y]; l < 5; l++) {
                     int tileId = gameMap[x][y][l];
                     if (tileId != 0) {
-                        Tile tile = TileOperator.getTile(tileId);
-                        //System.out.println("x(" + x + ")" +  "y(" + y + ")" +  "l(" + l + ")" + "[" + tile.getName() + "]" + tile.getSize() + "<" + x * 16 + "," +  y * 16 +">");
                         gc.drawImage(TileOperator.translateTileId(tileId, x, y), x * 16, y * 16);
                     }
                 }

@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -30,6 +31,7 @@ public class ViewOperator {
 
     public void initiate() {
         mainStage.setTitle("Wrath Of Bahrott");
+        mainStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         reloadViewOptions();
         mainStage.widthProperty().addListener((a, b, c) -> reDraw(controller));
     }

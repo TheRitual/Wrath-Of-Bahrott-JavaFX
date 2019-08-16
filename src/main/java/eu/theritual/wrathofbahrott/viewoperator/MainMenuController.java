@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -21,8 +20,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
@@ -40,103 +37,18 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     private ImageView wobLogo;
     private DataOperator dataOperator;
     private SubView subView = SubView.MAIN_MENU;
+    private ElementGenerator generator;
 
     @FXML
     private void exitAction(Event e) {
         Platform.exit();
     }
 
-    private double calculateButtonWidth() {
-        return dataOperator.getView().getScreenWidth() * 0.1925;
-    }
 
-    private double calculateButtonHeight() {
-        return dataOperator.getView().getScreenHeight() * 0.13;
-    }
-
-    private int getFontSize(double size) {
-        size *= 0.2;
-        double height = dataOperator.getView().getScreenHeight();
-        return (int) ((height / 72) * size);
-    }
-
-    private void buttonHoverAction(Event e) {
-        ImageView img = (ImageView) e.getSource();
-        img.setImage(dataOperator.getMediaOp().getImage(img.getId() + "On", calculateButtonWidth(), calculateButtonHeight()));
-        dataOperator.getView().getRoot().getScene().setCursor(Cursor.HAND);
-    }
-
-    private void buttonUnHoverAction(Event e) {
-        ImageView img = (ImageView) e.getSource();
-        img.setImage(dataOperator.getMediaOp().getImage(img.getId() + "Out", calculateButtonWidth(), calculateButtonHeight()));
-        dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT);
-    }
-
-    private void labelButtonHoverAction(Event e) {
-        Label btn = (Label) e.getSource();
-        btn.setTextFill(Color.rgb(145, 59, 158));
-        dataOperator.getView().getRoot().getScene().setCursor(Cursor.HAND);
-    }
-
-    private void labelButtonUnHoverAction(Event e) {
-        Label btn = (Label) e.getSource();
-        btn.setTextFill(Color.rgb(59, 158, 133));
-        dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT);
-    }
 
     public void setDataOperator(DataOperator dataOperator) {
         this.dataOperator = dataOperator;
-    }
-
-    private ImageView createMenuButton(String gfxName) {
-        ImageView btn = dataOperator.getMediaOp().getImageView(gfxName + "Out", calculateButtonWidth(), calculateButtonHeight());
-        btn.setId(gfxName);
-        btn.setOnMouseEntered(this::buttonHoverAction);
-        btn.setOnMouseExited(this::buttonUnHoverAction);
-        return btn;
-    }
-
-    private Label createLabelButton(String labelTxt, double size) {
-        Font fnt = dataOperator.getMediaOp().getFont("vermin", getFontSize(size));
-        Label btn = new Label(labelTxt);
-        btn.setFont(fnt);
-        btn.setId(labelTxt);
-        btn.getStyleClass().add("optLabelBtn");
-        btn.setTextFill(Color.rgb(59, 158, 133));
-        btn.setOnMouseEntered(this::labelButtonHoverAction);
-        btn.setOnMouseExited(this::labelButtonUnHoverAction);
-        return btn;
-    }
-
-    private Label createLabel(String labelTxt, String styleClass, double size) {
-        return createLabel(labelTxt, styleClass, size, "vermin");
-    }
-
-    private Label createLabel(String labelTxt, String styleClass, double size, String fontName) {
-        Font fnt = dataOperator.getMediaOp().getFont(fontName, getFontSize(size));
-        Label btn = new Label(labelTxt);
-        btn.setFont(fnt);
-        btn.getStyleClass().add(styleClass);
-        btn.setTextFill(Color.rgb(4, 127, 158));
-        return btn;
-    }
-
-    private Slider createSlider(double min, double max, double value) {
-        Slider slider = new Slider();
-        slider.setMax(max);
-        slider.setMin(min);
-        slider.setValue(value);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(50);
-        slider.setMinorTickCount(5);
-        slider.setBlockIncrement(10);
-        return slider;
-    }
-
-    private Label getBackButton() {
-        Label backButton = createLabelButton("Back", getFontSize(15));
-        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
-        return backButton;
+        this.generator = new ElementGenerator(dataOperator);
     }
 
     public void draw() {
@@ -187,13 +99,13 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     private VBox getMainMenu() {
         VBox mainMenu = new VBox();
         mainMenu.setAlignment(Pos.TOP_CENTER);
-        ImageView exitButton = createMenuButton("exit");
+        ImageView exitButton = generator.createMenuButton("exit");
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::exitAction);
-        ImageView startButton = createMenuButton("start");
+        ImageView startButton = generator.createMenuButton("start");
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> startGame());
-        ImageView optionsButton = createMenuButton("options");
+        ImageView optionsButton = generator.createMenuButton("options");
         optionsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.OPTIONS));
-        ImageView creditsButton = createMenuButton("credits");
+        ImageView creditsButton = generator.createMenuButton("credits");
         creditsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.CREDITS));
         mainMenu.getChildren().add(startButton);
         mainMenu.getChildren().add(optionsButton);
@@ -207,14 +119,15 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         VBox innerMenu = new VBox();
         optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
-        Label topTitle = createLabel("Set Things", "optLabel", getFontSize(15));
-        Label backButton = getBackButton();
+        Label topTitle = generator.createLabel("Set Things", "optLabel", generator.getFontSize(15));
+        Label backButton = generator.createLabelButton("Back", generator.getFontSize(12));
+        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::saveOptions);
-        Label fsButton = createLabelButton("Fullscreen: " + dataOperator.getGOptions().isFullScreen(), getFontSize(12));
+        Label fsButton = generator.createLabelButton("Fullscreen: " + dataOperator.getGOptions().isFullScreen(), generator.getFontSize(12));
         fsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::switchFullscreen);
-        Slider volumeSlider = createSlider(0, 100, dataOperator.getGOptions().getMusicVolume());
+        Slider volumeSlider = generator.createSlider(0, 100, dataOperator.getGOptions().getMusicVolume());
         volumeSlider.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.6);
-        Label volumeLabel = createLabel("Volume: " + (int) dataOperator.getGOptions().getMusicVolume() + "%", "optLabelMini", getFontSize(12));
+        Label volumeLabel = generator.createLabel("Volume: " + (int) dataOperator.getGOptions().getMusicVolume() + "%", "optLabelMini", generator.getFontSize(12));
         volumeSlider.valueProperty().addListener(((observable, oldValue, newValue) -> changeMusicVolume(volumeSlider.getValue(), volumeLabel)));
         innerMenu.setAlignment(Pos.TOP_CENTER);
         innerMenu.getChildren().add(fsButton);
@@ -232,18 +145,19 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         VBox innerMenu = new VBox();
         credits.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
         credits.setAlignment(Pos.TOP_CENTER);
-        Label topTitle = createLabel("Credits", "optLabel", getFontSize(15));
-        Label backButton = getBackButton();
+        Label topTitle = generator.createLabel("Credits", "optLabel", generator.getFontSize(15));
+        Label backButton = generator.createLabelButton("Back", generator.getFontSize(12));
+        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
         innerMenu.setAlignment(Pos.TOP_CENTER);
         ArrayList<Label> creditsList = new ArrayList<>();
-        creditsList.add(createLabel("Game Creator: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(createLabel("Intro: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(createLabel("Intro Voice: Victoria Sarbiewska", "creditsLabel", 11, "fipps"));
-        creditsList.add(createLabel("Music: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(createLabel("Design: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(createLabel("Graphics: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(createLabel("Game Idea: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(createLabel("Ths game is Kodilla Course Project", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Game Creator: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Intro: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Intro Voice: Victoria Sarbiewska", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Music: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Design: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Graphics: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Game Idea: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Ths game is Kodilla Course Project", "creditsLabel", 11, "fipps"));
         innerMenu.getChildren().addAll(creditsList);
         innerMenu.setMinWidth(dataOperator.getView().getScreenWidth() * 0.6);
         return getMenuBox(credits, innerMenu, topTitle, backButton);
