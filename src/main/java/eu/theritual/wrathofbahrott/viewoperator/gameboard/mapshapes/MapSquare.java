@@ -8,33 +8,74 @@ import java.util.Random;
 
 public final class MapSquare implements Drawable {
     private final Random gen;
-    private final int topLeftCorner;
-    private final int top;
-    private final int topRightCorner;
-    private final int left;
-    private final int right;
-    private final int bottomLeftCorner;
-    private final int bottom;
-    private final int bottomRightCorner;
+    private List<Integer> topLeftCorner;
+    private List<Integer> top;
+    private List<Integer> topRightCorner;
+    private List<Integer> left;
+    private List<Integer> right;
+    private List<Integer> bottomLeftCorner;
+    private List<Integer> bottom;
+    private List<Integer> bottomRightCorner;
     private List<Integer> fillArray;
 
     MapSquare(int topLeftCorner, int top, int topRightCorner, int left, int fill, int right, int bottomLeftCorner, int bottom, int bottomRightCorner) {
+        this.topLeftCorner = new ArrayList<>();
+        this.top = new ArrayList<>();
+        this.topRightCorner = new ArrayList<>();
+        this.left = new ArrayList<>();
+        this.right = new ArrayList<>();
+        this.bottomLeftCorner = new ArrayList<>();
+        this.bottom = new ArrayList<>();
+        this.bottomRightCorner = new ArrayList<>();
         this.fillArray = new ArrayList<>();
         this.gen = new Random();
-        this.topLeftCorner = topLeftCorner;
-        this.top = top;
-        this.topRightCorner = topRightCorner;
-        this.left = left;
+        this.topLeftCorner.add(topLeftCorner);
+        this.top.add(top);
+        this.topRightCorner.add(topRightCorner);
+        this.left.add(left);
         this.fillArray.add(fill);
-        this.right = right;
-        this.bottomLeftCorner = bottomLeftCorner;
-        this.bottom = bottom;
-        this.bottomRightCorner = bottomRightCorner;
+        this.right.add(right);
+        this.bottomLeftCorner.add(bottomLeftCorner);
+        this.bottom.add(bottom);
+        this.bottomRightCorner.add(bottomRightCorner);
     }
 
     void addFill(int id) {
         this.fillArray.add(id);
     }
+
+    void addTop(int id) {
+        this.top.add(id);
+    }
+
+    void addTopRightCorner(int id) {
+        this.topRightCorner.add(id);
+    }
+
+    void addLeft(int id) {
+        this.left.add(id);
+    }
+
+    void addRight(int id) {
+        this.right.add(id);
+    }
+
+    void addBottomLeftCorner(int id) {
+        this.bottomLeftCorner.add(id);
+    }
+
+    void addBottom(int id) {
+        this.bottom.add(id);
+    }
+
+    void addBottomRightCorner(int id) {
+        this.bottomRightCorner.add(id);
+    }
+
+    void addTopLeftCorner(int id) {
+        this.topLeftCorner.add(id);
+    }
+
 
     MapSquare(int oneID) {
         this(oneID, oneID, oneID, oneID, oneID, oneID, oneID, oneID, oneID);
@@ -63,23 +104,23 @@ public final class MapSquare implements Drawable {
             for (int x = startX; x <= endX; x++) {
                 int tile;
                 if (y == startY && x == startX) {
-                    tile = topLeftCorner;
+                    tile = getRandomTile(topLeftCorner);
                 } else if (y == startY && x == endX) {
-                    tile = topRightCorner;
+                    tile = getRandomTile(topRightCorner);
                 } else if (y == endY && x == startX) {
-                    tile = bottomLeftCorner;
+                    tile = getRandomTile(bottomLeftCorner);
                 } else if (y == endY && x == endX) {
-                    tile = bottomRightCorner;
+                    tile = getRandomTile(bottomRightCorner);
                 } else if (y == startY) {
-                    tile = top;
+                    tile = getRandomTile(top);
                 } else if (y == endY) {
-                    tile = bottom;
+                    tile = getRandomTile(bottom);
                 } else if (x == startX) {
-                    tile = left;
+                    tile = getRandomTile(left);
                 } else if (x == endX) {
-                    tile = right;
+                    tile = getRandomTile(right);
                 } else {
-                    tile = getFill();
+                    tile = getRandomTile(fillArray);
                 }
                 board.setGameField(x, y, layer, tile);
             }
@@ -107,13 +148,13 @@ public final class MapSquare implements Drawable {
         }
         for (int y = startY; y <= endY; y++) {
             for (int x = startX; x <= endX; x++) {
-                board.setGameField(x, y, layer, getFill());
+                board.setGameField(x, y, layer, getRandomTile(fillArray));
             }
         }
     }
-    
-    private int getFill() {
-        int randomTile = gen.nextInt(fillArray.size());
-        return fillArray.get(randomTile);
+
+    private int getRandomTile(List<Integer> list) {
+        int randomTile = gen.nextInt(list.size());
+        return list.get(randomTile);
     }
 }

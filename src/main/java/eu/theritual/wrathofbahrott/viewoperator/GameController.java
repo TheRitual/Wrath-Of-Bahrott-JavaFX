@@ -56,7 +56,6 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
         GridPane.setHalignment(gameCanvas, HPos.RIGHT);
         GraphicsContext gc = gameCanvas.getGraphicsContext2D();
         int boardSize = getTilesAmount();
-        System.out.println("Board size:" + boardSize);
         this.gbm = new GameBoardMap(boardSize, gc);
         gc.clearRect(0, 0, canvasSize, canvasSize);
         drawBoard();
@@ -64,8 +63,19 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
 
     private void drawBoard() {
         MapDrawer drawer = new MapDrawer(gbm);
+
+        System.out.println("GAME_TILE_BOARD:" + gbm.getSize());
+        int tileWidth = (int) Math.floor((gbm.getSize() - 4) / 7.0);
+        int tileHeight = (int) Math.floor((gbm.getSize() - 4) / 8.0);
+        System.out.println("BOARD_TILE_WIDTH:" + gbm.getSize());
+
+
         drawer.drawShape(MapElement.STONE_FLOOR, 0, 0, gbm.getSize() - 1, gbm.getSize() - 1, 0);
-        drawer.drawShape(MapElement.GRASS3_SQUARE, 2, 2, gbm.getSize() - 3, gbm.getSize() - 3, 0);
+        drawer.drawShape(MapElement.SCOTT_FLOOR, 1, 1, gbm.getSize() - 2, gbm.getSize() - 2, 0);
+        drawer.drawShape(MapElement.GRASS3_SQUARE, 1, 1, gbm.getSize() - 2, gbm.getSize() - 2, 1);
+        drawer.drawShape(MapElement.FIRE_STONE, 2 + 2 * tileWidth, 2, gbm.getSize() - 3 - 2 * tileWidth, 2 + tileHeight, 2);
+
+
         gbm.draw();
     }
 

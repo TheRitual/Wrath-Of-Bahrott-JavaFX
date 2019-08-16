@@ -27,10 +27,6 @@ public final class TileOperator {
         return new Image(tile, width, height, true, false);
     }
 
-    private static Image getTileImage(String name) {
-        return getTileImage(name, 16, 16);
-    }
-
     public static WritableImage translateTileId(int id, int x, int y) {
         Tile tile = getTileList().stream().filter(t -> t.getId() == id).findFirst().orElse(null);
         if (tile == null) {
@@ -44,19 +40,14 @@ public final class TileOperator {
         Image img = getTileImage(Objects.requireNonNull(tile).getName(), til.getSize(), til.getSize());
         int startx = x * 16 % til.getSize();
         int starty = y * 16 % til.getSize();
-        WritableImage croppedImage = new WritableImage(img.getPixelReader(), startx, starty, 16, 16);
-        return croppedImage;
-    }
-
-    public static WritableImage translateTileId(int id) {
-        return translateTileId(id, 0, 0);
+        return new WritableImage(img.getPixelReader(), startx, starty, 16, 16);
     }
 
     public static Tile getTile(int id) {
         return getTileList().stream().filter(t -> t.getId() == id).findFirst().orElse(null);
     }
 
-    public static List<Tile> getTileList() {
+    private static List<Tile> getTileList() {
         List<Tile> tileList = new ArrayList<>();
         tileList.add(new Tile(0, "empty", true));
         tileList.add(new Tile(1, "grass1tlc", true));
@@ -113,6 +104,29 @@ public final class TileOperator {
         tileList.add(new Tile(52, "sand3a", false));
         tileList.add(new Tile(53, "sand3b", false));
         tileList.add(new Tile(54, "stonefloor", false, 32));
+        tileList.add(new Tile(55, "scottfloor", false, 32));
+        tileList.add(new Tile(56, "egypt1", true));
+        tileList.add(new Tile(57, "egypt2", true));
+        tileList.add(new Tile(58, "egypt3", true));
+        tileList.add(new Tile(59, "egypt4", true));
+        tileList.add(new Tile(60, "egypt5", true));
+        tileList.add(new Tile(61, "firestone_tlc", false));
+        tileList.add(new Tile(62, "firestone_t0", false));
+        tileList.add(new Tile(63, "firestone_t1", false));
+        tileList.add(new Tile(64, "firestone_trc", false));
+        tileList.add(new Tile(65, "firestone_l0", false));
+        tileList.add(new Tile(66, "firestone_l1", false));
+        tileList.add(new Tile(67, "firestone_f0", false));
+        tileList.add(new Tile(68, "firestone_f1", false));
+        tileList.add(new Tile(69, "firestone_f2", false));
+        tileList.add(new Tile(70, "firestone_f3", false));
+        tileList.add(new Tile(71, "firestone_r0", false));
+        tileList.add(new Tile(72, "firestone_r1", false));
+        tileList.add(new Tile(73, "firestone_blc", false));
+        tileList.add(new Tile(74, "firestone_b0", false));
+        tileList.add(new Tile(75, "firestone_b1", false));
+        tileList.add(new Tile(76, "firestone_brc", false));
+
         return tileList;
     }
 }

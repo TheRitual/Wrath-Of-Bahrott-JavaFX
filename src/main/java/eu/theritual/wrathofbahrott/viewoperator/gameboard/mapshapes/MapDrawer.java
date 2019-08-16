@@ -34,7 +34,7 @@ public class MapDrawer {
         MapSquare grass3square = new MapSquare(31, 32, 33, 34, 35, 36, 37, 38, 39);
         grass3square.addFill(40);
         grass3square.addFill(41);
-        MapSquare grass3hole = new MapSquare(42, 38, 43, 36, 35, 34, 44, 32, 45);
+        MapSquare grass3hole = new MapSquare(42, 38, 43, 36, 0, 34, 44, 32, 45);
         MapSquare sand1 = new MapSquare(46);
         sand1.addFill(47);
         sand1.addFill(48);
@@ -45,7 +45,20 @@ public class MapDrawer {
         sand3.addFill(53);
         sand3.addFill(54);
         MapSquare stoneFloor = new MapSquare(54);
-
+        MapSquare scottFloor = new MapSquare(55);
+        MapSquare egyptFloor = new MapSquare(56);
+        egyptFloor.addFill(57);
+        egyptFloor.addFill(58);
+        egyptFloor.addFill(59);
+        egyptFloor.addFill(60);
+        MapSquare fireStone = new MapSquare(61, 62, 64, 65, 67, 71, 73, 74, 76);
+        fireStone.addFill(68);
+        fireStone.addFill(69);
+        fireStone.addFill(70);
+        fireStone.addTop(63);
+        fireStone.addBottom(75);
+        fireStone.addLeft(66);
+        fireStone.addRight(72);
         shapeMap.put(MapElement.GRASS1_SQUARE, grass1square);
         shapeMap.put(MapElement.GRASS1_HOLE, grass1hole);
         shapeMap.put(MapElement.GRASS2_SQUARE, grass2square);
@@ -56,6 +69,9 @@ public class MapDrawer {
         shapeMap.put(MapElement.SAND2, sand2);
         shapeMap.put(MapElement.SAND3, sand3);
         shapeMap.put(MapElement.STONE_FLOOR, stoneFloor);
+        shapeMap.put(MapElement.SCOTT_FLOOR, scottFloor);
+        shapeMap.put(MapElement.EGYPT_FLOOR, egyptFloor);
+        shapeMap.put(MapElement.FIRE_STONE, fireStone);
     }
 
     public void drawShape(MapElement shape, int startX, int startY, int endX, int endY, int layer) {
@@ -68,11 +84,14 @@ public class MapDrawer {
             case GRASS3_SQUARE:
             case GRASS3_HOLE:
             case STONE_FLOOR:
+            case SCOTT_FLOOR:
+            case FIRE_STONE:
                 figure.draw(gbm, startX, startY, endX, endY, layer);
                 break;
             case SAND1:
             case SAND2:
             case SAND3:
+            case EGYPT_FLOOR:
                 figure.drawAllRandomFill(gbm, startX, startY, endX, endY, layer);
                 break;
         }

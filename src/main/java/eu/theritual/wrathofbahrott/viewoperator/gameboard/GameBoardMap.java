@@ -55,10 +55,6 @@ public final class GameBoardMap {
         }
     }
 
-    public int getGameField(int x, int y, int layer) {
-        return gameMap[x][y][layer];
-    }
-
     public void setGameField(int x, int y, int layer, int tileId) {
         try {
             this.gameMap[x][y][layer] = tileId;
