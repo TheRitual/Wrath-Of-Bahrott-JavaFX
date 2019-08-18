@@ -2,6 +2,7 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.GameModule;
+import eu.theritual.wrathofbahrott.media.MediaOperator;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes.MapDrawer;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes.MapElement;
@@ -13,10 +14,15 @@ import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Controller
 public class GameController implements eu.theritual.wrathofbahrott.viewoperator.Controller {
@@ -24,6 +30,8 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
     private double canvasSize;
     private GameBoardMap gbm;
     private ElementGenerator generator;
+    private Random gen = new Random();
+    private Thread boardThread;
 
     @FXML
     private GridPane gamePane;
@@ -33,7 +41,8 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
     private MediaView musicPlayer;
 
     private int getTilesAmount() {
-        return (int) (canvasSize / (double) 16);
+        int size = (int) (canvasSize / 16.0);
+        return size - (size % 2);
     }
 
     public void setDataOperator(DataOperator dataOperator) {
@@ -58,25 +67,58 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
         int boardSize = getTilesAmount();
         this.gbm = new GameBoardMap(boardSize, gc);
         gc.clearRect(0, 0, canvasSize, canvasSize);
-        drawBoard();
+        boardThread = new Thread(() -> {
+            drawBoard();
+            drawSpecials(gc);
+        });
+        boardThread.start();
     }
 
     private void drawBoard() {
         MapDrawer drawer = new MapDrawer(gbm);
-
         System.out.println("GAME_TILE_BOARD:" + gbm.getSize());
-        int tileWidth = (int) Math.floor((gbm.getSize() - 4) / 7.0);
+        int tileWidth = (int) Math.floor((gbm.getSize() - 4) / 8.0);
         int tileHeight = (int) Math.floor((gbm.getSize() - 4) / 8.0);
-        System.out.println("BOARD_TILE_WIDTH:" + gbm.getSize());
-
-
+        int gap = gbm.getSize() - 8 * tileWidth - 4;
+        int margin = 2 + tileWidth / 2 + (gap / 2);
+        System.out.println("BOARD_TILE_WIDTH:" + tileWidth);
+        System.out.println("BOARD_TILE_HEIGHT:" + tileHeight);
         drawer.drawShape(MapElement.STONE_FLOOR, 0, 0, gbm.getSize() - 1, gbm.getSize() - 1, 0);
         drawer.drawShape(MapElement.SCOTT_FLOOR, 1, 1, gbm.getSize() - 2, gbm.getSize() - 2, 0);
-        drawer.drawShape(MapElement.GRASS3_SQUARE, 1, 1, gbm.getSize() - 2, gbm.getSize() - 2, 1);
-        drawer.drawShape(MapElement.FIRE_STONE, 2 + 2 * tileWidth, 2, gbm.getSize() - 3 - 2 * tileWidth, 2 + tileHeight, 2);
-
-
+        drawer.drawShape(MapElement.GRASS3_SQUARE, 2, 2, gbm.getSize() - 3, gbm.getSize() - 2, 1);
+        drawer.drawRectangle(MapElement.STONE_FLOOR, 2 + (gap / 2) + 2 * tileWidth, 2, tileWidth * 4, tileHeight, 2);
+        List<MapElement> tileColor = new ArrayList<>();
+        tileColor.add(MapElement.TILE_FIELD_YELLOW);
+        tileColor.add(MapElement.TILE_FIELD_RED);
+        tileColor.add(MapElement.TILE_FIELD_BLUE);
+        tileColor.add(MapElement.TILE_FIELD_GREEN);
+        tileColor.add(MapElement.TILE_FIELD_VIOLET);
+        for (int y = 1; y < 8; y++) {
+            for (int x = 0; x < 7; x++) {
+                drawer.drawRectangle(tileColor.get(gen.nextInt(tileColor.size())), margin + x * tileWidth, 2 + y * tileHeight, tileWidth, tileHeight, 2);
+            }
+        }
         gbm.draw();
+    }
+
+    private void drawSpecials(GraphicsContext gc) {
+        MediaOperator mo = new MediaOperator();
+        int tileWidth = (int) Math.floor((gbm.getSize() - 4) / 8.0);
+        int tileHeight = (int) Math.floor((gbm.getSize() - 4) / 8.0);
+        int gap = gbm.getSize() - 8 * tileWidth - 4;
+        int margin = tileWidth / 2 + (gap / 2);
+        tileHeight *= 16;
+        tileWidth *= 16;
+        margin *= 16;
+        System.out.println("S:" + tileWidth + " x " + tileHeight);
+        Image img = mo.getImage("texture", tileWidth, tileHeight);
+        for (int y = 1; y < 8; y++) {
+            for (int x = 0; x < 7; x++) {
+                gc.setGlobalAlpha(0.4 * gen.nextDouble() + 0.15);
+                gc.drawImage(img, 32 + margin + x * tileWidth, 32 + y * tileHeight, tileWidth, tileHeight);
+            }
+        }
+        gc.setGlobalAlpha(1);
     }
 
     public void start() {

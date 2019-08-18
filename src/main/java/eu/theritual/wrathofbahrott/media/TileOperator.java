@@ -127,6 +127,27 @@ public final class TileOperator {
         tileList.add(new Tile(75, "firestone_b1", false));
         tileList.add(new Tile(76, "firestone_brc", false));
 
+        for (int f = 0; f <= 15; f++) {
+            tileList.add(new Tile(77 + f, "fieldtile_" + f, false));
+        }
+
+        for (int f = 0; f <= 15; f++) {
+            tileList.add(new Tile(93 + f, "red_fieldtile_" + f, false));
+        }
+
+        for (int f = 0; f <= 15; f++) {
+            tileList.add(new Tile(109 + f, "violet_fieldtile_" + f, false));
+        }
+
+        for (int f = 0; f <= 15; f++) {
+            tileList.add(new Tile(125 + f, "green_fieldtile_" + f, false));
+        }
+
+        for (int f = 0; f <= 15; f++) {
+            tileList.add(new Tile(141 + f, "blue_fieldtile_" + f, false));
+        }
+
+
         return tileList;
     }
 }

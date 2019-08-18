@@ -21,8 +21,6 @@ public class MapDrawer {
 
     private void setUpTiles() {
         singularTileMap.put(MapElement.STONE_FLOOR, TileOperator.getTile(54));
-
-
         MapSquare grass1square = new MapSquare(1, 2, 3, 4, 5, 6, 7, 8, 9);
         grass1square.addFill(10);
         grass1square.addFill(11);
@@ -59,6 +57,34 @@ public class MapDrawer {
         fireStone.addBottom(75);
         fireStone.addLeft(66);
         fireStone.addRight(72);
+
+        MapSquare tileField = new MapSquare(77);
+        for (int f = 78; f <= 92; f++) {
+            tileField.addFill(f);
+        }
+
+        MapSquare redTileField = new MapSquare(93);
+        for (int f = 94; f <= 108; f++) {
+            redTileField.addFill(f);
+        }
+
+        MapSquare violetTileField = new MapSquare(109);
+        for (int f = 110; f <= 124; f++) {
+            violetTileField.addFill(f);
+        }
+
+        MapSquare greenTileField = new MapSquare(125);
+        for (int f = 126; f <= 140; f++) {
+            greenTileField.addFill(f);
+        }
+
+        MapSquare blueTileField = new MapSquare(141);
+        for (int f = 142; f <= 156; f++) {
+            blueTileField.addFill(f);
+        }
+
+
+
         shapeMap.put(MapElement.GRASS1_SQUARE, grass1square);
         shapeMap.put(MapElement.GRASS1_HOLE, grass1hole);
         shapeMap.put(MapElement.GRASS2_SQUARE, grass2square);
@@ -72,6 +98,11 @@ public class MapDrawer {
         shapeMap.put(MapElement.SCOTT_FLOOR, scottFloor);
         shapeMap.put(MapElement.EGYPT_FLOOR, egyptFloor);
         shapeMap.put(MapElement.FIRE_STONE, fireStone);
+        shapeMap.put(MapElement.TILE_FIELD_YELLOW, tileField);
+        shapeMap.put(MapElement.TILE_FIELD_RED, redTileField);
+        shapeMap.put(MapElement.TILE_FIELD_BLUE, blueTileField);
+        shapeMap.put(MapElement.TILE_FIELD_VIOLET, violetTileField);
+        shapeMap.put(MapElement.TILE_FIELD_GREEN, greenTileField);
     }
 
     public void drawShape(MapElement shape, int startX, int startY, int endX, int endY, int layer) {
@@ -92,6 +123,11 @@ public class MapDrawer {
             case SAND2:
             case SAND3:
             case EGYPT_FLOOR:
+            case TILE_FIELD_YELLOW:
+            case TILE_FIELD_RED:
+            case TILE_FIELD_GREEN:
+            case TILE_FIELD_VIOLET:
+            case TILE_FIELD_BLUE:
                 figure.drawAllRandomFill(gbm, startX, startY, endX, endY, layer);
                 break;
         }
@@ -99,5 +135,9 @@ public class MapDrawer {
 
     public void drawTile(MapElement tile, int x, int y, int layer) {
         gbm.setGameField(x, y, layer, singularTileMap.get(tile).getId());
+    }
+
+    public void drawRectangle(MapElement shape, int startX, int startY, int width, int height, int layer) {
+        drawShape(shape, startX, startY, startX + width - 1, startY + height - 1, layer);
     }
 }

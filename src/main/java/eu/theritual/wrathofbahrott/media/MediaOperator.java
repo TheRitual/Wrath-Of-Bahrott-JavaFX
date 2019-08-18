@@ -55,6 +55,7 @@ public class MediaOperator {
         images.put("optionsOut", "gfx/settingsOut.png");
         images.put("optionsBackground", "gfx/optBg.jpg");
         images.put("eyeIcon", "gfx/eyeSlider.jpg");
+        images.put("texture", "gfx/3d.png");
     }
 
     private URL getSoundUrl(String name) {
@@ -112,18 +113,6 @@ public class MediaOperator {
 
     public MediaPlayer getVideoMediaPlayer() {
         return this.videoMediaPlayer;
-    }
-
-    private Image getImage(String name) {
-        String imgFile = images.get(name);
-        try {
-            imgFile = MediaOperator.class.getResource(imgFile).toURI().toURL().toString();
-        } catch (URISyntaxException e) {
-            Actions.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
-        } catch (MalformedURLException e) {
-            Actions.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
-        }
-        return new Image(imgFile);
     }
 
     public Image getImage(String name, double width, double height) {
