@@ -31,7 +31,6 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
     private GameBoardMap gbm;
     private ElementGenerator generator;
     private Random gen = new Random();
-    private Thread boardThread;
 
     @FXML
     private GridPane gamePane;
@@ -67,11 +66,11 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
         int boardSize = getTilesAmount();
         this.gbm = new GameBoardMap(boardSize, gc);
         gc.clearRect(0, 0, canvasSize, canvasSize);
-        boardThread = new Thread(() -> {
+        //Thread boardThread = new Thread(() -> {
             drawBoard();
             drawSpecials(gc);
-        });
-        boardThread.start();
+        //});
+        //boardThread.start();
     }
 
     private void drawBoard() {
