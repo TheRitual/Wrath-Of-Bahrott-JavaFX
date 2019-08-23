@@ -1,6 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameFont;
 import javafx.event.Event;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -63,7 +64,7 @@ class ElementGenerator {
     }
 
     Label createLabelButton(String labelTxt, double size) {
-        Font fnt = dataOperator.getMediaOp().getFont("vermin", getFontSize(size));
+        Font fnt = dataOperator.getMediaOp().getFont(GameFont.VERMIN, getFontSize(size));
         Label btn = new Label(labelTxt);
         btn.setFont(fnt);
         btn.setId(labelTxt);
@@ -75,11 +76,11 @@ class ElementGenerator {
     }
 
     Label createLabel(String labelTxt, String styleClass, double size) {
-        return createLabel(labelTxt, styleClass, size, "vermin");
+        return createLabel(labelTxt, styleClass, size, GameFont.VERMIN);
     }
 
-    Label createLabel(String labelTxt, String styleClass, double size, String fontName) {
-        Font fnt = dataOperator.getMediaOp().getFont(fontName, getFontSize(size));
+    Label createLabel(String labelTxt, String styleClass, double size, GameFont gameFont) {
+        Font fnt = dataOperator.getMediaOp().getFont(gameFont, getFontSize(size));
         Label btn = new Label(labelTxt);
         btn.setFont(fnt);
         btn.getStyleClass().add(styleClass);

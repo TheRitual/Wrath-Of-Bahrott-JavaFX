@@ -1,8 +1,9 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
-import eu.theritual.wrathofbahrott.dataoperator.GameModule;
-import eu.theritual.wrathofbahrott.dataoperator.SubView;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameFont;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.SubView;
 import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -150,14 +151,14 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
         innerMenu.setAlignment(Pos.TOP_CENTER);
         ArrayList<Label> creditsList = new ArrayList<>();
-        creditsList.add(generator.createLabel("Game Creator: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(generator.createLabel("Intro: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(generator.createLabel("Intro Voice: Victoria Sarbiewska", "creditsLabel", 11, "fipps"));
-        creditsList.add(generator.createLabel("Music: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(generator.createLabel("Design: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(generator.createLabel("Graphics: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(generator.createLabel("Game Idea: Marcin Kawczynski", "creditsLabel", 11, "fipps"));
-        creditsList.add(generator.createLabel("Ths game is Kodilla Course Project", "creditsLabel", 11, "fipps"));
+        creditsList.add(generator.createLabel("Game Creator: Marcin Kawczynski", "creditsLabel", 11, GameFont.FIPPS));
+        creditsList.add(generator.createLabel("Intro: Marcin Kawczynski", "creditsLabel", 11, GameFont.FIPPS));
+        creditsList.add(generator.createLabel("Intro Voice: Victoria Sarbiewska", "creditsLabel", 11, GameFont.FIPPS));
+        creditsList.add(generator.createLabel("Music: Marcin Kawczynski", "creditsLabel", 11, GameFont.FIPPS));
+        creditsList.add(generator.createLabel("Design: Marcin Kawczynski", "creditsLabel", 11, GameFont.FIPPS));
+        creditsList.add(generator.createLabel("Graphics: Marcin Kawczynski", "creditsLabel", 11, GameFont.FIPPS));
+        creditsList.add(generator.createLabel("Game Idea: Marcin Kawczynski", "creditsLabel", 11, GameFont.FIPPS));
+        creditsList.add(generator.createLabel("Ths game is Kodilla Course Project", "creditsLabel", 11, GameFont.FIPPS));
         innerMenu.getChildren().addAll(creditsList);
         innerMenu.setMinWidth(dataOperator.getView().getScreenWidth() * 0.6);
         return getMenuBox(credits, innerMenu, topTitle, backButton);

@@ -1,7 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
-import eu.theritual.wrathofbahrott.dataoperator.GameModule;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;

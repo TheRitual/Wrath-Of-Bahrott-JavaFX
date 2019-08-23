@@ -1,11 +1,11 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
-import eu.theritual.wrathofbahrott.dataoperator.GameModule;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.MapElement;
 import eu.theritual.wrathofbahrott.media.MediaOperator;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes.MapDrawer;
-import eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes.MapElement;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;

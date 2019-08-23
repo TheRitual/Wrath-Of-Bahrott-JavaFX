@@ -1,4 +1,6 @@
 package eu.theritual.wrathofbahrott.dataoperator;
+
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
 import eu.theritual.wrathofbahrott.media.MediaOperator;
 import eu.theritual.wrathofbahrott.viewoperator.ViewOperator;
 import org.springframework.context.ConfigurableApplicationContext;

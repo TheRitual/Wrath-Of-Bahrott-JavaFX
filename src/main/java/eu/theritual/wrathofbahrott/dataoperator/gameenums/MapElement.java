@@ -1,4 +1,4 @@
-package eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes;
+package eu.theritual.wrathofbahrott.dataoperator.gameenums;
 
 public enum MapElement {
     GRASS1_SQUARE, GRASS1_HOLE,

@@ -1,7 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
-import eu.theritual.wrathofbahrott.dataoperator.GameModule;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
 import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;

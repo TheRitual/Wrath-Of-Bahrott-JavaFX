@@ -1,5 +1,6 @@
 package eu.theritual.wrathofbahrott.media;
 
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameFont;
 import eu.theritual.wrathofbahrott.viewoperator.Actions;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
@@ -19,7 +20,7 @@ public class MediaOperator {
     private Map<String, String> sounds;
     private Map<String, String> videos;
     private Map<String, String> images;
-    private Map<String, String> fonts;
+    private Map<GameFont, String> fonts;
     private Map<String, String> css;
     private MediaPlayer musicMediaPlayer;
     private MediaPlayer videoMediaPlayer;
@@ -32,9 +33,9 @@ public class MediaOperator {
         fonts = new HashMap<>();
         css = new HashMap<>();
         //FONTS
-        fonts.put("fipps", "fonts/Fipps-Regular.otf");
-        fonts.put("04b", "fonts/04B30.TTF");
-        fonts.put("vermin", "fonts/VerminVibes1989.ttf");
+        fonts.put(GameFont.FIPPS, "fonts/Fipps-Regular.otf");
+        fonts.put(GameFont.O4B, "fonts/04B30.TTF");
+        fonts.put(GameFont.VERMIN, "fonts/VerminVibes1989.ttf");
         //CSS
         css.put("menu", "css/menu.css");
         //SOUNDS
@@ -135,8 +136,8 @@ public class MediaOperator {
         return new ImageView(getImage(name, width, height));
     }
 
-    public Font getFont(String fontName, double size) {
-        fontName = fonts.get(fontName);
+    public Font getFont(GameFont gameFont, double size) {
+        String fontName = fonts.get(gameFont);
         try {
             fontName = MediaOperator.class.getResource(fontName).toURI().toURL().toString();
         } catch (URISyntaxException e) {

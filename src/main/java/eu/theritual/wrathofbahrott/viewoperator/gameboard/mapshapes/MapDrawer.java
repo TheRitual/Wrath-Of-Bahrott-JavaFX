@@ -1,5 +1,6 @@
 package eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes;
 
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.MapElement;
 import eu.theritual.wrathofbahrott.media.TileOperator;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.Tile;
