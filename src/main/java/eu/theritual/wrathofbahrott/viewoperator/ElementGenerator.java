@@ -37,33 +37,35 @@ class ElementGenerator {
         Image img = dataOperator.getMediaOp().getImage(changePicture, calculateButtonWidth(), calculateButtonHeight());
         ImageView thisImg = (ImageView) e.getSource();
         thisImg.setImage(img);
-        dataOperator.getView().getRoot().getScene().setCursor(Cursor.HAND);
+    }
 
+    private void changeCursor(Cursor cursor) {
+        dataOperator.getView().getRoot().getScene().setCursor(cursor);
     }
 
     private void labelButtonHoverAction(Event e) {
         Label btn = (Label) e.getSource();
         btn.setTextFill(Color.rgb(145, 59, 158));
-        dataOperator.getView().getRoot().getScene().setCursor(Cursor.HAND);
+        changeCursor(Cursor.HAND);
     }
 
     private void labelButtonUnHoverAction(Event e) {
         Label btn = (Label) e.getSource();
         btn.setTextFill(Color.rgb(59, 158, 133));
-        dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT);
+        changeCursor(Cursor.DEFAULT);
     }
 
     ImageView createMenuButton(GamePicture gfxName, GamePicture gfxOnHoverName) {
         ImageView btn = dataOperator.getMediaOp().getImageView(gfxName, calculateButtonWidth(), calculateButtonHeight());
         btn.setId(gfxName.toString());
-        btn.setOnMouseEntered((e -> changeGfxAction(e, gfxOnHoverName)));
-        btn.setOnMouseExited(e -> changeGfxAction(e, gfxName));
-        return btn;
-    }
-
-    ImageView createMenuButton(GamePicture gfxName) {
-        ImageView btn = dataOperator.getMediaOp().getImageView(gfxName, calculateButtonWidth(), calculateButtonHeight());
-        btn.setId(gfxName.toString());
+        btn.setOnMouseEntered((e -> {
+            changeGfxAction(e, gfxOnHoverName);
+            changeCursor(Cursor.HAND);
+        }));
+        btn.setOnMouseExited(e -> {
+            changeGfxAction(e, gfxName);
+            changeCursor(Cursor.DEFAULT);
+        });
         return btn;
     }
 

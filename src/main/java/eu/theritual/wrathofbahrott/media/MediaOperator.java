@@ -162,4 +162,18 @@ public class MediaOperator {
         }
         return cssFileName;
     }
+
+    static Image getImage(String name, double width, double height) {
+        String image;
+        try {
+            image = TileOperator.class.getResource("gfx/" + name + ".png").toURI().toURL().toString();
+        } catch (URISyntaxException e) {
+            image = "";
+            Actions.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
+        } catch (MalformedURLException e) {
+            image = "";
+            Actions.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
+        }
+        return new Image(image, width, height, true, false);
+    }
 }

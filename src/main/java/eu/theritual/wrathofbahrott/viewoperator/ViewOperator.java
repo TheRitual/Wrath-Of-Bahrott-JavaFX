@@ -41,6 +41,7 @@ public class ViewOperator {
             mainStage.setWidth(1000);
         }
         checkResolution();
+        controller.stop();
         controller.draw();
         SaveLoadUtils.saveOptions(dataOperator.getGOptions(), "config");
     }

@@ -65,6 +65,9 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
         musicPlayer.getMediaPlayer().stop();
         musicPlayer.getMediaPlayer().setVolume(dataOperator.getGOptions().getMusicVolume() / 100);
         musicPlayer.getMediaPlayer().play();
+        if (!dataOperator.getGOptions().isFullScreen()) {
+            dataOperator.getView().getStage().setResizable(true);
+        }
     }
 
     private void setSubView(SubView subView) {

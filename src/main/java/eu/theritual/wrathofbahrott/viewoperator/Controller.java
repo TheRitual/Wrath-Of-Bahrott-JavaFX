@@ -14,6 +14,9 @@ public abstract class Controller {
     void start() {
     }
 
+    void stop() {
+    }
+
     void draw() {
     }
 }

@@ -1,31 +1,14 @@
 package eu.theritual.wrathofbahrott.media;
 
-import eu.theritual.wrathofbahrott.viewoperator.Actions;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.Tile;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public final class TileOperator {
-
-    private static Image getTileImage(String name, double width, double height) {
-        String tile;
-        try {
-            tile = TileOperator.class.getResource("gfx/tiles/" + name + ".png").toURI().toURL().toString();
-        } catch (URISyntaxException e) {
-            tile = "";
-            Actions.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
-        } catch (MalformedURLException e) {
-            tile = "";
-            Actions.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
-        }
-        return new Image(tile, width, height, true, false);
-    }
 
     public static WritableImage translateTileId(int id, int x, int y) {
         Tile tile = getTileList().stream().filter(t -> t.getId() == id).findFirst().orElse(null);
@@ -37,7 +20,7 @@ public final class TileOperator {
             }
         }
         Tile til = getTile(id);
-        Image img = getTileImage(Objects.requireNonNull(tile).getName(), til.getSize(), til.getSize());
+        Image img = MediaOperator.getImage("tiles/" + Objects.requireNonNull(tile).getName(), til.getSize(), til.getSize());
         int startx = x * 16 % til.getSize();
         int starty = y * 16 % til.getSize();
         return new WritableImage(img.getPixelReader(), startx, starty, 16, 16);
