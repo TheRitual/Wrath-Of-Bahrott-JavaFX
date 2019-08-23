@@ -7,6 +7,7 @@ import javafx.event.Event;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -32,14 +33,12 @@ class ElementGenerator {
         return (int) ((height / 72) * size);
     }
 
-    private void buttonHoverAction(Event e) {
-        ImageView img = (ImageView) e.getSource();
+    private void changeGfxAction(Event e, GamePicture changePicture) {
+        Image img = dataOperator.getMediaOp().getImage(changePicture, calculateButtonWidth(), calculateButtonHeight());
+        ImageView thisImg = (ImageView) e.getSource();
+        thisImg.setImage(img);
         dataOperator.getView().getRoot().getScene().setCursor(Cursor.HAND);
-    }
 
-    private void buttonUnHoverAction(Event e) {
-        ImageView img = (ImageView) e.getSource();
-        dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT);
     }
 
     private void labelButtonHoverAction(Event e) {
@@ -54,11 +53,17 @@ class ElementGenerator {
         dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT);
     }
 
+    ImageView createMenuButton(GamePicture gfxName, GamePicture gfxOnHoverName) {
+        ImageView btn = dataOperator.getMediaOp().getImageView(gfxName, calculateButtonWidth(), calculateButtonHeight());
+        btn.setId(gfxName.toString());
+        btn.setOnMouseEntered((e -> changeGfxAction(e, gfxOnHoverName)));
+        btn.setOnMouseExited(e -> changeGfxAction(e, gfxName));
+        return btn;
+    }
+
     ImageView createMenuButton(GamePicture gfxName) {
         ImageView btn = dataOperator.getMediaOp().getImageView(gfxName, calculateButtonWidth(), calculateButtonHeight());
         btn.setId(gfxName.toString());
-        btn.setOnMouseEntered(this::buttonHoverAction);
-        btn.setOnMouseExited(this::buttonUnHoverAction);
         return btn;
     }
 

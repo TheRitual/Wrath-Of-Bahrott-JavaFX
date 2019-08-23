@@ -22,6 +22,8 @@ import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 
+import static eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture.*;
+
 @Controller
 public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator.Controller {
     @FXML
@@ -44,9 +46,9 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     public void draw() {
         menuPane.setAlignment(Pos.TOP_CENTER);
         menuPane.setPrefSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
-        menuPane.setBackground(dataOperator.getMediaOp().getBackgroundImg(GamePicture.MENU_BACKGROUND, dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
+        menuPane.setBackground(dataOperator.getMediaOp().getBackgroundImg(MENU_BACKGROUND, dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
         menuPane.getChildren().remove(wobLogo);
-        wobLogo = dataOperator.getMediaOp().getImageView(GamePicture.WOB_LOGO, dataOperator.getView().getScreenWidth() * 0.4, dataOperator.getView().getScreenHeight() * 0.3);
+        wobLogo = dataOperator.getMediaOp().getImageView(WOB_LOGO, dataOperator.getView().getScreenWidth() * 0.4, dataOperator.getView().getScreenHeight() * 0.3);
         row1.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.1);
         GridPane.setValignment(wobLogo, VPos.TOP);
         GridPane.setHalignment(wobLogo, HPos.CENTER);
@@ -90,13 +92,13 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     private VBox getMainMenu() {
         VBox mainMenu = new VBox();
         mainMenu.setAlignment(Pos.TOP_CENTER);
-        ImageView exitButton = generator.createMenuButton(GamePicture.EXIT_OUT);
+        ImageView exitButton = generator.createMenuButton(EXIT_OUT, EXIT_ON);
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::exitAction);
-        ImageView startButton = generator.createMenuButton(GamePicture.START_OUT);
+        ImageView startButton = generator.createMenuButton(START_OUT, START_ON);
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> startGame());
-        ImageView optionsButton = generator.createMenuButton(GamePicture.OPTIONS_OUT);
+        ImageView optionsButton = generator.createMenuButton(OPTIONS_OUT, OPTIONS_ON);
         optionsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.OPTIONS));
-        ImageView creditsButton = generator.createMenuButton(GamePicture.CREDITS_OUT);
+        ImageView creditsButton = generator.createMenuButton(CREDITS_OUT, CREDITS_ON);
         creditsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.CREDITS));
         mainMenu.getChildren().add(startButton);
         mainMenu.getChildren().add(optionsButton);
@@ -108,7 +110,7 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     private VBox getOptions() {
         VBox optionsMenu = new VBox();
         VBox innerMenu = new VBox();
-        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg(GamePicture.SUBMENU_BACKGROUND, dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
+        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg(SUBMENU_BACKGROUND, dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Set Things", "optLabel", generator.getFontSize(15));
         Label backButton = generator.createLabelButton("Back", generator.getFontSize(12));
@@ -134,7 +136,7 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     private VBox getCredits() {
         VBox credits = new VBox();
         VBox innerMenu = new VBox();
-        credits.setBackground(dataOperator.getMediaOp().getBackgroundImg(GamePicture.SUBMENU_BACKGROUND, dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
+        credits.setBackground(dataOperator.getMediaOp().getBackgroundImg(SUBMENU_BACKGROUND, dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
         credits.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Credits", "optLabel", generator.getFontSize(15));
         Label backButton = generator.createLabelButton("Back", generator.getFontSize(12));
