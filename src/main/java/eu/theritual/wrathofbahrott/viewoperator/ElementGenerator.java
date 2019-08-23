@@ -2,6 +2,7 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameFont;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture;
 import javafx.event.Event;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -33,13 +34,11 @@ class ElementGenerator {
 
     private void buttonHoverAction(Event e) {
         ImageView img = (ImageView) e.getSource();
-        img.setImage(dataOperator.getMediaOp().getImage(img.getId() + "On", calculateButtonWidth(), calculateButtonHeight()));
         dataOperator.getView().getRoot().getScene().setCursor(Cursor.HAND);
     }
 
     private void buttonUnHoverAction(Event e) {
         ImageView img = (ImageView) e.getSource();
-        img.setImage(dataOperator.getMediaOp().getImage(img.getId() + "Out", calculateButtonWidth(), calculateButtonHeight()));
         dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT);
     }
 
@@ -55,9 +54,9 @@ class ElementGenerator {
         dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT);
     }
 
-    ImageView createMenuButton(String gfxName) {
-        ImageView btn = dataOperator.getMediaOp().getImageView(gfxName + "Out", calculateButtonWidth(), calculateButtonHeight());
-        btn.setId(gfxName);
+    ImageView createMenuButton(GamePicture gfxName) {
+        ImageView btn = dataOperator.getMediaOp().getImageView(gfxName, calculateButtonWidth(), calculateButtonHeight());
+        btn.setId(gfxName.toString());
         btn.setOnMouseEntered(this::buttonHoverAction);
         btn.setOnMouseExited(this::buttonUnHoverAction);
         return btn;

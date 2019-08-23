@@ -2,6 +2,7 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameSoundVideo;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
@@ -35,7 +36,7 @@ public class SplashScreenController implements eu.theritual.wrathofbahrott.viewo
     }
 
     public void start() {
-        dataOperator.getMediaOp().setVideo("intro");
+        dataOperator.getMediaOp().setVideo(GameSoundVideo.INTRO);
         MediaPlayer player = dataOperator.getMediaOp().getVideoMediaPlayer();
         splashVideo.setMediaPlayer(player);
         DoubleProperty width = splashVideo.fitWidthProperty();

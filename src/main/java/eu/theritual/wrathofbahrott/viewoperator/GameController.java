@@ -2,6 +2,7 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.MapElement;
 import eu.theritual.wrathofbahrott.media.MediaOperator;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
@@ -31,7 +32,7 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
     private GameBoardMap gbm;
     private ElementGenerator generator;
     private Random gen = new Random();
-
+    private Thread boardThread;
     @FXML
     private GridPane gamePane;
     @FXML
@@ -50,10 +51,11 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
     }
 
     public void draw() {
+        boardThread = new Thread();
         gamePane.setMinSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
         gamePane.setPadding(new Insets(10, 10, 10, 10));
         gamePane.setAlignment(Pos.TOP_CENTER);
-        gamePane.setBackground(dataOperator.getMediaOp().getBackgroundImg("gameBackground", dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
+        gamePane.setBackground(dataOperator.getMediaOp().getBackgroundImg(GamePicture.GAME_BACKGROUND, dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
         Label exitButton = generator.createLabelButton("Back", generator.getFontSize(15));
         gamePane.add(exitButton, 0, 0);
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> backToMainMenu());
@@ -66,11 +68,11 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
         int boardSize = getTilesAmount();
         this.gbm = new GameBoardMap(boardSize, gc);
         gc.clearRect(0, 0, canvasSize, canvasSize);
-        //Thread boardThread = new Thread(() -> {
+        boardThread = new Thread(() -> {
             drawBoard();
             drawSpecials(gc);
-        //});
-        //boardThread.start();
+        });
+        boardThread.start();
     }
 
     private void drawBoard() {
@@ -110,7 +112,7 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
         tileWidth *= 16;
         margin *= 16;
         System.out.println("S:" + tileWidth + " x " + tileHeight);
-        Image img = mo.getImage("texture", tileWidth, tileHeight);
+        Image img = mo.getImage(GamePicture.BIG_TILE_TEXTURE, tileWidth, tileHeight);
         for (int y = 1; y < 8; y++) {
             for (int x = 0; x < 7; x++) {
                 gc.setGlobalAlpha(0.4 * gen.nextDouble() + 0.15);

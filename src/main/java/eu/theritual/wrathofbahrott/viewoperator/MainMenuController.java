@@ -1,9 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
-import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameFont;
-import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
-import eu.theritual.wrathofbahrott.dataoperator.gameenums.SubView;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.*;
 import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -55,20 +53,20 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     public void draw() {
         menuPane.setAlignment(Pos.TOP_CENTER);
         menuPane.setPrefSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
-        menuPane.setBackground(dataOperator.getMediaOp().getBackgroundImg("menuBackground", dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
+        menuPane.setBackground(dataOperator.getMediaOp().getBackgroundImg(GamePicture.MENU_BACKGROUND, dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
         menuPane.getChildren().remove(wobLogo);
-        wobLogo = dataOperator.getMediaOp().getImageView("wobLogo", dataOperator.getView().getScreenWidth() * 0.4, dataOperator.getView().getScreenHeight() * 0.3);
+        wobLogo = dataOperator.getMediaOp().getImageView(GamePicture.WOB_LOGO, dataOperator.getView().getScreenWidth() * 0.4, dataOperator.getView().getScreenHeight() * 0.3);
         row1.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.1);
         GridPane.setValignment(wobLogo, VPos.TOP);
         GridPane.setHalignment(wobLogo, HPos.CENTER);
-        dataOperator.getView().getRoot().getScene().getStylesheets().add(dataOperator.getMediaOp().getCss("menu"));
+        dataOperator.getView().getRoot().getScene().getStylesheets().add(dataOperator.getMediaOp().getCss(GameCss.MENU));
         menuPane.add(wobLogo, 1, 0);
         setSubView(subView);
     }
 
     public void start() {
         musicPlayer.setMediaPlayer(null);
-        dataOperator.getMediaOp().setMusic("menuMusic");
+        dataOperator.getMediaOp().setMusic(GameSoundVideo.MENU_MUSIC);
         musicPlayer.setMediaPlayer(dataOperator.getMediaOp().getMusicMediaPlayer());
         musicPlayer.getMediaPlayer().stop();
         musicPlayer.getMediaPlayer().setVolume(dataOperator.getGOptions().getMusicVolume() / 100);
@@ -100,13 +98,13 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     private VBox getMainMenu() {
         VBox mainMenu = new VBox();
         mainMenu.setAlignment(Pos.TOP_CENTER);
-        ImageView exitButton = generator.createMenuButton("exit");
+        ImageView exitButton = generator.createMenuButton(GamePicture.EXIT_OUT);
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::exitAction);
-        ImageView startButton = generator.createMenuButton("start");
+        ImageView startButton = generator.createMenuButton(GamePicture.START_OUT);
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> startGame());
-        ImageView optionsButton = generator.createMenuButton("options");
+        ImageView optionsButton = generator.createMenuButton(GamePicture.OPTIONS_OUT);
         optionsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.OPTIONS));
-        ImageView creditsButton = generator.createMenuButton("credits");
+        ImageView creditsButton = generator.createMenuButton(GamePicture.CREDITS_OUT);
         creditsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.CREDITS));
         mainMenu.getChildren().add(startButton);
         mainMenu.getChildren().add(optionsButton);
@@ -118,7 +116,7 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     private VBox getOptions() {
         VBox optionsMenu = new VBox();
         VBox innerMenu = new VBox();
-        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
+        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg(GamePicture.SUBMENU_BACKGROUND, dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Set Things", "optLabel", generator.getFontSize(15));
         Label backButton = generator.createLabelButton("Back", generator.getFontSize(12));
@@ -144,7 +142,7 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
     private VBox getCredits() {
         VBox credits = new VBox();
         VBox innerMenu = new VBox();
-        credits.setBackground(dataOperator.getMediaOp().getBackgroundImg("optionsBackground", dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
+        credits.setBackground(dataOperator.getMediaOp().getBackgroundImg(GamePicture.SUBMENU_BACKGROUND, dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
         credits.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Credits", "optLabel", generator.getFontSize(15));
         Label backButton = generator.createLabelButton("Back", generator.getFontSize(12));

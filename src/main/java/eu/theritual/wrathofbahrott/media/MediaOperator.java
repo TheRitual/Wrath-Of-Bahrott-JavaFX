@@ -1,6 +1,9 @@
 package eu.theritual.wrathofbahrott.media;
 
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameCss;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameFont;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameSoundVideo;
 import eu.theritual.wrathofbahrott.viewoperator.Actions;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
@@ -17,11 +20,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MediaOperator {
-    private Map<String, String> sounds;
-    private Map<String, String> videos;
-    private Map<String, String> images;
+    private Map<GameSoundVideo, String> sounds;
+    private Map<GameSoundVideo, String> videos;
+    private Map<GamePicture, String> images;
     private Map<GameFont, String> fonts;
-    private Map<String, String> css;
+    private Map<GameCss, String> css;
     private MediaPlayer musicMediaPlayer;
     private MediaPlayer videoMediaPlayer;
 
@@ -37,30 +40,30 @@ public class MediaOperator {
         fonts.put(GameFont.O4B, "fonts/04B30.TTF");
         fonts.put(GameFont.VERMIN, "fonts/VerminVibes1989.ttf");
         //CSS
-        css.put("menu", "css/menu.css");
+        css.put(GameCss.MENU, "css/menu.css");
         //SOUNDS
-        sounds.put("menuMusic", "sounds/menu.mp3");
+        sounds.put(GameSoundVideo.MENU_MUSIC, "sounds/menu.mp3");
         //VIDEOS
-        videos.put("intro","videos/intro.mp4");
+        videos.put(GameSoundVideo.INTRO, "videos/intro.mp4");
         //IMAGES
-        images.put("menuBackground", "gfx/menuBackground.png");
-        images.put("gameBackground", "gfx/cityBackground.png");
-        images.put("wobLogo", "gfx/WrathOfBohrottLogo2.png");
-        images.put("exitOn", "gfx/exitOn.png");
-        images.put("exitOut", "gfx/exitOut.png");
-        images.put("startOn", "gfx/startOn.png");
-        images.put("startOut", "gfx/startOut.png");
-        images.put("creditsOn", "gfx/creditsOn.png");
-        images.put("creditsOut", "gfx/creditsOut.png");
-        images.put("optionsOn", "gfx/settingsOn.png");
-        images.put("optionsOut", "gfx/settingsOut.png");
-        images.put("optionsBackground", "gfx/optBg.jpg");
-        images.put("eyeIcon", "gfx/eyeSlider.jpg");
-        images.put("texture", "gfx/3d.png");
+        images.put(GamePicture.MENU_BACKGROUND, "gfx/menuBackground.png");
+        images.put(GamePicture.GAME_BACKGROUND, "gfx/cityBackground.png");
+        images.put(GamePicture.WOB_LOGO, "gfx/WrathOfBohrottLogo2.png");
+        images.put(GamePicture.EXIT_ON, "gfx/exitOn.png");
+        images.put(GamePicture.EXIT_OUT, "gfx/exitOut.png");
+        images.put(GamePicture.START_ON, "gfx/startOn.png");
+        images.put(GamePicture.START_OUT, "gfx/startOut.png");
+        images.put(GamePicture.CREDITS_ON, "gfx/creditsOn.png");
+        images.put(GamePicture.CREDITS_OUT, "gfx/creditsOut.png");
+        images.put(GamePicture.OPTIONS_ON, "gfx/settingsOn.png");
+        images.put(GamePicture.OPTIONS_OUT, "gfx/settingsOut.png");
+        images.put(GamePicture.SUBMENU_BACKGROUND, "gfx/optBg.jpg");
+        images.put(GamePicture.EYE_ICON, "gfx/eyeSlider.jpg");
+        images.put(GamePicture.BIG_TILE_TEXTURE, "gfx/3d.png");
     }
 
-    private URL getSoundUrl(String name) {
-        name = this.sounds.get(name);
+    private URL getSoundUrl(GameSoundVideo soundName) {
+        String name = this.sounds.get(soundName);
         try {
             return MediaOperator.class.getResource(name).toURI().toURL();
         }  catch (MalformedURLException e) {
@@ -73,7 +76,7 @@ public class MediaOperator {
         }
     }
 
-    public void setMusic(String musicName) {
+    public void setMusic(GameSoundVideo musicName) {
         URL sndUrl = getSoundUrl(musicName);
         if(sndUrl == null) {
             Actions.error("Can't recognize file", "Sound " + musicName + " can't be recognized!", "There's no such file on the media map.");
@@ -88,8 +91,8 @@ public class MediaOperator {
         return this.musicMediaPlayer;
     }
 
-    private URL getVideoUrl(String name) {
-        name = this.videos.get(name);
+    private URL getVideoUrl(GameSoundVideo videoName) {
+        String name = this.videos.get(videoName);
         try {
             return MediaOperator.class.getResource(name).toURI().toURL();
         }  catch (MalformedURLException e) {
@@ -102,7 +105,7 @@ public class MediaOperator {
         }
     }
 
-    public void setVideo(String videoName) {
+    public void setVideo(GameSoundVideo videoName) {
         URL vidUrl = getVideoUrl(videoName);
         if(vidUrl == null) {
             Actions.error("Can't recognize file", "Video " + videoName + " can't be recognized!", "There's no such file on the media map.");
@@ -116,7 +119,7 @@ public class MediaOperator {
         return this.videoMediaPlayer;
     }
 
-    public Image getImage(String name, double width, double height) {
+    public Image getImage(GamePicture name, double width, double height) {
         String imgFile = images.get(name);
         try {
             imgFile = MediaOperator.class.getResource(imgFile).toURI().toURL().toString();
@@ -128,11 +131,11 @@ public class MediaOperator {
         return new Image(imgFile, width, height, true, false);
     }
 
-    public Background getBackgroundImg(String imgName, double screenWidth, double screenHeight) {
+    public Background getBackgroundImg(GamePicture imgName, double screenWidth, double screenHeight) {
         return new Background(new BackgroundImage(getImage(imgName, screenWidth,screenHeight), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)));
     }
 
-    public ImageView getImageView(String name, double width, double height) {
+    public ImageView getImageView(GamePicture name, double width, double height) {
         return new ImageView(getImage(name, width, height));
     }
 
@@ -148,8 +151,8 @@ public class MediaOperator {
         return Font.loadFont(fontName, size);
     }
 
-    public String getCss(String cssFileName) {
-        cssFileName = css.get(cssFileName);
+    public String getCss(GameCss cssName) {
+        String cssFileName = css.get(cssName);
         try {
             cssFileName = MediaOperator.class.getResource(cssFileName).toURI().toURL().toString();
         } catch (URISyntaxException e) {
