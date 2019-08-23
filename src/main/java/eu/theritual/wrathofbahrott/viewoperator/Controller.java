@@ -2,8 +2,18 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 
-public interface Controller {
-    void setDataOperator(DataOperator dataOperator);
-    void start();
-    void draw();
+public abstract class Controller {
+    DataOperator dataOperator;
+    ElementGenerator generator;
+
+    void setDataOperator(DataOperator dataOperator) {
+        this.dataOperator = dataOperator;
+        generator = new ElementGenerator(dataOperator);
+    }
+
+    void start() {
+    }
+
+    void draw() {
+    }
 }

@@ -1,6 +1,5 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
-import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.MapElement;
@@ -26,11 +25,9 @@ import java.util.List;
 import java.util.Random;
 
 @Controller
-public class GameController implements eu.theritual.wrathofbahrott.viewoperator.Controller {
-    private DataOperator dataOperator;
+public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Controller {
     private double canvasSize;
     private GameBoardMap gbm;
-    private ElementGenerator generator;
     private Random gen = new Random();
     private Thread boardThread;
     @FXML
@@ -45,11 +42,7 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
         return size - (size % 2);
     }
 
-    public void setDataOperator(DataOperator dataOperator) {
-        this.dataOperator = dataOperator;
-        this.generator = new ElementGenerator(dataOperator);
-    }
-
+    @Override
     public void draw() {
         boardThread = new Thread();
         gamePane.setMinSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
@@ -120,10 +113,6 @@ public class GameController implements eu.theritual.wrathofbahrott.viewoperator.
             }
         }
         gc.setGlobalAlpha(1);
-    }
-
-    public void start() {
-
     }
 
     private void backToMainMenu() {

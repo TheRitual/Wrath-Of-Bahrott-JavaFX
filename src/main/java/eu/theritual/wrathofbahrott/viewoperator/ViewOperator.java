@@ -103,7 +103,7 @@ public class ViewOperator {
     }
 
     private Controller getController(GameModule gameModule) {
-        ViewData view = loadView(gameModule + ".fxml");
+        ViewData view = loadView(gameModule.toString() + ".fxml");
         mainStage.getScene().setRoot(view.getRoot());
         Controller controller = view.getLoader().getController();
         controller.setDataOperator(dataOperator);

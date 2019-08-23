@@ -1,6 +1,5 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
-import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameSoundVideo;
 import javafx.beans.binding.Bindings;
@@ -13,12 +12,10 @@ import org.springframework.stereotype.Controller;
 
 
 @Controller
-public class SplashScreenController implements eu.theritual.wrathofbahrott.viewoperator.Controller {
-    private DataOperator dataOperator;
+public class SplashScreenController extends eu.theritual.wrathofbahrott.viewoperator.Controller {
 
     @FXML
     private MediaView splashVideo;
-
 
     private void skip() {
         splashVideo.getMediaPlayer().stop();
@@ -32,9 +29,7 @@ public class SplashScreenController implements eu.theritual.wrathofbahrott.viewo
         skip();
     }
 
-    public void draw() {
-    }
-
+    @Override
     public void start() {
         dataOperator.getMediaOp().setVideo(GameSoundVideo.INTRO);
         MediaPlayer player = dataOperator.getMediaOp().getVideoMediaPlayer();
@@ -48,9 +43,5 @@ public class SplashScreenController implements eu.theritual.wrathofbahrott.viewo
         player.setOnEndOfMedia(this::skip);
         splashVideo.setOnMouseClicked(this::skip);
         player.play();
-    }
-
-    public void setDataOperator(DataOperator dataOperator) {
-        this.dataOperator = dataOperator;
     }
 }

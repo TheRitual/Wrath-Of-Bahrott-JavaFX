@@ -1,6 +1,5 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
-import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.*;
 import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.application.Platform;
@@ -24,7 +23,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 
 @Controller
-public class MainMenuController implements eu.theritual.wrathofbahrott.viewoperator.Controller {
+public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator.Controller {
     @FXML
     GridPane menuPane;
     @FXML
@@ -34,22 +33,14 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
 
     private VBox currentMenu;
     private ImageView wobLogo;
-    private DataOperator dataOperator;
     private SubView subView = SubView.MAIN_MENU;
-    private ElementGenerator generator;
 
     @FXML
     private void exitAction(Event e) {
         Platform.exit();
     }
 
-
-
-    public void setDataOperator(DataOperator dataOperator) {
-        this.dataOperator = dataOperator;
-        this.generator = new ElementGenerator(dataOperator);
-    }
-
+    @Override
     public void draw() {
         menuPane.setAlignment(Pos.TOP_CENTER);
         menuPane.setPrefSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
@@ -64,6 +55,7 @@ public class MainMenuController implements eu.theritual.wrathofbahrott.viewopera
         setSubView(subView);
     }
 
+    @Override
     public void start() {
         musicPlayer.setMediaPlayer(null);
         dataOperator.getMediaOp().setMusic(GameSoundVideo.MENU_MUSIC);
