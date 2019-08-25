@@ -2,6 +2,7 @@ package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameSprite;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.MapElement;
 import eu.theritual.wrathofbahrott.media.MediaOperator;
 import eu.theritual.wrathofbahrott.media.SpritesOperator;
@@ -68,7 +69,7 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
         gameCanvas.setOnMouseEntered(e -> dataOperator.getView().getRoot().getScene().setCursor(Cursor.CROSSHAIR));
         gameCanvas.setOnMouseExited(e -> dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT));
         gc = gameCanvas.getGraphicsContext2D();
-        animationTimer = getGameAnimation(gc);
+        animationTimer = getGameAnimation();
         int boardSize = getTilesAmount();
         this.gbm = new GameBoardMap(boardSize, gc);
         gc.clearRect(0, 0, canvasSize, canvasSize);
@@ -118,20 +119,22 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
         gc.setGlobalAlpha(1);
     }
 
-    private AnimationTimer getGameAnimation(GraphicsContext gc) {
+    private AnimationTimer getGameAnimation() {
         final long startNanoTime = System.nanoTime();
-        final Point2D[] startTile = new Point2D[1];
-        final Point2D[] endTile = new Point2D[1];
         return new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-                endTile[0] = gbm.getTileByPixel(gbm.getBathrottXPosition() * 16 + gbm.getBahrottSize() * 16, 8 + gbm.getBahrottSize() * 16);
-                startTile[0] = gbm.getTileByPixel(gbm.getBathrottXPosition() * 16, 8);
-                gbm.setRefreshField(startTile[0], endTile[0], true);
-                gbm.draw();
-                gc.drawImage(SpritesOperator.getSprite(0, gbm.getBahrottSize() * 16, gbm.getBahrottSize() * 16).getFrame(t), gbm.getBathrottXPosition() * 16, 8);
+                putSprite(GameSprite.BAHROTT, gbm.getBahrottSize() * 16, gbm.getBahrottSize() * 16, gbm.getBathrottXPosition() * 16, 8, t);
             }
         };
+    }
+
+    private void putSprite(GameSprite sprite, double width, double height, double x, double y, double time) {
+        final Point2D startTile = gbm.getTileByPixel(x, y);
+        final Point2D endTile = gbm.getTileByPixel(x + width, y + height);
+        gbm.setRefreshField(startTile, endTile, true);
+        gbm.draw();
+        gc.drawImage(SpritesOperator.getSprite(sprite, width, height).getFrame(time), x, y);
     }
 
     @Override
