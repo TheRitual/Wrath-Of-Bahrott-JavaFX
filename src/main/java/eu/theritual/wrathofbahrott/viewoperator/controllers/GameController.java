@@ -190,12 +190,15 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         Label topTitle = generator.createLabel("Tell me your story", "optLabel", generator.getFontSize(12));
         Label nameTextField = generator.createLabel("Name", "gameLabel", generator.getFontSize(10));
         Label classTextField = generator.createLabel("Class", "gameLabel", generator.getFontSize(10));
-        TextField charName = generator.createTextField(generator.getFontSize(7), GameFont.VERMIN);
+        TextField charName = generator.createTextField(generator.getFontSize(10), GameFont.VERMIN);
         Label exitButton = generator.createLabelButton("Back", generator.getFontSize(10));
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(GameSubView.PRE_MENU));
         HBox classes = new HBox();
+        classes.setAlignment(Pos.CENTER);
         ImageView witchClass = mediaOperator.getImageView(GamePicture.WITCH_FRONT, (view.getScreenWidth() * 0.45) / 8, (view.getScreenWidth() * 0.45) / 4);
+        ImageView nunClass = mediaOperator.getImageView(GamePicture.NUN_FRONT, (view.getScreenWidth() * 0.45) / 8, (view.getScreenWidth() * 0.45) / 4);
         classes.getChildren().add(witchClass);
+        classes.getChildren().add(nunClass);
         preMenu.getChildren().add(topTitle);
         preMenu.getChildren().add(nameTextField);
         preMenu.getChildren().add(charName);

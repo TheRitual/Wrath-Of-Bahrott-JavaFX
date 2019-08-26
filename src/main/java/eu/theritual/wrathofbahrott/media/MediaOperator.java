@@ -61,6 +61,7 @@ public class MediaOperator {
         images.put(GamePicture.PRE_MENU_BG, "gfx/back.jpg");
         images.put(GamePicture.GAME_BG_PANEL, "gfx/bgGamePanel.png");
         images.put(GamePicture.WITCH_FRONT, "gfx/sprites/characters/witch_bs.png");
+        images.put(GamePicture.NUN_FRONT, "gfx/sprites/characters/nun_bs.png");
     }
 
     private URL getSoundUrl(GameSoundVideo soundName) {
