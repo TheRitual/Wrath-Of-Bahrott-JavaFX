@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Random;
 
+import static eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture.GAME_BG_PANEL;
 import static eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture.PRE_MENU_BG;
 
 @Controller
@@ -181,12 +182,12 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
 
     private VBox getStartGameMenu() {
         VBox preMenu = new VBox();
-        preMenu.setBackground(mediaOperator.getBackgroundImg(PRE_MENU_BG, view.getScreenWidth() * 0.5, view.getScreenHeight()));
+        preMenu.setBackground(mediaOperator.getBackgroundImg(GAME_BG_PANEL, view.getScreenWidth() * 0.5, view.getScreenHeight()));
         preMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Tell me your story", "optLabel", generator.getFontSize(12));
-        Label nameTextField = generator.createLabel("Name", "gameLabel", generator.getFontSize(11));
-        TextField charName = new TextField();
-        Label exitButton = generator.createLabelButton("Back", generator.getFontSize(12));
+        Label nameTextField = generator.createLabel("Name", "gameLabel", generator.getFontSize(10));
+        TextField charName = generator.createTextField(generator.getFontSize(7), GameFont.VERMIN);
+        Label exitButton = generator.createLabelButton("Back", generator.getFontSize(10));
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(GameSubView.PRE_MENU));
         preMenu.getChildren().add(topTitle);
         preMenu.getChildren().add(nameTextField);

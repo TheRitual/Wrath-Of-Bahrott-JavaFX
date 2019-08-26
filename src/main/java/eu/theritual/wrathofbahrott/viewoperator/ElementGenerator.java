@@ -4,9 +4,11 @@ import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameFont;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture;
 import javafx.event.Event;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -92,6 +94,18 @@ public class ElementGenerator {
         btn.getStyleClass().add(styleClass);
         btn.setTextFill(Color.rgb(4, 127, 158));
         return btn;
+    }
+
+    private TextField createTextField(String defaultValue, double size, GameFont gameFont) {
+        Font fnt = dataOperator.getMediaOp().getFont(gameFont, getFontSize(size));
+        TextField field = new TextField(defaultValue);
+        field.setAlignment(Pos.CENTER);
+        field.setFont(fnt);
+        return field;
+    }
+
+    public TextField createTextField(double size, GameFont gameFont) {
+        return createTextField("", size, gameFont);
     }
 
     public Slider createSlider(double min, double max, double value) {
