@@ -8,11 +8,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 class GameManager {
     private DataOperator dataOperator;
+    private ViewOperator view;
 
     GameManager(Stage mainStage, ConfigurableApplicationContext context) {
         dataOperator = new DataOperator(context, new ViewOperator(mainStage));
-        dataOperator.getView().setDataOperator(dataOperator);
+        view = dataOperator.getView();
         dataOperator.setGameOptions(SaveLoadUtils.loadOptions("config"));
+        view.setDataOperator(dataOperator);
         start();
     }
 

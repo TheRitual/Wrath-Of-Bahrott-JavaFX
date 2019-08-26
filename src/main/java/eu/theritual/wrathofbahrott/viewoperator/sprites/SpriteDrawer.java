@@ -16,7 +16,7 @@ public final class SpriteDrawer {
     private final SpritesOperator spritesOperator;
 
     public SpriteDrawer(GameBoardMap gbm, GraphicsContext gc, double time) {
-        this.spritesOperator = new SpritesOperator(0.12, gbm);
+        this.spritesOperator = new SpritesOperator(0.17, gbm);
         this.gbm = gbm;
         this.gc = gc;
         this.time = time;
@@ -39,6 +39,7 @@ public final class SpriteDrawer {
         }
         gbm.draw();
         for (OnBoardSprite sprite : sprites) {
+            //System.out.println(sprite.getSpriteType());
             gc.drawImage(spritesOperator.getSprite(sprite.getSpriteType()).getFrame(time), sprite.getX(), sprite.getY());
         }
 

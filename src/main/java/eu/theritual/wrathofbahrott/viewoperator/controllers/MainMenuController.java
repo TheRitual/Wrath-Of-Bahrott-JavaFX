@@ -54,6 +54,7 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
         view.getRoot().getScene().getStylesheets().add(mediaOperator.getCss(GameCss.MENU));
         menuPane.add(wobLogo, 1, 0);
         setSubView(subView);
+        System.out.println(view.getScreenWidth());
     }
 
     @Override

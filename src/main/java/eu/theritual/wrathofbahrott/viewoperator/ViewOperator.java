@@ -60,8 +60,6 @@ public class ViewOperator {
         Rectangle2D screenBounds;
         if (gameOptions.isFullScreen()) {
             screenBounds = Screen.getPrimary().getBounds();
-        } else if (gameOptions.isMaximized()) {
-            screenBounds = Screen.getPrimary().getVisualBounds();
         } else {
             screenBounds = new Rectangle2D(0, 0, mainStage.getWidth(), mainStage.getHeight());
         }
@@ -80,8 +78,6 @@ public class ViewOperator {
         checkResolution();
         mainStage.minHeightProperty().bind(mainStage.widthProperty().divide(screenRatio));
         mainStage.maxHeightProperty().bind(mainStage.widthProperty().divide(screenRatio));
-        mainStage.setMaximized(gameOptions.isMaximized());
-        mainStage.setResizable(!gameOptions.isMaximized());
         mainStage.setFullScreen(gameOptions.isFullScreen());
         mainStage.setAlwaysOnTop(gameOptions.isFullScreen());
         mainStage.show();

@@ -30,20 +30,27 @@ public final class SpritesOperator {
         spritesList.put(GameSprite.BAHROTT, bahrot);
 
         List<AnimatedSprite> witchList = createAnimateCharacterSprites("characters/witch", width, height, characterAnimationSpeed);
-        spritesList.put(GameSprite.WITCH_T, witchList.get(0));
-        spritesList.put(GameSprite.WITCH_R, witchList.get(1));
-        spritesList.put(GameSprite.WITCH_B, witchList.get(2));
-        spritesList.put(GameSprite.WITCH_L, witchList.get(3));
+        addSpriteCharacterSet(GameSprite.WITCH_T, GameSprite.WITCH_R, GameSprite.WITCH_B, GameSprite.WITCH_L, witchList);
 
         List<AnimatedSprite> nunList = createAnimateCharacterSprites("characters/nun", width, height, characterAnimationSpeed);
-        spritesList.put(GameSprite.NUN_T, nunList.get(0));
-        spritesList.put(GameSprite.NUN_R, nunList.get(1));
-        spritesList.put(GameSprite.NUN_B, nunList.get(2));
-        spritesList.put(GameSprite.NUN_L, nunList.get(3));
+        addSpriteCharacterSet(GameSprite.NUN_T, GameSprite.NUN_R, GameSprite.NUN_B, GameSprite.NUN_L, nunList);
+
+        List<AnimatedSprite> workerList = createAnimateCharacterSprites("characters/worker", width, height, characterAnimationSpeed);
+        addSpriteCharacterSet(GameSprite.WORKER_T, GameSprite.WORKER_R, GameSprite.WORKER_B, GameSprite.WORKER_L, workerList);
+
+        List<AnimatedSprite> courierList = createAnimateCharacterSprites("characters/courier", width, height, characterAnimationSpeed);
+        addSpriteCharacterSet(GameSprite.COURIER_T, GameSprite.COURIER_R, GameSprite.COURIER_B, GameSprite.COURIER_L, courierList);
     }
 
     public AnimatedSprite getSprite(GameSprite sprite) {
         return spritesList.get(sprite);
+    }
+
+    private void addSpriteCharacterSet(GameSprite top, GameSprite right, GameSprite bottom, GameSprite left, List<AnimatedSprite> animatedList) {
+        spritesList.put(top, animatedList.get(0));
+        spritesList.put(right, animatedList.get(1));
+        spritesList.put(bottom, animatedList.get(2));
+        spritesList.put(left, animatedList.get(3));
     }
 
     private List<AnimatedSprite> createAnimateCharacterSprites(String prefixPath, double width, double height, double characterAnimationSpeed) {

@@ -5,12 +5,12 @@ import eu.theritual.wrathofbahrott.media.MediaOperator;
 import eu.theritual.wrathofbahrott.viewoperator.ViewOperator;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class DataOperator {
+public final class DataOperator {
     private GameModule module;
-    private ConfigurableApplicationContext springContext;
-    private ViewOperator viewOperator;
-    private MediaOperator mediaOperator;
     private GameOptions gameOptions;
+    private final ConfigurableApplicationContext springContext;
+    private final ViewOperator viewOperator;
+    private final MediaOperator mediaOperator;
 
     public DataOperator(ConfigurableApplicationContext springContext, ViewOperator viewOperator) {
         gameOptions = new GameOptions();
@@ -34,10 +34,6 @@ public class DataOperator {
 
     public ViewOperator getView() {
         return viewOperator;
-    }
-
-    public void setModule(GameModule module) {
-        this.module = module;
     }
 
     public GameOptions getGOptions() {

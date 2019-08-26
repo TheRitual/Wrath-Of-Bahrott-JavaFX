@@ -24,8 +24,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
 
-import java.util.Random;
-
 import static eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture.GAME_BG_PANEL;
 import static eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture.PRE_MENU_BG;
 
@@ -33,7 +31,6 @@ import static eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture.PRE
 public class GameController extends eu.theritual.wrathofbahrott.viewoperator.controllers.Controller {
     private double canvasSize;
     private GameBoardMap gbm;
-    private Random gen = new Random();
     private Thread boardThread;
     private AnimationTimer animationTimer;
     private GraphicsContext gc;
@@ -118,12 +115,28 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
 
     private AnimationTimer getGameAnimation() {
         final long startNanoTime = System.nanoTime();
+        final byte[] direction = {0};
         return new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 final SpriteDrawer spriteDrawer = new SpriteDrawer(gbm, gc, t);
-                spriteDrawer.add(new OnBoardSprite(GameSprite.NUN_L, 16 + gbm.getMovementSpeed() * t, 32 + (gbm.getTileHeight() * 16) * 3, gbm.getSpriteWidth(), gbm.getSpriteHeight()));
-                spriteDrawer.add(new OnBoardSprite(GameSprite.WITCH_T, gbm.getBathrottXPosition() * 16 - (gbm.getTileWidth() * 16), gbm.getSize() * 16 - 32 - gbm.getMovementSpeed(), gbm.getSpriteWidth(), gbm.getSpriteHeight()));
+                GameSprite sprite = GameSprite.NUN_R;
+                if ((int) (currentNanoTime / 10000000000d) % 4 == 0) {
+                    sprite = GameSprite.WORKER_R;
+                }
+
+                if ((int) (currentNanoTime / 10000000000d) % 4 == 1) {
+                    sprite = GameSprite.COURIER_R;
+                }
+
+                if ((int) (currentNanoTime / 10000000000d) % 4 == 2) {
+                    sprite = GameSprite.WITCH_R;
+                }
+
+                if ((int) (currentNanoTime / 10000000000d) % 4 == 3) {
+                    sprite = GameSprite.NUN_R;
+                }
+                spriteDrawer.add(new OnBoardSprite(sprite, (t * gbm.getMovementSpeed()) % ((gbm.getSize() - 4) * 16), 32 + (gbm.getTileHeight() * 16) * 5, gbm.getSpriteWidth(), gbm.getSpriteHeight()));
                 spriteDrawer.add(new OnBoardSprite(GameSprite.BAHROTT, gbm.getBathrottXPosition() * 16, 8, gbm.getBahrottSize(), gbm.getBahrottSize()));
                 spriteDrawer.draw();
             }
@@ -197,8 +210,12 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         classes.setAlignment(Pos.CENTER);
         ImageView witchClass = mediaOperator.getImageView(GamePicture.WITCH_FRONT, (view.getScreenWidth() * 0.45) / 8, (view.getScreenWidth() * 0.45) / 4);
         ImageView nunClass = mediaOperator.getImageView(GamePicture.NUN_FRONT, (view.getScreenWidth() * 0.45) / 8, (view.getScreenWidth() * 0.45) / 4);
+        ImageView workerClass = mediaOperator.getImageView(GamePicture.WORKER_FRONT, (view.getScreenWidth() * 0.45) / 8, (view.getScreenWidth() * 0.45) / 4);
+        ImageView courierClass = mediaOperator.getImageView(GamePicture.COURIER_FRONT, (view.getScreenWidth() * 0.45) / 8, (view.getScreenWidth() * 0.45) / 4);
         classes.getChildren().add(witchClass);
         classes.getChildren().add(nunClass);
+        classes.getChildren().add(workerClass);
+        classes.getChildren().add(courierClass);
         preMenu.getChildren().add(topTitle);
         preMenu.getChildren().add(nameTextField);
         preMenu.getChildren().add(charName);
