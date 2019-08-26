@@ -36,6 +36,7 @@ public class MediaOperator {
         //FONTS
         fonts.put(GameFont.FIPPS, "fonts/Fipps-Regular.otf");
         fonts.put(GameFont.O4B, "fonts/04B30.TTF");
+        fonts.put(GameFont.ADDLG, "fonts/ADDLG.TTF");
         fonts.put(GameFont.VERMIN, "fonts/VerminVibes1989.ttf");
         //CSS
         css.put(GameCss.MENU, "css/standard.css");
@@ -64,6 +65,8 @@ public class MediaOperator {
         images.put(GamePicture.NUN_FRONT, "gfx/sprites/characters/nun_bs.png");
         images.put(GamePicture.WORKER_FRONT, "gfx/sprites/characters/worker_bs.png");
         images.put(GamePicture.COURIER_FRONT, "gfx/sprites/characters/courier_bs.png");
+        images.put(GamePicture.SHIELD, "gfx/shield.png");
+        images.put(GamePicture.ITEM_SLOT, "gfx/itemslot.png");
     }
 
     private URL getSoundUrl(GameSoundVideo soundName) {

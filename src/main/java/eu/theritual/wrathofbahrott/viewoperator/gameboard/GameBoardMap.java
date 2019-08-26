@@ -12,6 +12,7 @@ public final class GameBoardMap {
     private int size;
     private TileOperator tileOperator;
     private final GraphicsContext gc;
+    private boolean continueRedrawing;
 
     public GameBoardMap(int size, GraphicsContext graphicsContext) {
         this.tileOperator = new TileOperator();
@@ -74,7 +75,7 @@ public final class GameBoardMap {
         }
     }
 
-    private void setRefreshField(int startX, int startY, int endX, int endY, boolean shouldRefresh) {
+    public void setRefreshField(int startX, int startY, int endX, int endY, boolean shouldRefresh) {
         for (int y = startY; y <= endY; y++) {
             for (int x = startX; x <= endX; x++) {
                 setRefreshTile(x, y, shouldRefresh);
@@ -112,11 +113,11 @@ public final class GameBoardMap {
         return getTileWidth();
     }
 
-    private int getGap() {
+    public int getGap() {
         return getSize() - 8 * getTileWidth() - 4;
     }
 
-    private int getMargin() {
+    public int getMargin() {
         return 2 + getTileWidth() / 2 + (getGap() / 2);
     }
 
@@ -138,7 +139,7 @@ public final class GameBoardMap {
     }
 
     public double getMovementSpeed() {
-        return size * 16 / 20;
+        return (size * 16d) / 20d;
     }
 
     public double getSpriteWidth() {
@@ -151,5 +152,13 @@ public final class GameBoardMap {
 
     public TileOperator getTileOperator() {
         return tileOperator;
+    }
+
+    public boolean isContinueRedrawing() {
+        return continueRedrawing;
+    }
+
+    public void setContinueRedrawing(boolean continueRedrawing) {
+        this.continueRedrawing = continueRedrawing;
     }
 }

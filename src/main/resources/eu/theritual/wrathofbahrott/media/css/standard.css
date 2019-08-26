@@ -1,24 +1,36 @@
 .optLabelBtn.label .text {
     -fx-fill: rgb(59, 158, 133);
-    -fx-stroke: black;
+    -fx-stroke: #204c26;
     -fx-stroke-width: 1px;
 }
 
 .optLabel.label .text {
     -fx-fill: rgb(4, 127, 158);
-    -fx-stroke: black;
+    -fx-stroke: #191f63;
     -fx-stroke-width: 2px;
 }
 
+.errorLabel.label .text {
+    -fx-fill: rgb(158, 46, 100);
+    -fx-stroke: #4b0f41;
+    -fx-stroke-width: 1px;
+}
+
+.nameTag.label .text {
+    -fx-fill: rgb(177, 136, 181);
+    -fx-stroke: #4b1272;
+    -fx-stroke-width: 1px;
+}
+
 .creditsLabel.label .text {
-    -fx-fill: rgb(0, 130, 170);
-    -fx-stroke: black;
+    -fx-fill: rgb(0, 165, 212);
+    -fx-stroke: #191f63;
     -fx-stroke-width: 1px;
 }
 
 .optLabelMini.label .text {
-    -fx-fill: rgb(4, 127, 158);
-    -fx-stroke: rgb(50, 50, 50);
+    -fx-fill: rgb(4, 158, 194);
+    -fx-stroke: rgb(22, 28, 50);
     -fx-stroke-width: 1px;
 }
 
@@ -62,11 +74,10 @@
 }
 
 .text-input {
-    -fx-text-fill: ghostwhite;
+    -fx-text-fill: #c9b9ff;
     -fx-highlight-fill: derive(-fx-control-inner-background, -20%);
     -fx-highlight-text-fill: -fx-text-inner-color;
     -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
     -fx-background-insets: 0, 1;
     -fx-background-radius: 3, 2;
 }
-
