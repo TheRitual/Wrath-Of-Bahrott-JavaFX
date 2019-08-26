@@ -10,9 +10,11 @@ public final class GameBoardMap {
     private int[][][] gameMap;
     private boolean[][] refreshMap;
     private int size;
+    private TileOperator tileOperator;
     private final GraphicsContext gc;
 
     public GameBoardMap(int size, GraphicsContext graphicsContext) {
+        this.tileOperator = new TileOperator();
         gameMap = new int[size][size][5];
         refreshMap = new boolean[size][size];
         for (boolean[] row : refreshMap) {
@@ -29,7 +31,7 @@ public final class GameBoardMap {
             for (int x = 0; x < size; x++) {
                 for (int l = 4; l >= 0; l--) {
                     int tileId = gameMap[x][y][l];
-                    if (!TileOperator.getTile(tileId).isTransparent()) {
+                    if (!tileOperator.getTile(tileId).isTransparent()) {
                         firstVisibleTileMap[x][y] = (byte) l;
                         break;
                     }
@@ -55,7 +57,7 @@ public final class GameBoardMap {
                                     gc.setGlobalAlpha(0.5);
                                     break;
                             }
-                            gc.drawImage(TileOperator.translateTileId(tileId, x, y), x * 16, y * 16);
+                            gc.drawImage(tileOperator.translateTileId(tileId, x, y), x * 16, y * 16);
                             gc.setGlobalAlpha(1);
                             refreshMap[x][y] = false;
                             //System.out.println("Printed " + x + " / " + y + " / " + l + " | with: " + TileOperator.getTile(tileId).getName());
@@ -110,11 +112,11 @@ public final class GameBoardMap {
         return getTileWidth();
     }
 
-    public int getGap() {
+    private int getGap() {
         return getSize() - 8 * getTileWidth() - 4;
     }
 
-    public int getMargin() {
+    private int getMargin() {
         return 2 + getTileWidth() / 2 + (getGap() / 2);
     }
 
@@ -123,7 +125,7 @@ public final class GameBoardMap {
     }
 
     public int getBahrottSize() {
-        return getTileWidth() + 2;
+        return (getTileWidth() + 2) * 16;
     }
 
     public int getSize() {
@@ -132,9 +134,22 @@ public final class GameBoardMap {
 
     public Point2D getTileByPixel(double x, double y) {
         return new Point2D(Math.floor((x) / 16) - 1, Math.floor((y) / 16) - 1);
+
     }
 
     public double getMovementSpeed() {
         return size * 16 / 20;
+    }
+
+    public double getSpriteWidth() {
+        return (getTileWidth() - 1) * 16;
+    }
+
+    public double getSpriteHeight() {
+        return (getTileHeight() - 1) * 16;
+    }
+
+    public TileOperator getTileOperator() {
+        return tileOperator;
     }
 }

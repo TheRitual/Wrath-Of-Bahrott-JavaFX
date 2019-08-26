@@ -12,16 +12,18 @@ public class MapDrawer {
     private GameBoardMap gbm;
     private Map<MapElement, Drawable> shapeMap;
     private Map<MapElement, Tile> singularTileMap;
+    private TileOperator tileOperator;
 
     public MapDrawer(GameBoardMap gameBoardMap) {
         gbm = gameBoardMap;
         shapeMap = new HashMap<>();
         singularTileMap = new HashMap<>();
+        tileOperator = gbm.getTileOperator();
         setUpTiles();
     }
 
     private void setUpTiles() {
-        singularTileMap.put(MapElement.STONE_FLOOR, TileOperator.getTile(54));
+        singularTileMap.put(MapElement.STONE_FLOOR, tileOperator.getTile(54));
         MapSquare grass1square = new MapSquare(1, 2, 3, 4, 5, 6, 7, 8, 9);
         grass1square.addFill(10);
         grass1square.addFill(11);

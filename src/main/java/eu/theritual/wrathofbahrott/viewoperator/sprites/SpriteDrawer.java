@@ -13,8 +13,10 @@ public final class SpriteDrawer {
     private final List<OnBoardSprite> sprites;
     private final GraphicsContext gc;
     private final double time;
+    private final SpritesOperator spritesOperator;
 
     public SpriteDrawer(GameBoardMap gbm, GraphicsContext gc, double time) {
+        this.spritesOperator = new SpritesOperator(0.12, gbm);
         this.gbm = gbm;
         this.gc = gc;
         this.time = time;
@@ -27,13 +29,17 @@ public final class SpriteDrawer {
 
     public void draw() {
         for (OnBoardSprite sprite : sprites) {
-            final Point2D startTile = gbm.getTileByPixel(sprite.getX(), sprite.getY());
-            final Point2D endTile = gbm.getTileByPixel(sprite.getX() + sprite.getWidth() + 32, sprite.getY() + sprite.getHeight() + 32);
+            double startX = sprite.getX() - 1;
+            double startY = sprite.getY() - 1;
+            double endX = sprite.getX() + sprite.getWidth();
+            double endY = sprite.getY() + sprite.getHeight();
+            final Point2D startTile = gbm.getTileByPixel(startX, startY);
+            final Point2D endTile = gbm.getTileByPixel(endX, endY);
             gbm.setRefreshField(startTile, endTile, true);
         }
         gbm.draw();
         for (OnBoardSprite sprite : sprites) {
-            gc.drawImage(SpritesOperator.getSprite(sprite.getSpriteType(), sprite.getWidth(), sprite.getHeight()).getFrame(time), sprite.getX(), sprite.getY());
+            gc.drawImage(spritesOperator.getSprite(sprite.getSpriteType()).getFrame(time), sprite.getX(), sprite.getY());
         }
 
     }

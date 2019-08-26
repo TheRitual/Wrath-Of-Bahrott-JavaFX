@@ -16,8 +16,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
@@ -111,7 +113,7 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
             }
         }*/
         gbm.draw();
-        //animationTimer.start();
+        animationTimer.start();
     }
 
     private AnimationTimer getGameAnimation() {
@@ -120,8 +122,9 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
             public void handle(long currentNanoTime) {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 final SpriteDrawer spriteDrawer = new SpriteDrawer(gbm, gc, t);
-                spriteDrawer.add(new OnBoardSprite(GameSprite.WITCH_T, (gbm.getTileWidth() - 1) * 16, (gbm.getTileHeight() - 1) * 16, gbm.getBathrottXPosition() * 16 + (gbm.getTileWidth() * 16), (gbm.getSize() - 2) * 16 - t * gbm.getMovementSpeed()));
-                spriteDrawer.add(new OnBoardSprite(GameSprite.BAHROTT, gbm.getBahrottSize() * 16, gbm.getBahrottSize() * 16, gbm.getBathrottXPosition() * 16, 8));
+                spriteDrawer.add(new OnBoardSprite(GameSprite.NUN_L, 16 + gbm.getMovementSpeed() * t, 32 + (gbm.getTileHeight() * 16) * 3, gbm.getSpriteWidth(), gbm.getSpriteHeight()));
+                spriteDrawer.add(new OnBoardSprite(GameSprite.WITCH_T, gbm.getBathrottXPosition() * 16 - (gbm.getTileWidth() * 16), gbm.getSize() * 16 - 32 - gbm.getMovementSpeed(), gbm.getSpriteWidth(), gbm.getSpriteHeight()));
+                spriteDrawer.add(new OnBoardSprite(GameSprite.BAHROTT, gbm.getBathrottXPosition() * 16, 8, gbm.getBahrottSize(), gbm.getBahrottSize()));
                 spriteDrawer.draw();
             }
         };
@@ -186,12 +189,18 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         preMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Tell me your story", "optLabel", generator.getFontSize(12));
         Label nameTextField = generator.createLabel("Name", "gameLabel", generator.getFontSize(10));
+        Label classTextField = generator.createLabel("Class", "gameLabel", generator.getFontSize(10));
         TextField charName = generator.createTextField(generator.getFontSize(7), GameFont.VERMIN);
         Label exitButton = generator.createLabelButton("Back", generator.getFontSize(10));
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(GameSubView.PRE_MENU));
+        HBox classes = new HBox();
+        ImageView witchClass = mediaOperator.getImageView(GamePicture.WITCH_FRONT, (view.getScreenWidth() * 0.45) / 8, (view.getScreenWidth() * 0.45) / 4);
+        classes.getChildren().add(witchClass);
         preMenu.getChildren().add(topTitle);
         preMenu.getChildren().add(nameTextField);
         preMenu.getChildren().add(charName);
+        preMenu.getChildren().add(classTextField);
+        preMenu.getChildren().add(classes);
         preMenu.getChildren().add(exitButton);
         preMenu.setOpacity(0.9);
         return preMenu;

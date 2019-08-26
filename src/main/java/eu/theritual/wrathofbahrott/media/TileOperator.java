@@ -9,12 +9,17 @@ import java.util.List;
 import java.util.Objects;
 
 public final class TileOperator {
+    private List<Tile> tileList;
 
-    public static WritableImage translateTileId(int id, int x, int y) {
-        Tile tile = getTileList().stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+    public TileOperator() {
+        tileList = getTileList();
+    }
+
+    public WritableImage translateTileId(int id, int x, int y) {
+        Tile tile = tileList.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
         if (tile == null) {
             try {
-                tile = getTileList().get(0);
+                tile = tileList.get(0);
             } catch (NullPointerException e) {
                 System.out.println("ERROR " + e.toString());
             }
@@ -26,11 +31,11 @@ public final class TileOperator {
         return new WritableImage(img.getPixelReader(), startx, starty, 16, 16);
     }
 
-    public static Tile getTile(int id) {
-        return getTileList().stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+    public Tile getTile(int id) {
+        return tileList.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
     }
 
-    private static List<Tile> getTileList() {
+    private List<Tile> getTileList() {
         List<Tile> tileList = new ArrayList<>();
         tileList.add(new Tile(0, "empty", true));
         tileList.add(new Tile(1, "grass1tlc", true));
@@ -130,7 +135,6 @@ public final class TileOperator {
         for (int f = 0; f <= 15; f++) {
             tileList.add(new Tile(141 + f, "blue_fieldtile_" + f, false));
         }
-
 
         return tileList;
     }
