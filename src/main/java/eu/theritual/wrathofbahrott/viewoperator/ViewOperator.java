@@ -4,6 +4,7 @@ import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.GameOptions;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
 import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
+import eu.theritual.wrathofbahrott.viewoperator.controllers.Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -23,6 +24,7 @@ public class ViewOperator {
     private Group root;
     private Controller controller;
     private GameOptions gameOptions;
+    private ElementGenerator generator;
 
     public ViewOperator(Stage mainStage) {
         this.mainStage = mainStage;
@@ -51,6 +53,7 @@ public class ViewOperator {
     public void setDataOperator(DataOperator dataOperator) {
         this.dataOperator = dataOperator;
         this.gameOptions = dataOperator.getGOptions();
+        this.generator = new ElementGenerator(dataOperator);
     }
 
     private void checkResolution() {
@@ -95,7 +98,7 @@ public class ViewOperator {
             loader.setControllerFactory(dataOperator.getSpringContext()::getBean);
             root.getChildren().add(loader.load());
         } catch (Exception e) {
-            Actions.error("EXCEPTION HAPPEND!", "Can't load fxml file ", e.toString() + "\n" + e.getCause());
+            SpecialActions.error("EXCEPTION HAPPEND!", "Can't load fxml file ", e.toString() + "\n" + e.getCause());
         }
         return new ViewData(loader, root);
     }
@@ -115,19 +118,23 @@ public class ViewOperator {
         return controller;
     }
 
-    double getScreenWidth() {
+    public double getScreenWidth() {
         return screenWidth;
     }
 
-    double getScreenHeight() {
+    public double getScreenHeight() {
         return screenHeight;
     }
 
-    Group getRoot() {
+    public Group getRoot() {
         return root;
     }
 
-    Stage getStage() {
+    public Stage getStage() {
         return mainStage;
+    }
+
+    public ElementGenerator getGenerator() {
+        return generator;
     }
 }

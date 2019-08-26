@@ -1,4 +1,4 @@
-package eu.theritual.wrathofbahrott.viewoperator;
+package eu.theritual.wrathofbahrott.viewoperator.controllers;
 
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.*;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
@@ -22,14 +22,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture.PRE_MENU_BG;
 
 @Controller
-public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Controller {
+public class GameController extends eu.theritual.wrathofbahrott.viewoperator.controllers.Controller {
     private double canvasSize;
     private GameBoardMap gbm;
     private Random gen = new Random();
@@ -89,7 +87,7 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
         System.out.println("BOARD_TILE_WIDTH:" + gbm.getTileWidth());
         System.out.println("BOARD_TILE_HEIGHT:" + gbm.getTileHeight());*/
         drawer.drawShape(MapElement.STONE_FLOOR, 0, 0, gbm.getSize() - 1, gbm.getSize() - 1, 0);
-        drawer.drawShape(MapElement.SCOTT_FLOOR, 1, 1, gbm.getSize() - 2, gbm.getSize() - 2, 0);
+        /*drawer.drawShape(MapElement.SCOTT_FLOOR, 1, 1, gbm.getSize() - 2, gbm.getSize() - 2, 0);
         drawer.drawShape(MapElement.GRASS3_SQUARE, 2, 2, gbm.getSize() - 3, gbm.getSize() - 2, 1);
         drawer.drawRectangle(MapElement.STONE_FLOOR, 2 + (gbm.getGap() / 2) + 2 * gbm.getTileWidth(), 2, gbm.getTileWidth() * 4, gbm.getTileHeight(), 2);
         List<MapElement> tileColor = new ArrayList<>();
@@ -110,9 +108,9 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
                 }
                 drawer.drawRectangle(MapElement.TEXTURE, gbm.getMargin() + x * gbm.getTileWidth(), 2 + y * gbm.getTileHeight(), gbm.getTileWidth(), gbm.getTileHeight(), lay);
             }
-        }
+        }*/
         gbm.draw();
-        animationTimer.start();
+        //animationTimer.start();
     }
 
     private AnimationTimer getGameAnimation() {
@@ -186,10 +184,12 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
         preMenu.setBackground(mediaOperator.getBackgroundImg(PRE_MENU_BG, view.getScreenWidth() * 0.5, view.getScreenHeight()));
         preMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Tell me your story", "optLabel", generator.getFontSize(12));
+        Label nameTextField = generator.createLabel("Name", "gameLabel", generator.getFontSize(11));
         TextField charName = new TextField();
         Label exitButton = generator.createLabelButton("Back", generator.getFontSize(12));
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(GameSubView.PRE_MENU));
         preMenu.getChildren().add(topTitle);
+        preMenu.getChildren().add(nameTextField);
         preMenu.getChildren().add(charName);
         preMenu.getChildren().add(exitButton);
         preMenu.setOpacity(0.9);

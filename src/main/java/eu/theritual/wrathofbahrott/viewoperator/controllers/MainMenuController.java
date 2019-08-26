@@ -1,4 +1,4 @@
-package eu.theritual.wrathofbahrott.viewoperator;
+package eu.theritual.wrathofbahrott.viewoperator.controllers;
 
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.*;
 import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import static eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture.*;
 
 @Controller
-public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator.Controller {
+public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator.controllers.Controller {
     @FXML
     GridPane menuPane;
     @FXML

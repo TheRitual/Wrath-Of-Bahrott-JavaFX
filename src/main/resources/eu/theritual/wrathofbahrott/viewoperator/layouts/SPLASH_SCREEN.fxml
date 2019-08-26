@@ -4,7 +4,8 @@
 <?import javafx.scene.layout.*?>
 <GridPane alignment="CENTER" style="-fx-background-color: black;"
           xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="eu.theritual.wrathofbahrott.viewoperator.SplashScreenController" fx:id="splashPane">
+          fx:controller="eu.theritual.wrathofbahrott.viewoperator.controllers.SplashScreenController"
+          fx:id="splashPane">
     <cursor>
         <Cursor fx:constant="DISAPPEAR"/>
     </cursor>

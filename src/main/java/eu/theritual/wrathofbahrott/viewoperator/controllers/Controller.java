@@ -1,28 +1,30 @@
-package eu.theritual.wrathofbahrott.viewoperator;
+package eu.theritual.wrathofbahrott.viewoperator.controllers;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
 import eu.theritual.wrathofbahrott.dataoperator.GameOptions;
 import eu.theritual.wrathofbahrott.media.MediaOperator;
+import eu.theritual.wrathofbahrott.viewoperator.ElementGenerator;
+import eu.theritual.wrathofbahrott.viewoperator.ViewOperator;
 
 public abstract class Controller {
     GameOptions gameOptions;
     MediaOperator mediaOperator;
-    ElementGenerator generator;
     ViewOperator view;
+    ElementGenerator generator;
 
-    void setDataOperator(DataOperator dataOperator) {
+    public void setDataOperator(DataOperator dataOperator) {
         gameOptions = dataOperator.getGOptions();
         mediaOperator = dataOperator.getMediaOp();
         view = dataOperator.getView();
-        generator = new ElementGenerator(dataOperator);
+        generator = view.getGenerator();
     }
 
-    void start() {
+    public void start() {
     }
 
-    void stop() {
+    public void stop() {
     }
 
-    void draw() {
+    public void draw() {
     }
 }

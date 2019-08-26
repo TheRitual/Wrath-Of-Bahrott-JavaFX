@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-class ElementGenerator {
+public class ElementGenerator {
     private DataOperator dataOperator;
 
     ElementGenerator(DataOperator dataOperator) {
@@ -27,7 +27,7 @@ class ElementGenerator {
         return dataOperator.getView().getScreenHeight() * 0.13;
     }
 
-    int getFontSize(double size) {
+    public int getFontSize(double size) {
         size *= 0.2;
         double height = dataOperator.getView().getScreenHeight();
         return (int) ((height / 72) * size);
@@ -55,7 +55,7 @@ class ElementGenerator {
         changeCursor(Cursor.DEFAULT);
     }
 
-    ImageView createMenuButton(GamePicture gfxName, GamePicture gfxOnHoverName) {
+    public ImageView createMenuButton(GamePicture gfxName, GamePicture gfxOnHoverName) {
         ImageView btn = dataOperator.getMediaOp().getImageView(gfxName, calculateButtonWidth(), calculateButtonHeight());
         btn.setId(gfxName.toString());
         btn.setOnMouseEntered((e -> {
@@ -69,7 +69,7 @@ class ElementGenerator {
         return btn;
     }
 
-    Label createLabelButton(String labelTxt, double size) {
+    public Label createLabelButton(String labelTxt, double size) {
         Font fnt = dataOperator.getMediaOp().getFont(GameFont.VERMIN, getFontSize(size));
         Label btn = new Label(labelTxt);
         btn.setFont(fnt);
@@ -81,11 +81,11 @@ class ElementGenerator {
         return btn;
     }
 
-    Label createLabel(String labelTxt, String styleClass, double size) {
+    public Label createLabel(String labelTxt, String styleClass, double size) {
         return createLabel(labelTxt, styleClass, size, GameFont.VERMIN);
     }
 
-    Label createLabel(String labelTxt, String styleClass, double size, GameFont gameFont) {
+    public Label createLabel(String labelTxt, String styleClass, double size, GameFont gameFont) {
         Font fnt = dataOperator.getMediaOp().getFont(gameFont, getFontSize(size));
         Label btn = new Label(labelTxt);
         btn.setFont(fnt);
@@ -94,7 +94,7 @@ class ElementGenerator {
         return btn;
     }
 
-    Slider createSlider(double min, double max, double value) {
+    public Slider createSlider(double min, double max, double value) {
         Slider slider = new Slider();
         slider.setMax(max);
         slider.setMin(min);

@@ -4,7 +4,7 @@ import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameCss;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameFont;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GamePicture;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameSoundVideo;
-import eu.theritual.wrathofbahrott.viewoperator.Actions;
+import eu.theritual.wrathofbahrott.viewoperator.SpecialActions;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,8 +26,6 @@ public class MediaOperator {
     private Map<GameFont, String> fonts;
     private Map<GameCss, String> css;
     private MediaPlayer musicMediaPlayer;
-    private MediaPlayer videoMediaPlayer;
-
 
     public MediaOperator() {
         sounds = new HashMap<>();
@@ -68,11 +66,11 @@ public class MediaOperator {
         try {
             return MediaOperator.class.getResource(name).toURI().toURL();
         }  catch (MalformedURLException e) {
-            Actions.error("MalformedURLException", "Can't load sound file (URL PROBLEM)", e.toString());
+            SpecialActions.error("MalformedURLException", "Can't load sound file (URL PROBLEM)", e.toString());
             return null;
         } catch (URISyntaxException e) {
             e.printStackTrace();
-            Actions.error("URISyntaxException", "Can't load sound file (URI PROBLEM)", e.toString());
+            SpecialActions.error("URISyntaxException", "Can't load sound file (URI PROBLEM)", e.toString());
             return null;
         }
     }
@@ -80,7 +78,7 @@ public class MediaOperator {
     public void setMusic(GameSoundVideo musicName) {
         URL sndUrl = getSoundUrl(musicName);
         if(sndUrl == null) {
-            Actions.error("Can't recognize file", "Sound " + musicName + " can't be recognized!", "There's no such file on the media map.");
+            SpecialActions.error("Can't recognize file", "Sound " + musicName + " can't be recognized!", "There's no such file on the media map.");
             throw new NullPointerException("sndURL can't be null");
         }
         Media sound = new Media(sndUrl.toString());
@@ -92,32 +90,18 @@ public class MediaOperator {
         return this.musicMediaPlayer;
     }
 
-    private URL getVideoUrl(GameSoundVideo videoName) {
+    public URL getVideoUrl(GameSoundVideo videoName) {
         String name = this.videos.get(videoName);
         try {
             return MediaOperator.class.getResource(name).toURI().toURL();
         }  catch (MalformedURLException e) {
-            Actions.error("MalformedURLException", "Can't load video file (URL PROBLEM)", e.toString());
+            SpecialActions.error("MalformedURLException", "Can't load video file (URL PROBLEM)", e.toString());
             return null;
         }catch (URISyntaxException e) {
-            Actions.error("URISyntaxException", "Can't load video file (URI PROBLEM)", e.toString());
+            SpecialActions.error("URISyntaxException", "Can't load video file (URI PROBLEM)", e.toString());
             e.printStackTrace();
             return null;
         }
-    }
-
-    public void setVideo(GameSoundVideo videoName) {
-        URL vidUrl = getVideoUrl(videoName);
-        if(vidUrl == null) {
-            Actions.error("Can't recognize file", "Video " + videoName + " can't be recognized!", "There's no such file on the media map.");
-            throw new NullPointerException("vidUrl can't be null");
-        }
-        Media video = new Media(vidUrl.toString());
-        this.videoMediaPlayer = new MediaPlayer(video);
-    }
-
-    public MediaPlayer getVideoMediaPlayer() {
-        return this.videoMediaPlayer;
     }
 
     public Image getImage(GamePicture name, double width, double height) {
@@ -125,9 +109,9 @@ public class MediaOperator {
         try {
             imgFile = MediaOperator.class.getResource(imgFile).toURI().toURL().toString();
         } catch (URISyntaxException e) {
-            Actions.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
+            SpecialActions.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
         } catch (MalformedURLException e) {
-            Actions.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
+            SpecialActions.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
         }
         return new Image(imgFile, width, height, true, false);
     }
@@ -145,9 +129,9 @@ public class MediaOperator {
         try {
             fontName = MediaOperator.class.getResource(fontName).toURI().toURL().toString();
         } catch (URISyntaxException e) {
-            Actions.error("URISyntaxException", "Can't load font (URI PROBLEM)", e.toString());
+            SpecialActions.error("URISyntaxException", "Can't load font (URI PROBLEM)", e.toString());
         } catch (MalformedURLException e) {
-            Actions.error("MalformedURLException", "Can't load dont (URL PROBLEM)", e.toString());
+            SpecialActions.error("MalformedURLException", "Can't load dont (URL PROBLEM)", e.toString());
         }
         return Font.loadFont(fontName, size);
     }
@@ -157,9 +141,9 @@ public class MediaOperator {
         try {
             cssFileName = MediaOperator.class.getResource(cssFileName).toURI().toURL().toString();
         } catch (URISyntaxException e) {
-            Actions.error("URISyntaxException", "Can't load CSS file (URI PROBLEM)", e.toString());
+            SpecialActions.error("URISyntaxException", "Can't load CSS file (URI PROBLEM)", e.toString());
         } catch (MalformedURLException e) {
-            Actions.error("MalformedURLException", "Can't load CSS file (URL PROBLEM)", e.toString());
+            SpecialActions.error("MalformedURLException", "Can't load CSS file (URL PROBLEM)", e.toString());
         }
         return cssFileName;
     }
@@ -170,10 +154,10 @@ public class MediaOperator {
             image = TileOperator.class.getResource("gfx/" + name + ".png").toURI().toURL().toString();
         } catch (URISyntaxException e) {
             image = "";
-            Actions.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
+            SpecialActions.error("URISyntaxException", "Can't load image (URI PROBLEM)", e.toString());
         } catch (MalformedURLException e) {
             image = "";
-            Actions.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
+            SpecialActions.error("MalformedURLException", "Can't load image (URL PROBLEM)", e.toString());
         }
         return new Image(image, width, height, true, false);
     }
