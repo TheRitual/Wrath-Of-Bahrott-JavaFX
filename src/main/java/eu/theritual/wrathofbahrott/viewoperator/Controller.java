@@ -1,13 +1,19 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
+import eu.theritual.wrathofbahrott.dataoperator.GameOptions;
+import eu.theritual.wrathofbahrott.media.MediaOperator;
 
 public abstract class Controller {
-    DataOperator dataOperator;
+    GameOptions gameOptions;
+    MediaOperator mediaOperator;
     ElementGenerator generator;
+    ViewOperator view;
 
     void setDataOperator(DataOperator dataOperator) {
-        this.dataOperator = dataOperator;
+        gameOptions = dataOperator.getGOptions();
+        mediaOperator = dataOperator.getMediaOp();
+        view = dataOperator.getView();
         generator = new ElementGenerator(dataOperator);
     }
 

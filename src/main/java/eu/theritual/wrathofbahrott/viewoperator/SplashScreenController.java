@@ -20,7 +20,7 @@ public class SplashScreenController extends eu.theritual.wrathofbahrott.viewoper
     private void skip(MediaPlayer player) {
         player.stop();
         splashVideo.setMediaPlayer(null);
-        dataOperator.getView().run(GameModule.MAIN_MENU);
+        view.run(GameModule.MAIN_MENU);
     }
 
     private void skip(Event event, MediaPlayer player) {
@@ -31,8 +31,8 @@ public class SplashScreenController extends eu.theritual.wrathofbahrott.viewoper
 
     @Override
     public void start() {
-        dataOperator.getMediaOp().setVideo(GameSoundVideo.INTRO);
-        MediaPlayer player = dataOperator.getMediaOp().getVideoMediaPlayer();
+        mediaOperator.setVideo(GameSoundVideo.INTRO);
+        MediaPlayer player = mediaOperator.getVideoMediaPlayer();
         splashVideo.setMediaPlayer(player);
         DoubleProperty width = splashVideo.fitWidthProperty();
         DoubleProperty height = splashVideo.fitHeightProperty();
@@ -43,7 +43,7 @@ public class SplashScreenController extends eu.theritual.wrathofbahrott.viewoper
         player.setOnEndOfMedia(() -> skip(player));
         splashVideo.setOnMouseClicked(e -> skip(e, player));
         splashVideo.setOnError(e -> skip(e, player));
-        dataOperator.getView().getStage().getScene().setOnKeyPressed(e -> skip(e, player));
+        view.getStage().getScene().setOnKeyPressed(e -> skip(e, player));
         player.play();
     }
 }

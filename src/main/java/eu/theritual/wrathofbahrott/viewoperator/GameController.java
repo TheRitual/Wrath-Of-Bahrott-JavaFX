@@ -15,6 +15,7 @@ import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -58,22 +59,22 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
 
     @Override
     public void draw() {
-        gamePane.setMinSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
+        gamePane.setMinSize(view.getScreenWidth(), view.getScreenHeight());
         gamePane.setPadding(new Insets(0, 0, 0, 0));
         gamePane.setAlignment(Pos.TOP_CENTER);
-        gamePane.setBackground(dataOperator.getMediaOp().getBackgroundImg(GamePicture.GAME_BACKGROUND, dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
+        gamePane.setBackground(mediaOperator.getBackgroundImg(GamePicture.GAME_BACKGROUND, view.getScreenWidth(), view.getScreenHeight()));
         setSubView(GameSubView.PRE_MENU);
         drawCanvas();
     }
 
     private void drawCanvas() {
-        canvasSize = dataOperator.getView().getScreenWidth() * 0.55;
+        canvasSize = view.getScreenWidth() * 0.55;
         gameCanvas.setWidth(canvasSize);
         gameCanvas.setHeight(canvasSize);
         GridPane.setValignment(gameCanvas, VPos.TOP);
         GridPane.setHalignment(gameCanvas, HPos.LEFT);
-        gameCanvas.setOnMouseEntered(e -> dataOperator.getView().getRoot().getScene().setCursor(Cursor.CROSSHAIR));
-        gameCanvas.setOnMouseExited(e -> dataOperator.getView().getRoot().getScene().setCursor(Cursor.DEFAULT));
+        gameCanvas.setOnMouseEntered(e -> view.getRoot().getScene().setCursor(Cursor.CROSSHAIR));
+        gameCanvas.setOnMouseExited(e -> view.getRoot().getScene().setCursor(Cursor.DEFAULT));
         gc = gameCanvas.getGraphicsContext2D();
         animationTimer = getGameAnimation();
         int boardSize = getTilesAmount();
@@ -85,9 +86,9 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
 
     private void drawBoard() {
         MapDrawer drawer = new MapDrawer(gbm);
-        System.out.println("GAME_TILE_BOARD:" + gbm.getSize());
+        /*System.out.println("GAME_TILE_BOARD:" + gbm.getSize());
         System.out.println("BOARD_TILE_WIDTH:" + gbm.getTileWidth());
-        System.out.println("BOARD_TILE_HEIGHT:" + gbm.getTileHeight());
+        System.out.println("BOARD_TILE_HEIGHT:" + gbm.getTileHeight());*/
         drawer.drawShape(MapElement.STONE_FLOOR, 0, 0, gbm.getSize() - 1, gbm.getSize() - 1, 0);
         drawer.drawShape(MapElement.SCOTT_FLOOR, 1, 1, gbm.getSize() - 2, gbm.getSize() - 2, 0);
         drawer.drawShape(MapElement.GRASS3_SQUARE, 2, 2, gbm.getSize() - 3, gbm.getSize() - 2, 1);
@@ -130,12 +131,12 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
 
     @Override
     public void start() {
-        dataOperator.getView().getStage().setResizable(false);
+        view.getStage().setResizable(false);
     }
 
     private void backToMainMenu() {
         System.out.println("Back to Menu!");
-        dataOperator.getView().run(GameModule.MAIN_MENU);
+        view.run(GameModule.MAIN_MENU);
         stop();
     }
 
@@ -159,14 +160,14 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
             default:
                 currentMenu = getPreMenu();
         }
-        currentMenu.setMinWidth(dataOperator.getView().getScreenWidth() * 0.45);
-        currentMenu.setMaxHeight(dataOperator.getView().getScreenHeight());
+        currentMenu.setMinWidth(view.getScreenWidth() * 0.45);
+        currentMenu.setMaxHeight(view.getScreenHeight());
         gamePane.add(currentMenu, 0, 0);
     }
 
     private VBox getPreMenu() {
         VBox preMenu = new VBox();
-        preMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg(PRE_MENU_BG, dataOperator.getView().getScreenWidth() * 0.45, dataOperator.getView().getScreenHeight()));
+        preMenu.setBackground(mediaOperator.getBackgroundImg(PRE_MENU_BG, view.getScreenWidth() * 0.45, view.getScreenHeight()));
         preMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Shall we?", "optLabel", generator.getFontSize(15));
         Label startButton = generator.createLabelButton("New Wrath", generator.getFontSize(11));
@@ -182,12 +183,14 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
 
     private VBox getStartGameMenu() {
         VBox preMenu = new VBox();
-        preMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg(PRE_MENU_BG, dataOperator.getView().getScreenWidth() * 0.5, dataOperator.getView().getScreenHeight()));
+        preMenu.setBackground(mediaOperator.getBackgroundImg(PRE_MENU_BG, view.getScreenWidth() * 0.5, view.getScreenHeight()));
         preMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Tell me your story", "optLabel", generator.getFontSize(12));
+        TextField charName = new TextField();
         Label exitButton = generator.createLabelButton("Back", generator.getFontSize(12));
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(GameSubView.PRE_MENU));
         preMenu.getChildren().add(topTitle);
+        preMenu.getChildren().add(charName);
         preMenu.getChildren().add(exitButton);
         preMenu.setOpacity(0.9);
         return preMenu;

@@ -1,6 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator;
 
 import eu.theritual.wrathofbahrott.dataoperator.DataOperator;
+import eu.theritual.wrathofbahrott.dataoperator.GameOptions;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameModule;
 import eu.theritual.wrathofbahrott.utils.SaveLoadUtils;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,7 @@ public class ViewOperator {
     private DataOperator dataOperator;
     private Group root;
     private Controller controller;
+    private GameOptions gameOptions;
 
     public ViewOperator(Stage mainStage) {
         this.mainStage = mainStage;
@@ -43,26 +45,27 @@ public class ViewOperator {
         checkResolution();
         controller.stop();
         controller.draw();
-        SaveLoadUtils.saveOptions(dataOperator.getGOptions(), "config");
+        SaveLoadUtils.saveOptions(gameOptions, "config");
     }
 
     public void setDataOperator(DataOperator dataOperator) {
         this.dataOperator = dataOperator;
+        this.gameOptions = dataOperator.getGOptions();
     }
 
     private void checkResolution() {
         Rectangle2D screenBounds;
-        if (dataOperator.getGOptions().isFullScreen()) {
+        if (gameOptions.isFullScreen()) {
             screenBounds = Screen.getPrimary().getBounds();
-        } else if (dataOperator.getGOptions().isMaximized()) {
+        } else if (gameOptions.isMaximized()) {
             screenBounds = Screen.getPrimary().getVisualBounds();
         } else {
             screenBounds = new Rectangle2D(0, 0, mainStage.getWidth(), mainStage.getHeight());
         }
         screenWidth = screenBounds.getWidth();
         screenHeight = screenBounds.getHeight();
-        dataOperator.getGOptions().setScreenWidth(screenWidth);
-        dataOperator.getGOptions().setScreenHeight(screenHeight);
+        gameOptions.setScreenWidth(screenWidth);
+        gameOptions.setScreenHeight(screenHeight);
         mainStage.setX(screenBounds.getMinX());
         mainStage.setY(screenBounds.getMinY());
         screenBounds = Screen.getPrimary().getBounds();
@@ -70,14 +73,14 @@ public class ViewOperator {
     }
 
     private void reloadViewOptions() {
-        mainStage.setWidth(dataOperator.getGOptions().getScreenWidth());
+        mainStage.setWidth(gameOptions.getScreenWidth());
         checkResolution();
         mainStage.minHeightProperty().bind(mainStage.widthProperty().divide(screenRatio));
         mainStage.maxHeightProperty().bind(mainStage.widthProperty().divide(screenRatio));
-        mainStage.setMaximized(dataOperator.getGOptions().isMaximized());
-        mainStage.setResizable(!dataOperator.getGOptions().isMaximized());
-        mainStage.setFullScreen(dataOperator.getGOptions().isFullScreen());
-        mainStage.setAlwaysOnTop(dataOperator.getGOptions().isFullScreen());
+        mainStage.setMaximized(gameOptions.isMaximized());
+        mainStage.setResizable(!gameOptions.isMaximized());
+        mainStage.setFullScreen(gameOptions.isFullScreen());
+        mainStage.setAlwaysOnTop(gameOptions.isFullScreen());
         mainStage.show();
     }
 

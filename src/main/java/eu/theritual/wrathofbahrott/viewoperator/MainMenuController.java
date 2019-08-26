@@ -45,14 +45,14 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     @Override
     public void draw() {
         menuPane.setAlignment(Pos.TOP_CENTER);
-        menuPane.setPrefSize(dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight());
-        menuPane.setBackground(dataOperator.getMediaOp().getBackgroundImg(MENU_BACKGROUND, dataOperator.getView().getScreenWidth(), dataOperator.getView().getScreenHeight()));
+        menuPane.setPrefSize(view.getScreenWidth(), view.getScreenHeight());
+        menuPane.setBackground(mediaOperator.getBackgroundImg(MENU_BACKGROUND, view.getScreenWidth(), view.getScreenHeight()));
         menuPane.getChildren().remove(wobLogo);
-        wobLogo = dataOperator.getMediaOp().getImageView(WOB_LOGO, dataOperator.getView().getScreenWidth() * 0.4, dataOperator.getView().getScreenHeight() * 0.3);
-        row1.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.1);
+        wobLogo = mediaOperator.getImageView(WOB_LOGO, view.getScreenWidth() * 0.4, view.getScreenHeight() * 0.3);
+        row1.setMaxHeight(view.getScreenHeight() * 0.1);
         GridPane.setValignment(wobLogo, VPos.TOP);
         GridPane.setHalignment(wobLogo, HPos.CENTER);
-        dataOperator.getView().getRoot().getScene().getStylesheets().add(dataOperator.getMediaOp().getCss(GameCss.MENU));
+        view.getRoot().getScene().getStylesheets().add(mediaOperator.getCss(GameCss.MENU));
         menuPane.add(wobLogo, 1, 0);
         setSubView(subView);
     }
@@ -60,13 +60,13 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     @Override
     public void start() {
         musicPlayer.setMediaPlayer(null);
-        dataOperator.getMediaOp().setMusic(GameSoundVideo.MENU_MUSIC);
-        musicPlayer.setMediaPlayer(dataOperator.getMediaOp().getMusicMediaPlayer());
+        mediaOperator.setMusic(GameSoundVideo.MENU_MUSIC);
+        musicPlayer.setMediaPlayer(mediaOperator.getMusicMediaPlayer());
         musicPlayer.getMediaPlayer().stop();
-        musicPlayer.getMediaPlayer().setVolume(dataOperator.getGOptions().getMusicVolume() / 100);
+        musicPlayer.getMediaPlayer().setVolume(gameOptions.getMusicVolume() / 100);
         musicPlayer.getMediaPlayer().play();
-        if (!dataOperator.getGOptions().isFullScreen()) {
-            dataOperator.getView().getStage().setResizable(true);
+        if (!gameOptions.isFullScreen()) {
+            view.getStage().setResizable(true);
         }
     }
 
@@ -87,8 +87,8 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
             default:
                 currentMenu = getMainMenu();
         }
-        currentMenu.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.66);
-        currentMenu.setMaxHeight(dataOperator.getView().getScreenHeight() * 0.6);
+        currentMenu.setMaxWidth(view.getScreenWidth() * 0.66);
+        currentMenu.setMaxHeight(view.getScreenHeight() * 0.6);
         menuPane.add(currentMenu, 1, 1);
     }
 
@@ -113,17 +113,17 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     private VBox getOptions() {
         VBox optionsMenu = new VBox();
         VBox innerMenu = new VBox();
-        optionsMenu.setBackground(dataOperator.getMediaOp().getBackgroundImg(SUBMENU_BACKGROUND, dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
+        optionsMenu.setBackground(mediaOperator.getBackgroundImg(SUBMENU_BACKGROUND, view.getScreenWidth() * 0.6, view.getScreenHeight() * 0.40));
         optionsMenu.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Set Things", "optLabel", generator.getFontSize(15));
         Label backButton = generator.createLabelButton("Back", generator.getFontSize(12));
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(SubView.MAIN_MENU));
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::saveOptions);
-        Label fsButton = generator.createLabelButton("Fullscreen: " + dataOperator.getGOptions().isFullScreen(), generator.getFontSize(12));
+        Label fsButton = generator.createLabelButton("Fullscreen: " + gameOptions.isFullScreen(), generator.getFontSize(12));
         fsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::switchFullscreen);
-        Slider volumeSlider = generator.createSlider(0, 100, dataOperator.getGOptions().getMusicVolume());
-        volumeSlider.setMaxWidth(dataOperator.getView().getScreenWidth() * 0.6);
-        Label volumeLabel = generator.createLabel("Volume: " + (int) dataOperator.getGOptions().getMusicVolume() + "%", "optLabelMini", generator.getFontSize(12));
+        Slider volumeSlider = generator.createSlider(0, 100, gameOptions.getMusicVolume());
+        volumeSlider.setMaxWidth(view.getScreenWidth() * 0.6);
+        Label volumeLabel = generator.createLabel("Volume: " + (int) gameOptions.getMusicVolume() + "%", "optLabelMini", generator.getFontSize(12));
         volumeSlider.valueProperty().addListener(((observable, oldValue, newValue) -> changeMusicVolume(volumeSlider.getValue(), volumeLabel)));
         innerMenu.setAlignment(Pos.TOP_CENTER);
         innerMenu.getChildren().add(fsButton);
@@ -133,13 +133,13 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     }
 
     private void saveOptions(Event e) {
-        SaveLoadUtils.saveOptions(dataOperator.getGOptions(), "config");
+        SaveLoadUtils.saveOptions(gameOptions, "config");
     }
 
     private VBox getCredits() {
         VBox credits = new VBox();
         VBox innerMenu = new VBox();
-        credits.setBackground(dataOperator.getMediaOp().getBackgroundImg(SUBMENU_BACKGROUND, dataOperator.getView().getScreenWidth() * 0.6, dataOperator.getView().getScreenHeight() * 0.40));
+        credits.setBackground(mediaOperator.getBackgroundImg(SUBMENU_BACKGROUND, view.getScreenWidth() * 0.6, view.getScreenHeight() * 0.40));
         credits.setAlignment(Pos.TOP_CENTER);
         Label topTitle = generator.createLabel("Credits", "optLabel", generator.getFontSize(15));
         Label backButton = generator.createLabelButton("Back", generator.getFontSize(12));
@@ -155,14 +155,14 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
         creditsList.add(generator.createLabel("Game Idea: Marcin Kawczynski", "creditsLabel", 11, GameFont.FIPPS));
         creditsList.add(generator.createLabel("Ths game is Kodilla Course Project", "creditsLabel", 11, GameFont.FIPPS));
         innerMenu.getChildren().addAll(creditsList);
-        innerMenu.setMinWidth(dataOperator.getView().getScreenWidth() * 0.6);
+        innerMenu.setMinWidth(view.getScreenWidth() * 0.6);
         return getMenuBox(credits, innerMenu, topTitle, backButton);
     }
 
     private VBox getMenuBox(VBox credits, VBox innerMenu, Label topTitle, Label backButton) {
         StackPane stackPane = new StackPane();
         stackPane.setPrefWidth(currentMenu.getWidth());
-        stackPane.setMinWidth(dataOperator.getView().getScreenWidth() * 0.65);
+        stackPane.setMinWidth(view.getScreenWidth() * 0.65);
         stackPane.setAlignment(Pos.TOP_CENTER);
         innerMenu.setFillWidth(true);
         stackPane.getChildren().add(innerMenu);
@@ -174,21 +174,21 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
         credits.getChildren().add(scroll);
         credits.getChildren().add(backButton);
         credits.setOpacity(0.7);
-        credits.setPrefWidth(dataOperator.getView().getScreenWidth() * 0.6);
+        credits.setPrefWidth(view.getScreenWidth() * 0.6);
         return credits;
     }
 
     private void switchFullscreen(Event e) {
-        boolean switchFs = !dataOperator.getGOptions().isFullScreen();
-        dataOperator.getGOptions().setFullScreen(switchFs);
-        dataOperator.getView().getStage().setFullScreen(switchFs);
+        boolean switchFs = !gameOptions.isFullScreen();
+        gameOptions.setFullScreen(switchFs);
+        view.getStage().setFullScreen(switchFs);
         Label btn = (Label) e.getSource();
-        btn.setText("Fullscreen: " + dataOperator.getGOptions().isFullScreen());
+        btn.setText("Fullscreen: " + gameOptions.isFullScreen());
     }
 
     private void changeMusicVolume(double volume, Label updateLabel) {
         int vol = (int) volume;
-        dataOperator.getGOptions().setMusicVolume(volume);
+        gameOptions.setMusicVolume(volume);
         musicPlayer.getMediaPlayer().setVolume(volume / 100);
         updateLabel.setText("Volume: " + vol + "%");
     }
@@ -196,6 +196,6 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     private void startGame() {
         System.out.println("Game is starting!");
         musicPlayer.getMediaPlayer().dispose();
-        dataOperator.getView().run(GameModule.GAME);
+        view.run(GameModule.GAME);
     }
 }

@@ -40,7 +40,7 @@ public class MediaOperator {
         fonts.put(GameFont.O4B, "fonts/04B30.TTF");
         fonts.put(GameFont.VERMIN, "fonts/VerminVibes1989.ttf");
         //CSS
-        css.put(GameCss.MENU, "css/menu.css");
+        css.put(GameCss.MENU, "css/standard.css");
         //SOUNDS
         sounds.put(GameSoundVideo.MENU_MUSIC, "sounds/menu.mp3");
         //VIDEOS
