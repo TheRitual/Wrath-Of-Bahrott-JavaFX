@@ -6,8 +6,8 @@
 <GridPane fx:id="gamePane" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="eu.theritual.wrathofbahrott.viewoperator.GameController">
     <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="40"/>
-        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="60"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="45"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="1.0" percentWidth="55"/>
     </columnConstraints>
     <rowConstraints>
         <RowConstraints minHeight="1.0" percentHeight="100" vgrow="ALWAYS"/>

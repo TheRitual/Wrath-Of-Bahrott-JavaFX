@@ -25,7 +25,7 @@ public class SplashScreenController extends eu.theritual.wrathofbahrott.viewoper
 
     private void skip(Event event, MediaPlayer player) {
         System.out.println("Intro Skipped: " + event.getEventType());
-        splashVideo.getMediaPlayer().dispose();
+        splashVideo.getMediaPlayer().pause();
         skip(player);
     }
 

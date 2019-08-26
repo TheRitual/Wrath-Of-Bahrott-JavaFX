@@ -58,6 +58,7 @@ public class MapDrawer {
         fireStone.addBottom(75);
         fireStone.addLeft(66);
         fireStone.addRight(72);
+        MapSquare texture = new MapSquare(157);
 
         MapSquare tileField = new MapSquare(77);
         for (int f = 78; f <= 92; f++) {
@@ -84,8 +85,6 @@ public class MapDrawer {
             blueTileField.addFill(f);
         }
 
-
-
         shapeMap.put(MapElement.GRASS1_SQUARE, grass1square);
         shapeMap.put(MapElement.GRASS1_HOLE, grass1hole);
         shapeMap.put(MapElement.GRASS2_SQUARE, grass2square);
@@ -96,6 +95,7 @@ public class MapDrawer {
         shapeMap.put(MapElement.SAND2, sand2);
         shapeMap.put(MapElement.SAND3, sand3);
         shapeMap.put(MapElement.STONE_FLOOR, stoneFloor);
+        shapeMap.put(MapElement.TEXTURE, texture);
         shapeMap.put(MapElement.SCOTT_FLOOR, scottFloor);
         shapeMap.put(MapElement.EGYPT_FLOOR, egyptFloor);
         shapeMap.put(MapElement.FIRE_STONE, fireStone);
@@ -116,6 +116,7 @@ public class MapDrawer {
             case GRASS3_SQUARE:
             case GRASS3_HOLE:
             case STONE_FLOOR:
+            case TEXTURE:
             case SCOTT_FLOOR:
             case FIRE_STONE:
                 figure.draw(gbm, startX, startY, endX, endY, layer);

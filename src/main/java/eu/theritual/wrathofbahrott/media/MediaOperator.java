@@ -60,6 +60,7 @@ public class MediaOperator {
         images.put(GamePicture.SUBMENU_BACKGROUND, "gfx/optBg.jpg");
         images.put(GamePicture.EYE_ICON, "gfx/eyeSlider.jpg");
         images.put(GamePicture.BIG_TILE_TEXTURE, "gfx/3d.png");
+        images.put(GamePicture.PRE_MENU_BG, "gfx/back.jpg");
     }
 
     private URL getSoundUrl(GameSoundVideo soundName) {

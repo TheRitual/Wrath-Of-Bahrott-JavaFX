@@ -47,7 +47,16 @@ public final class GameBoardMap {
                     for (int l = visibleTileMap[x][y]; l < 5; l++) {
                         int tileId = gameMap[x][y][l];
                         if (tileId != 0) {
+                            switch (l) {
+                                case 3:
+                                    gc.setGlobalAlpha(0.2);
+                                    break;
+                                case 4:
+                                    gc.setGlobalAlpha(0.5);
+                                    break;
+                            }
                             gc.drawImage(TileOperator.translateTileId(tileId, x, y), x * 16, y * 16);
+                            gc.setGlobalAlpha(1);
                             refreshMap[x][y] = false;
                             //System.out.println("Printed " + x + " / " + y + " / " + l + " | with: " + TileOperator.getTile(tileId).getName());
                         }
@@ -58,7 +67,9 @@ public final class GameBoardMap {
     }
 
     private void setRefreshTile(int x, int y, boolean shouldRefresh) {
-        refreshMap[x][y] = shouldRefresh;
+        if (x < size && y < size && x >= 0 && y >= 0) {
+            refreshMap[x][y] = shouldRefresh;
+        }
     }
 
     private void setRefreshField(int startX, int startY, int endX, int endY, boolean shouldRefresh) {
@@ -120,6 +131,10 @@ public final class GameBoardMap {
     }
 
     public Point2D getTileByPixel(double x, double y) {
-        return new Point2D(Math.floor((x + 1) / 16), Math.floor((y + 1) / 16));
+        return new Point2D(Math.floor((x) / 16) - 1, Math.floor((y) / 16) - 1);
+    }
+
+    public double getMovementSpeed() {
+        return size * 16 / 20;
     }
 }
