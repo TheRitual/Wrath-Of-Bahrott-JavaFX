@@ -29,13 +29,12 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
     @FXML
     GridPane menuPane;
     @FXML
-    MediaView musicPlayer;
-    @FXML
     RowConstraints row1, row2;
 
     private VBox currentMenu;
     private ImageView wobLogo;
     private SubView subView = SubView.MAIN_MENU;
+    private MediaView musicPlayer;
 
     @FXML
     private void exitAction(Event e) {
@@ -59,6 +58,7 @@ public class MainMenuController extends eu.theritual.wrathofbahrott.viewoperator
 
     @Override
     public void start() {
+        musicPlayer = new MediaView();
         musicPlayer.setMediaPlayer(null);
         mediaOperator.setMusic(GameSoundVideo.MENU_MUSIC);
         musicPlayer.setMediaPlayer(mediaOperator.getMusicMediaPlayer());

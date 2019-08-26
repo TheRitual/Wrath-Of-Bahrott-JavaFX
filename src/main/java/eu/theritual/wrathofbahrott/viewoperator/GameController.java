@@ -38,13 +38,12 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
     private GraphicsContext gc;
     private VBox currentMenu;
     private GameSubView subView;
+    private MediaView music;
 
     @FXML
     private GridPane gamePane;
     @FXML
     private Canvas gameCanvas;
-    @FXML
-    private MediaView musicPlayer;
 
     private int getTilesAmount() {
         int size = (int) (canvasSize / 16.0);
@@ -131,6 +130,7 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.Con
 
     @Override
     public void start() {
+        music = new MediaView();
         view.getStage().setResizable(false);
     }
 

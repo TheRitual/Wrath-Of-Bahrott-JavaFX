@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.media.MediaView?>
 <GridPane fx:id="menuPane" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="eu.theritual.wrathofbahrott.viewoperator.MainMenuController">
     <columnConstraints>
@@ -14,6 +13,4 @@
         <RowConstraints minHeight="1.0" percentHeight="79" vgrow="ALWAYS" fx:id="row2"/>
         <RowConstraints minHeight="1.0" percentHeight="1" prefHeight="1.0" vgrow="ALWAYS"/>
     </rowConstraints>
-        <MediaView fx:id="musicPlayer" fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT"
-                   BorderPane.alignment="CENTER"/>
 </GridPane>

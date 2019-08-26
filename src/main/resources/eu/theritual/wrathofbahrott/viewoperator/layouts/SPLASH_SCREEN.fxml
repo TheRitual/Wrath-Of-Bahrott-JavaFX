@@ -2,10 +2,9 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.media.MediaView?>
 <GridPane alignment="CENTER" style="-fx-background-color: black;"
           xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="eu.theritual.wrathofbahrott.viewoperator.SplashScreenController">
+          fx:controller="eu.theritual.wrathofbahrott.viewoperator.SplashScreenController" fx:id="splashPane">
     <cursor>
         <Cursor fx:constant="DISAPPEAR"/>
     </cursor>
@@ -19,10 +18,4 @@
         <RowConstraints minHeight="1.0" percentHeight="98" vgrow="ALWAYS"/>
         <RowConstraints minHeight="1.0" percentHeight="1" prefHeight="1.0" vgrow="ALWAYS"/>
     </rowConstraints>
-    <MediaView fx:id="splashVideo"
-               GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <cursor>
-            <Cursor fx:constant="DISAPPEAR" />
-        </cursor>
-    </MediaView>
 </GridPane>

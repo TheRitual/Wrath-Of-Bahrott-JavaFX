@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.layout.GridPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,9 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class SplashScreenController extends eu.theritual.wrathofbahrott.viewoperator.Controller {
-
     @FXML
+    private GridPane splashPane;
+
     private MediaView splashVideo;
 
     private void skip(MediaPlayer player) {
@@ -31,6 +33,8 @@ public class SplashScreenController extends eu.theritual.wrathofbahrott.viewoper
 
     @Override
     public void start() {
+        splashVideo = new MediaView();
+        splashPane.add(splashVideo, 1, 1);
         mediaOperator.setVideo(GameSoundVideo.INTRO);
         MediaPlayer player = mediaOperator.getVideoMediaPlayer();
         splashVideo.setMediaPlayer(player);

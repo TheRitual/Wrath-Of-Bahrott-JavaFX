@@ -2,7 +2,6 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.media.MediaView?>
 <GridPane fx:id="gamePane" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="eu.theritual.wrathofbahrott.viewoperator.GameController">
     <columnConstraints>
@@ -12,6 +11,5 @@
     <rowConstraints>
         <RowConstraints minHeight="1.0" percentHeight="100" vgrow="ALWAYS"/>
     </rowConstraints>
-    <MediaView fx:id="musicPlayer" nodeOrientation="INHERIT" GridPane.columnIndex="0"/>
     <Canvas GridPane.columnIndex="1" fx:id="gameCanvas"/>
 </GridPane>
