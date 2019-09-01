@@ -12,7 +12,6 @@ public final class GameBoardMap {
     private int size;
     private TileOperator tileOperator;
     private final GraphicsContext gc;
-    private boolean continueRedrawing;
 
     public GameBoardMap(int size, GraphicsContext graphicsContext) {
         this.tileOperator = new TileOperator();
@@ -105,6 +104,12 @@ public final class GameBoardMap {
         }
     }
 
+    public int getFieldCoordinates(int x, int y) {
+        System.out.println("Tile Width:" + getTileWidth());
+        System.out.println("Tile Height:" + getTileHeight());
+        return 10;
+    }
+
     public int getTileWidth() {
         return (int) Math.floor((getSize() - 4) / 8.0);
     }
@@ -152,13 +157,5 @@ public final class GameBoardMap {
 
     public TileOperator getTileOperator() {
         return tileOperator;
-    }
-
-    public boolean isContinueRedrawing() {
-        return continueRedrawing;
-    }
-
-    public void setContinueRedrawing(boolean continueRedrawing) {
-        this.continueRedrawing = continueRedrawing;
     }
 }

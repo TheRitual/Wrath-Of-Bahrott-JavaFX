@@ -67,6 +67,7 @@ public class MediaOperator {
         images.put(GamePicture.COURIER_FRONT, "gfx/sprites/characters/courier_bs.png");
         images.put(GamePicture.SHIELD, "gfx/shield.png");
         images.put(GamePicture.ITEM_SLOT, "gfx/itemslot.png");
+        images.put(GamePicture.POWER_BOX, "gfx/powerbox.png");
     }
 
     private URL getSoundUrl(GameSoundVideo soundName) {

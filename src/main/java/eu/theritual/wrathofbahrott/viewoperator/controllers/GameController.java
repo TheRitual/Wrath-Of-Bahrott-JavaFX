@@ -159,12 +159,15 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         Label topTitle = generator.createLabel("Shall we?", "optLabel", generator.getFontSize(17));
         Label startButton = generator.createLabelButton("New Wrath", generator.getFontSize(13));
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(GameSubView.START_GAME));
+        Label fastStartButton = generator.createLabelButton("Fast Wrath", generator.getFontSize(13));
+        fastStartButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::fastStart);
         Label loadButton = generator.createLabelButton("Old Wrath", generator.getFontSize(13));
         loadButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(GameSubView.LOAD_GAME));
         Label exitButton = generator.createLabelButton("Back", generator.getFontSize(13));
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> backToMainMenu());
         preMenu.getChildren().add(topTitle);
         preMenu.getChildren().add(startButton);
+        preMenu.getChildren().add(fastStartButton);
         preMenu.getChildren().add(loadButton);
         preMenu.getChildren().add(exitButton);
         preMenu.setOpacity(0.9);
@@ -280,6 +283,14 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         setSubView(GameSubView.PLAYERS_CHECKOUT);
     }
 
+    private void fastStart(Event e) {
+        gameContext.addPlayer(new Player("Player 1", CharacterClass.COURIER));
+        gameContext.addPlayer(new Player("Player 2", CharacterClass.WORKER));
+        gameContext.addPlayer(new Player("Player 3", CharacterClass.WITCH));
+        gameContext.addPlayer(new Player("Player 4", CharacterClass.NUN));
+        startGame(e);
+    }
+
     private void realGameStart() {
         setSubView(GameSubView.IN_GAME);
     }
@@ -390,12 +401,17 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
             pane.setBackground(new Background(new BackgroundImage(mediaOperator.getImage(GamePicture.ITEM_SLOT, elementSize, elementSize), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
             itemSlots.add(pane);
         }
-
-
         items.getChildren().addAll(itemSlots);
+        Pane powerBox = new Pane();
+        ImageView powerImage = new ImageView();
+        powerBox.getChildren().add(powerImage);
+        powerBox.setPrefHeight(elementSize);
+        powerBox.setPrefWidth(elementSize);
+        powerBox.setBackground(new Background(new BackgroundImage(mediaOperator.getImage(GamePicture.POWER_BOX, elementSize, elementSize), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         inGamePanel.getChildren().add(topTitle);
         inGamePanel.getChildren().add(player);
         inGamePanel.getChildren().add(items);
+        inGamePanel.getChildren().add(powerBox);
         inGamePanel.getChildren().add(separator);
         inGamePanel.getChildren().add(exitButton);
         inGamePanel.setOpacity(0.9);
