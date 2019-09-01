@@ -2,6 +2,7 @@ package eu.theritual.wrathofbahrott.viewoperator.gameboard;
 
 import eu.theritual.wrathofbahrott.media.TileOperator;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Arrays;
@@ -60,7 +61,6 @@ public final class GameBoardMap {
                             gc.drawImage(tileOperator.translateTileId(tileId, x, y), x * 16, y * 16);
                             gc.setGlobalAlpha(1);
                             refreshMap[x][y] = false;
-                            //System.out.println("Printed " + x + " / " + y + " / " + l + " | with: " + TileOperator.getTile(tileId).getName());
                         }
                     }
                 }
@@ -104,10 +104,8 @@ public final class GameBoardMap {
         }
     }
 
-    public int getFieldCoordinates(int x, int y) {
-        System.out.println("Tile Width:" + getTileWidth());
-        System.out.println("Tile Height:" + getTileHeight());
-        return 10;
+    public Rectangle2D getFieldCoordination(int x, int y) {
+        return new Rectangle2D(getMargin() + x * getTileWidth(), 2 + (1 + y) * getTileHeight(), getTileWidth(), getTileHeight());
     }
 
     public int getTileWidth() {
@@ -122,7 +120,7 @@ public final class GameBoardMap {
         return getSize() - 8 * getTileWidth() - 4;
     }
 
-    public int getMargin() {
+    private int getMargin() {
         return 2 + getTileWidth() / 2 + (getGap() / 2);
     }
 
@@ -153,9 +151,5 @@ public final class GameBoardMap {
 
     public double getSpriteHeight() {
         return (getTileHeight() - 1) * 16;
-    }
-
-    public TileOperator getTileOperator() {
-        return tileOperator;
     }
 }

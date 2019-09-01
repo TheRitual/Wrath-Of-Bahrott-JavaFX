@@ -1,9 +1,7 @@
 package eu.theritual.wrathofbahrott.viewoperator.gameboard.mapshapes;
 
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.MapElement;
-import eu.theritual.wrathofbahrott.media.TileOperator;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
-import eu.theritual.wrathofbahrott.viewoperator.gameboard.Tile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,19 +9,14 @@ import java.util.Map;
 public class MapDrawer {
     private GameBoardMap gbm;
     private Map<MapElement, Drawable> shapeMap;
-    private Map<MapElement, Tile> singularTileMap;
-    private TileOperator tileOperator;
 
     public MapDrawer(GameBoardMap gameBoardMap) {
         gbm = gameBoardMap;
         shapeMap = new HashMap<>();
-        singularTileMap = new HashMap<>();
-        tileOperator = gbm.getTileOperator();
         setUpTiles();
     }
 
     private void setUpTiles() {
-        singularTileMap.put(MapElement.STONE_FLOOR, tileOperator.getTile(54));
         MapSquare grass1square = new MapSquare(1, 2, 3, 4, 5, 6, 7, 8, 9);
         grass1square.addFill(10);
         grass1square.addFill(11);
@@ -137,11 +130,11 @@ public class MapDrawer {
         }
     }
 
-    public void drawTile(MapElement tile, int x, int y, int layer) {
-        gbm.setGameField(x, y, layer, singularTileMap.get(tile).getId());
-    }
-
     public void drawRectangle(MapElement shape, int startX, int startY, int width, int height, int layer) {
         drawShape(shape, startX, startY, startX + width - 1, startY + height - 1, layer);
+    }
+
+    public void drawRectangle(MapElement shape, double startX, double startY, double width, double height, int layer) {
+        drawRectangle(shape, (int) startX, (int) startY, (int) width, (int) height, layer);
     }
 }

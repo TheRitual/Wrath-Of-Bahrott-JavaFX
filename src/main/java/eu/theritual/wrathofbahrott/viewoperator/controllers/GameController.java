@@ -281,6 +281,7 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         boardThread = new Thread(this::drawGameBoard);
         boardThread.start();
         setSubView(GameSubView.PLAYERS_CHECKOUT);
+        gbm.getFieldCoordination(10, 10);
     }
 
     private void fastStart(Event e) {
@@ -314,16 +315,16 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         tileColor.add(MapElement.TILE_FIELD_GREEN);
         tileColor.add(MapElement.TILE_FIELD_VIOLET);
 
-        for (int y = 1; y < 8; y++) {
+        for (int y = 0; y < 7; y++) {
             for (int x = 0; x < 7; x++) {
-                drawer.drawRectangle(tileColor.get(gen.nextInt(tileColor.size())), gbm.getMargin() + x * gbm.getTileWidth(), 2 + y * gbm.getTileHeight(), gbm.getTileWidth(), gbm.getTileHeight(), 2);
+                drawer.drawRectangle(tileColor.get(gen.nextInt(tileColor.size())), gbm.getFieldCoordination(x, y).getMinX(), gbm.getFieldCoordination(x, y).getMinY(), gbm.getFieldCoordination(x, y).getWidth(), gbm.getFieldCoordination(x, y).getHeight(), 2);
                 int lay;
                 if ((x % 2 == 0) == (y % 2 == 0)) {
                     lay = 3;
                 } else {
                     lay = 4;
                 }
-                drawer.drawRectangle(MapElement.TEXTURE, gbm.getMargin() + x * gbm.getTileWidth(), 2 + y * gbm.getTileHeight(), gbm.getTileWidth(), gbm.getTileHeight(), lay);
+                drawer.drawRectangle(MapElement.TEXTURE, gbm.getFieldCoordination(x, y).getMinX(), gbm.getFieldCoordination(x, y).getMinY(), gbm.getFieldCoordination(x, y).getWidth(), gbm.getFieldCoordination(x, y).getHeight(), lay);
             }
         }
         gbm.setRefreshField(0, 0, gbm.getSize(), gbm.getSize(), true);
@@ -361,6 +362,7 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
             playersList[i].getChildren().add(getClassImage(gameContext.getPlayer(i).getCharacterClass()));
             playersList[i].getChildren().add(mediaOperator.getImageView(GamePicture.SHIELD, 32, 32));
             playersList[i].getChildren().add(generator.createLabel(gameContext.getPlayer(i).getName(), "nameTag", generator.getFontSize(7), GameFont.ADDLG));
+            playersList[i].getChildren().add(mediaOperator.getImageView(GamePicture.SHIELD, 32, 32));
             checkoutMenu.getChildren().add(playersList[i]);
         }
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> backToMainMenu());
@@ -378,7 +380,7 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         double elementSize = panelWidth / itemsAmount;
         inGamePanel.setBackground(mediaOperator.getBackgroundImg(GAME_BG_PANEL, view.getScreenWidth() * 0.45, view.getScreenHeight()));
         inGamePanel.setAlignment(Pos.TOP_CENTER);
-        Label topTitle = generator.createLabel("WRATH OF BAGROTT!", "optLabel", generator.getFontSize(20));
+        Label topTitle = generator.createLabel("WRATH OF BAGROTT!", "optLabel", generator.getFontSize(15));
         Label exitButton = generator.createLabelButton("Back", generator.getFontSize(13));
         Label separator = generator.createLabel(" * * * ", "optLabel", generator.getFontSize(12));
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> setSubView(GameSubView.PRE_MENU));
@@ -386,7 +388,8 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         player.setAlignment(Pos.CENTER);
         player.getChildren().add(getClassImage(gameContext.getCurrentPlayer().getCharacterClass(), elementSize, elementSize));
         player.getChildren().add(mediaOperator.getImageView(GamePicture.SHIELD, elementSize / 2, elementSize / 2));
-        player.getChildren().add(generator.createLabel(gameContext.getCurrentPlayer().getName(), "nameTag", generator.getFontSize(10), GameFont.ADDLG));
+        player.getChildren().add(generator.createLabel(gameContext.getCurrentPlayer().getName(), "nameTag", generator.getFontSize(9), GameFont.ADDLG));
+        player.getChildren().add(mediaOperator.getImageView(GamePicture.SHIELD, elementSize / 2, elementSize / 2));
         HBox items = new HBox();
         items.setPrefWidth(panelWidth);
         items.setPrefHeight(elementSize);
