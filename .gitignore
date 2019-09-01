@@ -75,3 +75,5 @@ gradle-app.setting
 
 # IntelliJ
 /out/
+/.idea/discord.xml
+/gradle/
