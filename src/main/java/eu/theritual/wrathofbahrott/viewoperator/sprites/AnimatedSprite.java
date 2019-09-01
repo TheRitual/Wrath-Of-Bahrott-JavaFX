@@ -14,21 +14,7 @@ public class AnimatedSprite {
         this.duration = duration;
     }
 
-    public AnimatedSprite(Image firstImage, double duration) {
-        frames = new ArrayList<>();
-        frames.add(firstImage);
-        this.duration = duration;
-    }
-
-    public void addImage(Image image) {
-        frames.add(image);
-    }
-
-    public void removeImage(int index) {
-        frames.remove(index);
-    }
-
-    public Image getFrame(double time) {
+    Image getFrame(double time) {
         int index = (int) ((time % (frames.size() * duration)) / duration);
         return frames.get(index);
     }

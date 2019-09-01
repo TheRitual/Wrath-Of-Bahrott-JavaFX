@@ -1,5 +1,7 @@
 package eu.theritual.wrathofbahrott.media;
 
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.CharacterClass;
+import eu.theritual.wrathofbahrott.dataoperator.gameenums.Direction;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.GameSprite;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
 import eu.theritual.wrathofbahrott.viewoperator.sprites.AnimatedSprite;
@@ -44,6 +46,60 @@ public final class SpritesOperator {
 
     public AnimatedSprite getSprite(GameSprite sprite) {
         return spritesList.get(sprite);
+    }
+
+    public GameSprite getSpriteByClass(CharacterClass characterClass, Direction direction) {
+        if (characterClass == CharacterClass.WITCH) {
+            switch (direction) {
+                case TOP:
+                    return GameSprite.WITCH_T;
+                case RIGHT:
+                    return GameSprite.WITCH_R;
+                case BOTTOM:
+                    return GameSprite.WITCH_B;
+                case LEFT:
+                default:
+                    return GameSprite.WITCH_L;
+            }
+        } else if (characterClass == CharacterClass.WORKER) {
+            switch (direction) {
+                case TOP:
+                    return GameSprite.WORKER_T;
+                case RIGHT:
+                    return GameSprite.WORKER_R;
+                case BOTTOM:
+                    return GameSprite.WORKER_B;
+                case LEFT:
+                default:
+                    return GameSprite.WORKER_L;
+            }
+        } else if (characterClass == CharacterClass.NUN) {
+            switch (direction) {
+                case TOP:
+                    return GameSprite.NUN_T;
+                case RIGHT:
+                    return GameSprite.NUN_R;
+                case BOTTOM:
+                    return GameSprite.NUN_B;
+                case LEFT:
+                default:
+                    return GameSprite.NUN_L;
+            }
+        } else if (characterClass == CharacterClass.COURIER) {
+            switch (direction) {
+                case TOP:
+                    return GameSprite.COURIER_T;
+                case RIGHT:
+                    return GameSprite.COURIER_R;
+                case BOTTOM:
+                    return GameSprite.COURIER_B;
+                case LEFT:
+                default:
+                    return GameSprite.COURIER_L;
+            }
+        } else {
+            return null;
+        }
     }
 
     private void addSpriteCharacterSet(GameSprite top, GameSprite right, GameSprite bottom, GameSprite left, List<AnimatedSprite> animatedList) {

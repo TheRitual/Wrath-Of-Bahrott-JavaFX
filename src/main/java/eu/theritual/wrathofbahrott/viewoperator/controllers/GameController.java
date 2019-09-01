@@ -2,7 +2,9 @@ package eu.theritual.wrathofbahrott.viewoperator.controllers;
 
 import eu.theritual.wrathofbahrott.dataoperator.gamecontext.GameContext;
 import eu.theritual.wrathofbahrott.dataoperator.gamecontext.Player;
+import eu.theritual.wrathofbahrott.dataoperator.gamecontext.PlayerStatus;
 import eu.theritual.wrathofbahrott.dataoperator.gameenums.*;
+import eu.theritual.wrathofbahrott.media.SpritesOperator;
 import eu.theritual.wrathofbahrott.viewoperator.controllers.GameObjects.CharacterSelection;
 import eu.theritual.wrathofbahrott.viewoperator.controllers.GameObjects.ClassSelectorImage;
 import eu.theritual.wrathofbahrott.viewoperator.gameboard.GameBoardMap;
@@ -12,10 +14,7 @@ import eu.theritual.wrathofbahrott.viewoperator.sprites.SpriteDrawer;
 import javafx.animation.AnimationTimer;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -86,9 +85,9 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
         gameCanvas.setOnMouseEntered(e -> view.getRoot().getScene().setCursor(Cursor.CROSSHAIR));
         gameCanvas.setOnMouseExited(e -> view.getRoot().getScene().setCursor(Cursor.DEFAULT));
         gc = gameCanvas.getGraphicsContext2D();
-        animationTimer = getGameAnimation();
         int boardSize = getTilesAmount();
         this.gbm = new GameBoardMap(boardSize, gc);
+        animationTimer = getGameAnimation();
         drawer = new MapDrawer(gbm);
         gc.clearRect(0, 0, canvasSize, canvasSize);
         boardThread = new Thread(this::drawEmptyBoard);
@@ -97,13 +96,20 @@ public class GameController extends eu.theritual.wrathofbahrott.viewoperator.con
 
     private AnimationTimer getGameAnimation() {
         final long startNanoTime = System.nanoTime();
-        final byte[] direction = {0};
+        final SpritesOperator spritesOperator = new SpritesOperator(0.17, gbm);
         return new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 final SpriteDrawer spriteDrawer = new SpriteDrawer(gbm, gc, t);
-                GameSprite sprite = GameSprite.NUN_R;
-                spriteDrawer.add(new OnBoardSprite(sprite, (t * gbm.getMovementSpeed()) % ((gbm.getSize() - 4) * 16), 32 + (gbm.getTileHeight() * 16) * 5, gbm.getSpriteWidth(), gbm.getSpriteHeight()));
+                for (int i = 0; i < 4; i++) {
+                    Player player = gameContext.getPlayer(i);
+                    PlayerStatus playerStatus = gameContext.getPlayerStatus(player);
+                    //System.out.println("PLAYER " + i);
+                    Rectangle2D position = gbm.spriteOnField(playerStatus.getxPos(), playerStatus.getyPos(), gbm.getSpriteWidth(), gbm.getSpriteHeight());
+                    //System.out.println("P: " + i + " S: " + playerStatus + " POS:" + position);
+                    spriteDrawer.add(new OnBoardSprite(spritesOperator.getSpriteByClass(player.getCharacterClass(), playerStatus.getDirection()), position.getMinX(), position.getMinY(), position.getWidth(), position.getHeight()));
+                }
+
                 spriteDrawer.add(new OnBoardSprite(GameSprite.BAHROTT, gbm.getBathrottXPosition() * 16, 8, gbm.getBahrottSize(), gbm.getBahrottSize()));
                 spriteDrawer.draw();
             }

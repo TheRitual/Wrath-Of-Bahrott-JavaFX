@@ -108,6 +108,15 @@ public final class GameBoardMap {
         return new Rectangle2D(getMargin() + x * getTileWidth(), 2 + (1 + y) * getTileHeight(), getTileWidth(), getTileHeight());
     }
 
+    public Rectangle2D spriteOnField(int x, int y, double w, double h) {
+        Rectangle2D field = getFieldCoordination(x, y);
+        double posX = (field.getMinX() * 16) + (field.getWidth() * 8) - (0.3 * w);
+        double posY = (field.getMinY() * 16) + (field.getHeight() * 12) - h;
+        //System.out.println("S) x:" + x + " posX " + posX);
+        //System.out.println("S) y:" + y + " posY " + posY);
+        return new Rectangle2D(posX, posY, w, h);
+    }
+
     public int getTileWidth() {
         return (int) Math.floor((getSize() - 4) / 8.0);
     }
